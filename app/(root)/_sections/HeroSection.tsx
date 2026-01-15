@@ -15,9 +15,11 @@ const HeroSection = () => {
         height={400}
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="flex relative flex-col justify-between items-center h-95">
-        <Logo className="fill-white w-12" />
-        <TabiqueLogo className="fill-white w-75 lg:w-130" />
+      <div className="flex relative flex-col justify-between items-center h-105">
+        <div className="flex flex-col items-center">
+          <Logo className="fill-white w-12" />
+          <TabiqueLogo className="fill-white w-75 lg:w-130" />
+        </div>
         <div className="text-white font-cormorant text-xl">
           <p>Advanced Korean Facial Treatments</p>
           <p className="mt-2">Frankfurt am Main</p>
