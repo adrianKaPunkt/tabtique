@@ -13,7 +13,7 @@ const TreatmentCard = ({ image, title, text }: TreatmentCardProps) => {
       <Image src={image} alt="" width={300} height={400} className="w-full" />
       <div className="flex flex-col items-center p-7 text-center">
         <h3 className="mt-3 text-center font-cinzel text-2xl">{title}</h3>
-        <p className="my-7">{text}</p>
+        <p className="my-7 font-light">{text}</p>
         <Button text="Behandlung ansehen" width={300} />
       </div>
     </div>

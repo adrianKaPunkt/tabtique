@@ -3,7 +3,7 @@ import TreatmentCard from '@/components/TreatmentCard';
 
 const TreatmentSection = () => {
   return (
-    <section id="treatment" className="my-25 w-[90%] mx-auto">
+    <section id="treatment" className="my-25 w-[90%] lg:w-300 mx-auto">
       <Headline title="Behandlungen" />
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-8 justify-between mt-7">
         <TreatmentCard

@@ -56,36 +56,36 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="w-[90%] mx-auto">
+    <section id="contact" className="w-[90%] lg:w-300 mx-auto">
       <Headline title="KONTAKT" />
       <div className="my-15 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="self-center">
           <form
             onSubmit={onSubmit}
-            className="space-y-4 flex flex-col items-center gap-2">
+            className="space-y-4 flex flex-col items-center gap-2 font-light text-sm">
             <input
               name="name"
               placeholder="Name *"
               required
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <input
               name="email"
               placeholder="E-mail"
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <input
               name="phone"
               placeholder="Telefonnummer *"
               required
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <textarea
               name="message"
               placeholder="Nachricht *"
               required
               rows={6}
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <Button
               text={status === 'loading' ? 'Sendet...' : 'Senden'}
