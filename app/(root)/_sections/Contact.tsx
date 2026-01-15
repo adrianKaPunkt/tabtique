@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 import Headline from '@/components/Headline';
 import Button from '@/components/Button';
 
@@ -13,10 +14,8 @@ const Contact = () => {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus('loading');
-    setError(null);
 
-    const formEl = e.currentTarget; // ✅ Referenz sichern
-
+    const formEl = e.currentTarget;
     const form = new FormData(formEl);
 
     const payload = {
@@ -33,21 +32,24 @@ const Contact = () => {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const contentType = res.headers.get('content-type') || '';
+      const data = contentType.includes('application/json')
+        ? await res.json()
+        : null;
 
       if (!res.ok) {
+        toast.error(data?.error || 'Senden fehlgeschlagen.');
         setStatus('error');
-        setError(data?.error || 'Senden fehlgeschlagen');
         return;
       }
 
+      toast.success('Danke! Deine Nachricht wurde gesendet.');
       setStatus('success');
-      setError(null);
-      formEl.reset(); // ✅ funktioniert zuverlässig
+      formEl.reset();
     } catch (err) {
-      console.error('Submit error:', err);
+      console.error(err);
+      toast.error('Netzwerkfehler. Bitte versuche es erneut.');
       setStatus('error');
-      setError('Netzwerkfehler. Bitte versuchen Sie es erneut.');
     }
   }
 
@@ -64,7 +66,7 @@ const Contact = () => {
           />
           <input
             name="email"
-            placeholder="Email"
+            placeholder="E-mail"
             className="w-110 border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
           />
           <input
@@ -86,16 +88,6 @@ const Contact = () => {
             type="submit"
             disabled={status === 'loading'}
           />
-
-          {status === 'success' && (
-            <p className="text-sm text-green-400">
-              Danke! Deine Nachricht wurde gesendet.
-            </p>
-          )}
-
-          {status === 'error' && (
-            <p className="text-sm text-red-400">{error}</p>
-          )}
         </form>
       </div>
     </section>

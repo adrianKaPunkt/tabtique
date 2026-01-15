@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
 import localFont from 'next/font/local';
 import { Inter, Cormorant } from 'next/font/google';
 import './globals.css';
@@ -38,7 +39,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${cinzel.variable} ${inter.variable} ${cormorant.variable} antialiased`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster position="bottom-center" theme="light"></Toaster>
+      </body>
     </html>
   );
 }
