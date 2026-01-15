@@ -1,6 +1,7 @@
 import TabiqueLogo from '@/public/TabiqueLogo';
 import HeroSection from './_sections/HeroSection';
 import TreatmentSection from './_sections/TreatmentSection';
+import AboutSection from './_sections/AboutSection';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <main>
         <HeroSection />
         <TreatmentSection />
+        <AboutSection />
       </main>
     </div>
   );
