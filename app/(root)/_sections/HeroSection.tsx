@@ -15,8 +15,8 @@ const HeroSection = () => {
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="flex relative flex-col justify-between items-center h-90">
-        <TabiqueLogo className="fill-white w-130" />
-        <div className="text-white font-cormorant text-2xl">
+        <TabiqueLogo className="fill-white w-60 lg:w-130" />
+        <div className="text-white font-cormorant text-xl">
           <p>Advanced Korean Facial Treatments</p>
           <p className="mt-2">Frankfurt am Main</p>
         </div>
