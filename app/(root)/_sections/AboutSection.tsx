@@ -5,7 +5,7 @@ const AboutSection = () => {
   return (
     <section id="about" className="my-15 w-[90%] mx-auto">
       <Headline title="Über Tabtique" />
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-8 w-[90%] md:max-w-300 mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-8 md:max-w-300 mx-auto">
         <div>
           <Image
             src="/profile.jpg"

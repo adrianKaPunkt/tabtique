@@ -20,7 +20,7 @@ const HeroSection = () => {
           <Logo className="fill-white w-12" />
           <TabiqueLogo className="fill-white w-75 lg:w-130" />
         </div>
-        <div className="text-white font-cormorant text-xl">
+        <div className="text-white font-inter text-xl font-light">
           <p>Advanced Korean Facial Treatments</p>
           <p className="mt-2">Frankfurt am Main</p>
         </div>

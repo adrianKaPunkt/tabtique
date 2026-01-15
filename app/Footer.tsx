@@ -23,6 +23,7 @@ const Footer = () => {
       <div className="flex gap-14 mt-15">
         <Link
           href="https://www.instagram.com/tabtique?igsh=a3psdDUxdWY0azg%3D&utm_source=qr"
+          target="_blank"
           aria-label="Instagram">
           <SiInstagram className="h-7 w-7 text-white" />
         </Link>

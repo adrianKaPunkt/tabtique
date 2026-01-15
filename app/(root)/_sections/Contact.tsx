@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import Headline from '@/components/Headline';
 import Button from '@/components/Button';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const Contact = () => {
   const [status, setStatus] = useState<
@@ -56,39 +58,57 @@ const Contact = () => {
   return (
     <section id="contact" className="w-[90%] mx-auto">
       <Headline title="KONTAKT" />
-      <div className="my-15 text-center">
-        <form onSubmit={onSubmit} className="space-y-4">
-          <input
-            name="name"
-            placeholder="Name *"
-            required
-            className="w-110 border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
-          />
-          <input
-            name="email"
-            placeholder="E-mail"
-            className="w-110 border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
-          />
-          <input
-            name="phone"
-            placeholder="Telefonnummer *"
-            required
-            className="w-110 border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
-          />
-          <textarea
-            name="message"
-            placeholder="Nachricht *"
-            required
-            rows={6}
-            className="w-110 border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
-          />
-          <Button
-            text={status === 'loading' ? 'Sendet...' : 'Senden'}
-            width={300}
-            type="submit"
-            disabled={status === 'loading'}
-          />
-        </form>
+      <div className="my-15 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="self-center">
+          <form
+            onSubmit={onSubmit}
+            className="space-y-4 flex flex-col items-center gap-2">
+            <input
+              name="name"
+              placeholder="Name *"
+              required
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+            />
+            <input
+              name="email"
+              placeholder="E-mail"
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+            />
+            <input
+              name="phone"
+              placeholder="Telefonnummer *"
+              required
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+            />
+            <textarea
+              name="message"
+              placeholder="Nachricht *"
+              required
+              rows={6}
+              className="w-full border border-neutral-300 bg-transparent px-4 py-3 text-sm rounded-xl"
+            />
+            <Button
+              text={status === 'loading' ? 'Sendet...' : 'Senden'}
+              width={300}
+              type="submit"
+              disabled={status === 'loading'}
+            />
+          </form>
+        </div>
+        <div>
+          <Link
+            href="https://www.google.com/maps/search/?api=1&query=Hochstraße+43,+60313+Frankfurt+am+Main"
+            target="_blank"
+            rel="noopener noreferrer">
+            <Image
+              src="/map.jpg"
+              alt="location-map"
+              width={500}
+              height={500}
+              className="w-full"
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );
