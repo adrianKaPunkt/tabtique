@@ -27,7 +27,7 @@ const ContactSchema = z.object({
     .min(6, 'Telefonnummer zu kurz')
     .max(20, 'Telefonnummer zu lang')
     .regex(/^[0-9+()\/\s-]+$/, 'Ungültige Telefonnummer'),
-  message: z.string().min(10).max(1000),
+  message: z.string().min(10, 'Nachricht zu kurz.').max(1000),
 });
 
 // Limit

@@ -1,11 +1,12 @@
 import Logo from '@/public/Logo';
 import TabiqueLogo from '@/public/TabiqueLogo';
 import Link from 'next/link';
+import { ImpressumModal } from '@/components/ImpressumModal';
 import { SiInstagram, SiFacebook, SiX } from '@icons-pack/react-simple-icons';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white flex flex-col items-center justify-between pt-15 pb-10">
+    <footer className="bg-black text-white flex flex-col items-center justify-between pt-15 pb-10">
       <Logo className="w-10 mb-7" />
       <TabiqueLogo className="fill-white w-80 mb-3" />
       <div className="flex flex-col items-center font-light">
@@ -35,7 +36,7 @@ const Footer = () => {
         </Link>
       </div>
       <div className="mt-15 font-light">
-        <Link href="/imprint">Impressum</Link>
+        <ImpressumModal />
       </div>
       <p className="mt-10 text-xs text-gray-500">
         © {new Date().getFullYear()} TABTIQUE
