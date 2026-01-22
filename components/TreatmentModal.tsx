@@ -32,14 +32,14 @@ export function TreatmentModal({
         </button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg h-[90%] overflow-y-scroll ">
         <DialogHeader>
           <DialogTitle className="text-3xl text-center font-cinzel font-light">
             {title}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed whitespace-pre-line whitespace-pre-wrap">
+        <div className="p-2 text-light mt-4 space-y-4 text-sm leading-relaxed whitespace-pre-line whitespace-pre-wrap">
           {text}
           <h3 className="text-xl mt-6">{t('description')}</h3>
           <p className="whitespace-pre-line whitespace-pre-wrap">
