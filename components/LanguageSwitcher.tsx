@@ -35,7 +35,7 @@ export function LanguageSwitcher() {
     segments[1] = nextLocale;
     const nextPath = segments.join('/') || `/${nextLocale}`;
 
-    router.push(nextPath);
+    router.push(nextPath, { scroll: false });
   }
 
   const currentLabel =

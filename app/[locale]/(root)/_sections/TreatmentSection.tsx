@@ -34,14 +34,16 @@ const TreatmentSection = () => {
           modalDescription={t('aquafacial.modalDescription')}
           modalSuitable={t('aquafacial.modalSuitable')}
         />
-        <TreatmentCard
-          image="/treatment-4.jpg"
-          title="THE ULTIMATE RITUAL"
-          text={t('ultimate.text')}
-          modalText={t('ultimate.modalText')}
-          modalDescription={t('ultimate.modalDescription')}
-          modalSuitable={t('ultimate.modalSuitable')}
-        />
+        <div className="lg:col-start-2">
+          <TreatmentCard
+            image="/treatment-4.jpg"
+            title="THE ULTIMATE RITUAL"
+            text={t('ultimate.text')}
+            modalText={t('ultimate.modalText')}
+            modalDescription={t('ultimate.modalDescription')}
+            modalSuitable={t('ultimate.modalSuitable')}
+          />
+        </div>
       </div>
     </section>
   );
