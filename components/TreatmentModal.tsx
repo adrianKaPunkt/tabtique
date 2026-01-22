@@ -15,6 +15,8 @@ interface TreatmentModalProps {
   text?: string;
   description?: string;
   suitable?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function TreatmentModal({
@@ -22,16 +24,12 @@ export function TreatmentModal({
   text,
   description,
   suitable,
+  open,
+  onOpenChange,
 }: TreatmentModalProps) {
   const t = useTranslations('treatment-modal');
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button type="button" className="font-light cursor-pointer">
-          {t('moreInfo')}
-        </button>
-      </DialogTrigger>
-
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg h-[90%] overflow-y-scroll  md:overflow-y-hidden md:h-auto">
         <DialogHeader>
           <DialogTitle className="text-3xl text-center font-cinzel font-light">
@@ -49,7 +47,15 @@ export function TreatmentModal({
           <p className="whitespace-pre-line whitespace-pre-wrap">{suitable}</p>
         </div>
         <div className="mt-5 text-center">
-          <Button text={t('button')} width={300} />
+          <Button
+            text={t('button')}
+            onClick={() => {
+              document
+                .getElementById('contact')
+                ?.scrollIntoView({ behavior: 'smooth' });
+              onOpenChange?.(false);
+            }}
+          />
         </div>
       </DialogContent>
     </Dialog>

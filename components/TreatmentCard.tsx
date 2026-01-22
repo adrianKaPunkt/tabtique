@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { TreatmentModal } from './TreatmentModal';
 
@@ -18,20 +22,37 @@ const TreatmentCard = ({
   modalDescription,
   modalSuitable,
 }: TreatmentCardProps) => {
+  const [open, setOpen] = useState(false);
+  const t = useTranslations('treatment-modal');
   return (
-    <div className="h-full cursor-pointer rounded-lg overflow-hidden shadow-lg grayscale-100 hover:grayscale-0 transition-all duration-500">
-      <Image src={image} alt="" width={300} height={400} className="w-full" />
-      <div className="h-full flex flex-col items-center p-7 text-center">
-        <h3 className="mt-3 text-center font-cinzel text-2xl">{title}</h3>
-        <p className="my-7 font-light">{text}</p>
-        <TreatmentModal
-          title={title}
-          text={modalText}
-          description={modalDescription}
-          suitable={modalSuitable}
-        />
+    <>
+      <div
+        className="h-full cursor-pointer rounded-lg overflow-hidden shadow-lg grayscale-100 hover:grayscale-0 transition-all duration-500"
+        onClick={() => setOpen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}>
+        <Image src={image} alt="" width={300} height={400} className="w-full" />
+        <div className="h-full flex flex-col items-center p-7 text-center">
+          <h3 className="mt-3 text-center font-cinzel text-2xl">{title}</h3>
+          <p className="my-7 font-light">{text}</p>
+          <span className="font-light cursor-pointer">{t('moreInfo')}</span>
+        </div>
       </div>
-    </div>
+      <TreatmentModal
+        title={title}
+        text={modalText}
+        description={modalDescription}
+        suitable={modalSuitable}
+        open={open}
+        onOpenChange={setOpen}
+      />
+    </>
   );
 };
 export default TreatmentCard;

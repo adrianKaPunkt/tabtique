@@ -28,7 +28,12 @@ const HeroSection = () => {
         <div className="text-white text-xl font-light">
           <p>{t('subtitle')}</p>
         </div>
-        <Button text={t('cta')} />
+        <Button
+          text={t('cta')}
+          onClick={() => {
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+        />
       </div>
     </section>
   );
