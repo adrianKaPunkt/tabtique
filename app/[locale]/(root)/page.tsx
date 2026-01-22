@@ -9,8 +9,8 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 export default function Home() {
   return (
     <div>
-      <header className="fixed bg-white w-full p-6 z-50 shadow-xl">
-        <nav className="flex justify-between items-center lg:w-300 mx-auto">
+      <header className="fixed bg-white w-full mx-auto p-6 z-50 shadow-xl">
+        <nav className="flex justify-between items-center w-[90%] xl:w-300 mx-auto">
           <TabiqueLogo className="fill-gray-700 w-50" />
           <div>
             <LanguageSwitcher />

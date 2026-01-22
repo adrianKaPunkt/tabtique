@@ -8,7 +8,7 @@ const AboutSection = () => {
   const t = useTranslations('about');
 
   return (
-    <section id="about" className="my-15 w-[90%] lg:w-300 mx-auto">
+    <section id="about" className="my-15 w-[90%] xl:w-300 mx-auto">
       <Headline title={t('title')} />
       <div className="grid grid-cols-1 md:grid-cols-2 mt-8 md:max-w-300 mx-auto gap-10">
         <div>

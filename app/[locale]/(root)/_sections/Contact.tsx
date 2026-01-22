@@ -58,9 +58,11 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="w-[90%] lg:w-300 mx-auto scroll-mt-40">
+    <section id="contact" className="w-[90%] xl:w-300 mx-auto scroll-mt-40">
       <Headline title={t('title')} />
-      <p className="p-5 leading-7 mt-7 font-light">{t('description')}</p>
+      <p className="p-5 leading-7 mt-7 font-light md:text-center">
+        {t('description')}
+      </p>
       <div className="my-15 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="self-center">
           <form
