@@ -4,6 +4,12 @@
     "location": "Frankfurt am Main",
     "cta": "Termin vereinbaren"
   },
+  "treatment-modal": {
+    "moreInfo": "Mehr erfahren",
+    "description": "Beschreibung",
+    "suitable": "Geeignet für",
+    "button": "Termin buchen"
+  },
   "treatment-section": {
     "title": "Behandlungen",
     "signature": {
@@ -15,15 +21,24 @@
     },
     "microneedling": {
       "title": "MICRONEEDLING",
-      "text": "Gezielte Regeneration auf medizinisch-ästhetischem Niveau für sichtbar erneuerte Haut."
+      "text": "Gezielte Regeneration auf medizinisch-ästhetischem Niveau für sichtbar erneuerte Haut.",
+      "modalText": "Gezielte Regeneration auf medizinisch-ästhetischem Niveau für sichtbar erneuerte Haut.  80 Minuten · ab 140 €",
+      "modalDescription": "Microneedling stimuliert gezielt die Hauterneuerung und unterstützt die natürliche Regeneration. Durch feinste Mikroimpulse werden ausgewählte Wirkstoffe effektiv eingeschleust und die Hautstruktur nachhaltig verbessert.\n\nVarianten\n •   Cica Aqua EXO – Beruhigend & hydratisierend\n •   Salmon DNA – Regenerierend & ausgleichend\n •   PDX Exosomen Premium – Intensiv regenerierend\n\nWas diese Behandlung besonders macht\n •   Präzise Anwendung auf medizinisch-ästhetischem Niveau\n •   Förderung der Hauterneuerung\n •   Verbesserung von Hautbild und Hautstruktur",
+      "modalSuitable": "Für anspruchsvolle Hautbilder, müde oder gestresste Haut sowie zur gezielten Regeneration.\n\nHinweise\n •   Kurze Rötung möglich\n •   Behandlungsintervall individuell\n •   Sonnenschutz empfohlen"
     },
     "aquafacial": {
       "title": "AQUAFACIAL",
-      "text": "Tiefenreinigung und intensive Hydration für einen frischen, klaren Glow."
+      "text": "Tiefenreinigung und intensive Hydration für einen frischen, klaren Glow.",
+      "modalText": "Tiefenreinigung und intensive Hydration für einen frischen, klaren Glow. \n90 Minuten · 175 €",
+      "modalDescription": "Aquafacial ist eine mehrstufige Gesichtsbehandlung zur gründlichen Reinigung, sanften Exfoliation und intensiven Hydration. Die Haut wird porentief geklärt, gleichzeitig beruhigt und sichtbar verfeinert.\n\nDie Behandlung umfasst Reinigung, Peeling, Extraktion, Hydration und Schutz – für ein sofortiges Frischegefühl und einen strahlenden Teint.\n\nWas diese Behandlung besonders macht\n •   Tiefenreinigung ohne Irritation\n •   Intensive Feuchtigkeitsversorgung\n •   Sofort sichtbarer Glow",
+      "modalSuitable": "Für alle Hauttypen – ideal bei fahler, unreiner oder dehydrierter Haut.\n\nHinweise\n •   Keine Ausfallzeit\n •   Perfekt als regelmäßige Pflege\n •   Kombinierbar mit weiteren Treatments"
     },
     "ultimate": {
       "title": "THE ULTIMATE RITUAL",
-      "text": "Das ganzheitliche Premium-Ritual für maximale Regeneration, Hautstärkung und Ruhe."
+      "text": "Das ganzheitliche Premium-Ritual für maximale Regeneration, Hautstärkung und Ruhe.",
+      "modalText": "Das ganzheitliche Premium-Ritual für maximale Regeneration, Hautstärkung und Ruhe.\n90 Minuten · 195 € – 235 €",
+      "modalDescription": "The Ultimate Ritual vereint Microneedling, Aquafacial und Lichttherapie in einem exklusiven Behandlungskonzept.\nDiese Behandlung wurde entwickelt, um Hautregeneration, Barrierestärkung und Tiefenentspannung miteinander zu verbinden.\n\nVarianten\n •   Ultimate Cica Aqua EXO\n •   Ultimate Salmon DNA\n •   Ultimate PDX Exosomen\n\nWas diese Behandlung besonders macht\n •   Ganzheitlicher Ansatz auf höchstem Niveau\n •   Kombination aus Technologie und regenerativer Pflege\n •   Maximale Hautstärkung und nachhaltiger Glow",
+      "modalSuitable": "Für anspruchsvolle Haut, bei erhöhtem Regenerationsbedarf oder als intensives Premium-Treatment.\n\nHinweise\n •   Individuelle Anpassung der Behandlung\n •   Persönliche Hautanalyse vorab\n •   Ruhezeit nach der Behandlung empfohlen"
     }
   },
   "about": {

@@ -22,16 +22,25 @@ const TreatmentSection = () => {
           image="/treatment-2.jpg"
           title="MICRONEEDLING"
           text={t('microneedling.text')}
+          modalText={t('microneedling.modalText')}
+          modalDescription={t('microneedling.modalDescription')}
+          modalSuitable={t('microneedling.modalSuitable')}
         />
         <TreatmentCard
           image="/treatment-3.jpg"
           title="AQUAFACIAL"
           text={t('aquafacial.text')}
+          modalText={t('aquafacial.modalText')}
+          modalDescription={t('aquafacial.modalDescription')}
+          modalSuitable={t('aquafacial.modalSuitable')}
         />
         <TreatmentCard
           image="/treatment-4.jpg"
           title="THE ULTIMATE RITUAL"
           text={t('ultimate.text')}
+          modalText={t('ultimate.modalText')}
+          modalDescription={t('ultimate.modalDescription')}
+          modalSuitable={t('ultimate.modalSuitable')}
         />
       </div>
     </section>

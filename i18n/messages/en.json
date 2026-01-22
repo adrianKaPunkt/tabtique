@@ -4,6 +4,12 @@
     "location": "Frankfurt am Main",
     "cta": "Book an Appointment"
   },
+  "treatment-modal": {
+    "moreInfo": "Learn More",
+    "description": "Description",
+    "suitable": "Suitable for",
+    "button": "Book Appointment"
+  },
   "treatment-section": {
     "title": "Treatments",
     "signature": {
@@ -15,15 +21,24 @@
     },
     "microneedling": {
       "title": "MICRONEEDLING",
-      "text": "Targeted regeneration at a medical-aesthetic level for visibly renewed skin."
+      "text": "Targeted regeneration at a medical-aesthetic level for visibly renewed skin.",
+      "modalText": "Targeted regeneration at a medical-aesthetic level for visibly renewed skin.  80 minutes · from €140",
+      "modalDescription": "Microneedling specifically stimulates skin renewal and supports natural regeneration. Through the finest micro-impulses, selected active ingredients are effectively delivered and the skin structure is sustainably improved.\n\nVariants\n •   Cica Aqua EXO – Soothing & hydrating\n •   Salmon DNA – Regenerating & balancing\n •   PDX Exosomes Premium – Intensively regenerating\n\nWhat makes this treatment special\n •   Precise application at a medical-aesthetic level\n •   Promotion of skin renewal\n •   Improvement of skin appearance and texture",
+      "modalSuitable": "For demanding skin types, tired or stressed skin, as well as for targeted regeneration.\n\nNotes\n •   Short redness possible\n •   Treatment interval individual\n •   Sunscreen recommended"
     },
     "aquafacial": {
       "title": "AQUAFACIAL",
-      "text": "Deep cleansing and intensive hydration for a fresh, clear glow."
+      "text": "Deep cleansing and intensive hydration for a fresh, clear glow.",
+      "modalText": "Deep cleansing and intensive hydration for a fresh, clear glow. \n90 minutes · €175",
+      "modalDescription": "Aquafacial is a multi-step facial treatment for thorough cleansing, gentle exfoliation, and intensive hydration. The skin is deeply purified, simultaneously soothed, and visibly refined.\n\nThe treatment includes cleansing, peeling, extraction, hydration, and protection – for an immediate feeling of freshness and a radiant complexion.\n\nWhat makes this treatment special\n •   Deep cleansing without irritation\n •   Intensive moisture supply\n •   Immediately visible glow",
+      "modalSuitable": "For all skin types – ideal for dull, impure, or dehydrated skin.\n\nNotes\n •   No downtime\n •   Perfect as regular care\n •   Can be combined with other treatments"
     },
     "ultimate": {
       "title": "THE ULTIMATE RITUAL",
-      "text": "The holistic premium ritual for maximum regeneration, skin strengthening, and relaxation."
+      "text": "The holistic premium ritual for maximum regeneration, skin strengthening, and relaxation.",
+      "modalText": "The holistic premium ritual for maximum regeneration, skin strengthening, and relaxation.\n90 minutes · €195 – €235",
+      "modalDescription": "The Ultimate Ritual combines Microneedling, Aquafacial, and light therapy in an exclusive treatment concept.\nThis treatment was developed to combine skin regeneration, barrier strengthening, and deep relaxation.\n\nVariants\n •   Ultimate Cica Aqua EXO\n •   Ultimate Salmon DNA\n •   Ultimate PDX Exosomes\n\nWhat makes this treatment special\n •   Holistic approach at the highest level\n •   Combination of technology and regenerative care\n •   Maximum skin strengthening and sustainable glow",
+      "modalSuitable": "For demanding skin, with increased regeneration needs, or as an intensive premium treatment.\n\nNotes\n •   Individual adjustment of the treatment\n •   Personal skin analysis in advance\n •   Rest time after the treatment recommended"
     }
   },
   "about": {

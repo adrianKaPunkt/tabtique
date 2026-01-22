@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -22,11 +23,12 @@ export function TreatmentModal({
   description,
   suitable,
 }: TreatmentModalProps) {
+  const t = useTranslations('treatment-modal');
   return (
     <Dialog>
       <DialogTrigger asChild>
         <button type="button" className="font-light cursor-pointer">
-          Mehr erfahren
+          {t('moreInfo')}
         </button>
       </DialogTrigger>
 
@@ -37,17 +39,17 @@ export function TreatmentModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed whitespace-pre-line whitespace-pre-wrap">
           {text}
-          <h3 className="text-xl mt-6">Beschreibung</h3>
+          <h3 className="text-xl mt-6">{t('description')}</h3>
           <p className="whitespace-pre-line whitespace-pre-wrap">
             {description}
           </p>
-          <h3 className="text-xl mt-6">Für wen geeignet?</h3>
+          <h3 className="text-xl mt-6">{t('suitable')}</h3>
           <p className="whitespace-pre-line whitespace-pre-wrap">{suitable}</p>
         </div>
         <div className="mt-5 text-center">
-          <Button text="Termin buchen" width={200} />
+          <Button text={t('button')} width={300} />
         </div>
       </DialogContent>
     </Dialog>
