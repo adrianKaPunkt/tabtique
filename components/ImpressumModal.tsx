@@ -21,10 +21,11 @@ export function ImpressumModal() {
 
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Impressum</DialogTitle>
+          <DialogTitle></DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 text-sm leading-relaxed">
+          <h3 className="font-semibold text-xl">{t('title')}</h3>
           <p>
             <strong>TÂBTIQUE</strong>
             <br />
@@ -45,6 +46,8 @@ export function ImpressumModal() {
 
           <p className="text-neutral-500">{t('description')}</p>
         </div>
+        <h3 className="font-semibold text-xl">{t('privacy')}</h3>
+        <p className="space-y-4 text-sm leading-relaxed">{t('privacyText')}</p>
       </DialogContent>
     </Dialog>
   );

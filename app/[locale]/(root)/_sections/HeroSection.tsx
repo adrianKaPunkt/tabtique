@@ -27,7 +27,6 @@ const HeroSection = () => {
         </div>
         <div className="text-white text-xl font-light">
           <p>{t('subtitle')}</p>
-          <p className="mt-2">{t('location')}</p>
         </div>
         <Button text={t('cta')} />
       </div>
