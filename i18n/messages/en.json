@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "subtitle": "Advanced Korean Facial Treatments",
+    "location": "Frankfurt am Main",
+    "cta": "Book an Appointment"
+  },
+  "treatment-section": {
+    "title": "Treatments",
+    "signature": {
+      "title": "SIGNATURE COMBINATION",
+      "text": "Individually tailored combinations of the latest technology and regenerative care.",
+      "modalText": "Individually tailored combinations of the latest technology and regenerative care. 80 minutes · €175 – €190 (depending on active ingredients)",
+      "modalDescription": "The Signature Combinations combine Aquafacial with light therapy and selected regenerative active ingredients.\n\nEach treatment is individually tailored to the current skin condition and combines cleansing, activation, and soothing into a holistic care.\n\nWhat makes this treatment special\n •   Individual combination of technology and active ingredients\n •   Support of skin regeneration and balance\n •   Visibly refined, balanced skin",
+      "modalSuitable": "For clients who desire a personalized treatment and value sustainable skin health. \n\nNotes \n •   Personal skin analysis before each treatment\n •   Active ingredient selection individually\n •   Dermaplaning optional as an add-on"
+    },
+    "microneedling": {
+      "title": "MICRONEEDLING",
+      "text": "Targeted regeneration at a medical-aesthetic level for visibly renewed skin."
+    },
+    "aquafacial": {
+      "title": "AQUAFACIAL",
+      "text": "Deep cleansing and intensive hydration for a fresh, clear glow."
+    },
+    "ultimate": {
+      "title": "THE ULTIMATE RITUAL",
+      "text": "The holistic premium ritual for maximum regeneration, skin strengthening, and relaxation."
+    }
+  },
+  "about": {
+    "title": "ABOUT TÂBTIQUE",
+    "para1": "TÂBTIQUE stands for modern skincare at a medical-aesthetic level – reduced, precise, and carefully selected. The focus is not on quantity but on quality: individual treatments, performed with the highest care, expert knowledge, and a deep understanding of skin health.",
+    "para2": "All treatments are based on professional training and Korean-inspired methods, with a focus on Aquafacial, Microneedling, and targeted skin treatments for regeneration, refinement, and revitalization.",
+    "para3": "TÂBTIQUE combines technical expertise with a calm, protected space – for results that are visible and an experience that truly works. Every treatment is deliberately reduced, clearly structured, and tailored to skin needs.",
+    "para4": "Luxury at TÂBTIQUE means: time, precision, and trust."
+  }
+}

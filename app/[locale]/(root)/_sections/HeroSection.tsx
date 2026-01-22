@@ -1,9 +1,14 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import Button from '@/components/Button';
 import Logo from '@/public/Logo';
 import TabiqueLogo from '@/public/TabiqueLogo';
 import Image from 'next/image';
 
 const HeroSection = () => {
+  const t = useTranslations('hero');
+
   return (
     <section
       id="hero-section"
@@ -21,10 +26,10 @@ const HeroSection = () => {
           <TabiqueLogo className="fill-white w-75 lg:w-130" />
         </div>
         <div className="text-white text-xl font-light">
-          <p>Advanced Korean Facial Treatments</p>
-          <p className="mt-2">Frankfurt am Main</p>
+          <p>{t('subtitle')}</p>
+          <p className="mt-2">{t('location')}</p>
         </div>
-        <Button text="Termin vereinbaren" />
+        <Button text={t('cta')} />
       </div>
     </section>
   );
