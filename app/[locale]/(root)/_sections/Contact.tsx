@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import Headline from '@/components/Headline';
@@ -8,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const Contact = () => {
+  const t = useTranslations('contact');
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'error' | 'success'
   >('idle');
@@ -40,24 +42,25 @@ const Contact = () => {
         : null;
 
       if (!res.ok) {
-        toast.error(data?.error || 'Senden fehlgeschlagen.');
+        toast.error(data?.error || t('error'));
         setStatus('error');
         return;
       }
 
-      toast.success('Danke! Deine Nachricht wurde gesendet.');
+      toast.success(t('success'));
       setStatus('success');
       formEl.reset();
     } catch (err) {
       console.error(err);
-      toast.error('Netzwerkfehler. Bitte versuche es erneut.');
+      toast.error(t('error'));
       setStatus('error');
     }
   }
 
   return (
     <section id="contact" className="w-[90%] lg:w-300 mx-auto">
-      <Headline title="KONTAKT" />
+      <Headline title={t('title')} />
+      <p className="p-5 leading-7 mt-7 font-light">{t('description')}</p>
       <div className="my-15 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="self-center">
           <form
@@ -65,30 +68,30 @@ const Contact = () => {
             className="space-y-4 flex flex-col items-center gap-2 font-light text-sm">
             <input
               name="name"
-              placeholder="Name *"
+              placeholder={t('name') + ' *'}
               required
               className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <input
               name="email"
-              placeholder="E-mail"
+              placeholder={t('email') + ' *'}
               className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <input
               name="phone"
-              placeholder="Telefonnummer *"
+              placeholder={t('phone') + ' *'}
               required
               className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <textarea
               name="message"
-              placeholder="Nachricht *"
+              placeholder={t('message') + ' *'}
               required
               rows={6}
               className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
             />
             <Button
-              text={status === 'loading' ? 'Sendet...' : 'Senden'}
+              text={status === 'loading' ? t('submit') + '...' : t('submit')}
               width={300}
               type="submit"
               disabled={status === 'loading'}

@@ -47,8 +47,10 @@ export function LanguageSwitcher() {
         <span
           key={l.code}
           onClick={() => switchLocale(l.code)}
-          className={l.code === currentLocale ? 'font-medium' : undefined}>
-          {l.code}&nbsp;
+          className={`${
+            l.code === currentLocale ? 'font-medium' : undefined
+          } text-2xl cursor-pointer`}>
+          {l.code}&nbsp;&nbsp;
         </span>
       ))}
     </>

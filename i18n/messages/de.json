@@ -47,5 +47,16 @@
     "para2": "Alle Treatments basieren auf professionellen Schulungen und koreanisch inspirierten Methoden, mit Fokus auf Aquafacial, Microneedling und gezielten Hautbehandlungen zur Regeneration, Verfeinerung und Revitalisierung der Haut.",
     "para3": "TÂBTIQUE verbindet technisches Know-how mit einem ruhigen, geschützten Raum – für Ergebnisse, die sichtbar sind, und ein Erlebnis, das wirkt. Jede Behandlung ist bewusst reduziert, klar strukturiert und auf die Hautbedürfnisse abgestimmt.",
     "para4": "Luxus bei TÂBTIQUE bedeutet: Zeit, Präzision und Vertrauen."
+  },
+  "contact": {
+    "title": "TERMIN ANFRAGEN",
+    "description": "Jede Behandlung bei TABTIQUE wird individuell abgestimmt. Nutze dieses Formular zur Terminanfrage – ich melde mich persönlich zur Bestätigung und Beratung.",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "message": "Gewünschte Behandlung, Zeitraum und kurze Info zu deiner Haut.",
+    "submit": "Nachricht senden",
+    "success": "Vielen Dank für deine Nachricht! Wir melden uns so schnell wie möglich bei dir.",
+    "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es später erneut."
   }
 }
