@@ -14,43 +14,45 @@
     "title": "Behandlungen",
     "signature": {
       "title": "SIGNATURE COMBINATION",
-      "text": "Individuell abgestimmte Kombinationen aus modernster Technologie und regenerativer Pflege.",
-      "modalText": "Individuell abgestimmte Kombinationen aus modernster Technologie und regenerativer Pflege. 80 Minuten · 175 € – 190 € (je nach Wirkstoff)",
-      "modalDescription": "Die Signature Combinations verbinden Aquafacial mit Lichttherapie und ausgewählten regenerativen Wirkstoffen.\n\nJede Behandlung wird individuell auf den aktuellen Hautzustand abgestimmt und vereint Reinigung, Aktivierung und Beruhigung zu einer ganzheitlichen Pflege.\n\nWas diese Behandlung besonders macht\n •   Individuelle Kombination aus Technologie und Wirkstoffen\n •   Unterstützung der Hautregeneration und -balance\n •   Sichtbar verfeinerte, ausgeglichene Haut",
-      "modalSuitable": "Für Kundinnen, die eine personalisierte Behandlung wünschen und Wert auf nachhaltige Hautgesundheit legen. \n\nHinweise \n •   Persönliche Hautanalyse vor jeder Behandlung\n •   Wirkstoffauswahl individuell\n •   Dermaplaning optional als Add-on"
+      "text": "Individuell abgestimmte Behandlungskonzepte aus Technologie und regenerativer Pflege.",
+      "modalText": "Individuell abgestimmte Kombinationen aus modernster Technologie und regenerativer Pflege. \n80 Minuten · 175 € – 190 € (je nach Wirkstoff)",
+      "modalDescription": "Die Signature Combinations verbinden Aquafacial mit Lichttherapie und ausgewählten regenerativen Wirkstoffen.\n\nJede Behandlung wird individuell auf den aktuellen Hautzustand abgestimmt und vereint Reinigung, Aktivierung und Beruhigung zu einem ganzheitlichen Behandlungskonzept.\n\nWas diese Behandlung besonders macht\n •   Individuelle Kombination aus Technologie und Wirkstoffen\n •   Unterstützung der Hautregeneration und -balance\n •   Sichtbar verfeinerte, ausgeglichene Haut",
+      "modalSuitable": "Für Kundinnen mit dem Anspruch an personalisierte Behandlungen und nachhaltige Hautgesundheit. \n\nHinweise \n •   Persönliche Hautanalyse vor jeder Behandlung\n •   Wirkstoffauswahl individuell\n •   Dermaplaning optional als Add-on"
     },
     "microneedling": {
       "title": "MICRONEEDLING",
-      "text": "Gezielte Regeneration auf medizinisch-ästhetischem Niveau für sichtbar erneuerte Haut.",
+      "text": "Gezielte Hautregeneration auf medizinisch-ästhetischem Niveau.",
       "modalText": "Gezielte Regeneration auf medizinisch-ästhetischem Niveau für sichtbar erneuerte Haut.  80 Minuten · ab 140 €",
-      "modalDescription": "Microneedling stimuliert gezielt die Hauterneuerung und unterstützt die natürliche Regeneration. Durch feinste Mikroimpulse werden ausgewählte Wirkstoffe effektiv eingeschleust und die Hautstruktur nachhaltig verbessert.\n\nVarianten\n •   Cica Aqua EXO – Beruhigend & hydratisierend\n •   Salmon DNA – Regenerierend & ausgleichend\n •   PDX Exosomen Premium – Intensiv regenerierend\n\nWas diese Behandlung besonders macht\n •   Präzise Anwendung auf medizinisch-ästhetischem Niveau\n •   Förderung der Hauterneuerung\n •   Verbesserung von Hautbild und Hautstruktur",
-      "modalSuitable": "Für anspruchsvolle Hautbilder, müde oder gestresste Haut sowie zur gezielten Regeneration.\n\nHinweise\n •   Kurze Rötung möglich\n •   Behandlungsintervall individuell\n •   Sonnenschutz empfohlen"
+      "modalDescription": "Microneedling stimuliert gezielt die Hauterneuerung und unterstützt die natürliche Regeneration.\n\nDurch kontrollierte Mikroimpulse werden ausgewählte Wirkstoffe effektiv eingebracht, um Hautstruktur, Ebenmäßigkeit und Spannkraft nachhaltig zu unterstützen.\n\nVarianten\n •   Cica Aqua EXO – Beruhigend & hydratisierend\n •   Salmon DNA – Regenerierend & ausgleichend\n •   PDX Exosomen Premium – Intensiv regenerierend\n\nDie Auswahl erfolgt individuell nach Hautanalyse\n\nWas diese Behandlung besonders macht\n •   Präzise Anwendung auf medizinisch-ästhetischem Niveau\n •   Aktivierung der natürlichen Hauterneuerung\n •   Verbesserung von Hautbild und Hautstruktur",
+      "modalSuitable": "Für anspruchsvolle, müde oder gestresste Hautbilder mit Bedarf an gezielter Regeneration.\n\nHinweise\n •   Leichte Rötung möglich\n •   Behandlungsintervall individuell\n •   Sonnenschutz empfohlen"
     },
     "aquafacial": {
       "title": "AQUAFACIAL",
-      "text": "Tiefenreinigung und intensive Hydration für einen frischen, klaren Glow.",
-      "modalText": "Tiefenreinigung und intensive Hydration für einen frischen, klaren Glow. \n90 Minuten · 175 €",
-      "modalDescription": "Aquafacial ist eine mehrstufige Gesichtsbehandlung zur gründlichen Reinigung, sanften Exfoliation und intensiven Hydration. Die Haut wird porentief geklärt, gleichzeitig beruhigt und sichtbar verfeinert.\n\nDie Behandlung umfasst Reinigung, Peeling, Extraktion, Hydration und Schutz – für ein sofortiges Frischegefühl und einen strahlenden Teint.\n\nWas diese Behandlung besonders macht\n •   Tiefenreinigung ohne Irritation\n •   Intensive Feuchtigkeitsversorgung\n •   Sofort sichtbarer Glow",
-      "modalSuitable": "Für alle Hauttypen – ideal bei fahler, unreiner oder dehydrierter Haut.\n\nHinweise\n •   Keine Ausfallzeit\n •   Perfekt als regelmäßige Pflege\n •   Kombinierbar mit weiteren Treatments"
+      "text": "Tiefenreinigung und intensive Hydration für ein klares, ausgeglichenes Hautbild.",
+      "modalText": "Tiefenreinigung und intensive Hydration auf medizinisch-ästhetischem Niveau. \n90 Minuten · 175 €",
+      "modalDescription": "Aquafacial ist eine mehrstufige Gesichtsbehandlung zur gründlichen Reinigung, sanften Exfoliation und intensiven Hydration. Die Haut wird porentief geklärt, beruhigt und sichtbar ausgeglichen. Gleichzeitig wird die natürliche Hautbarriere unterstützt, um ein frisches, ebenmäßiges Hautbild zu fördern.\n\nDie Behandlung umfasst Reinigung, Peeling, Extraktion, Hydration und Schutz – für ein sofortiges Frischegefühl und ein sichtbar klares Hautbild.\n\nWas diese Behandlung besonders macht\n •   Tiefenreinigung ohne unnötige Irritation\n •   Intensive Feuchtigkeitsversorgung\n •   Sofort sichtbar ausgeglichenes Hautbild",
+      "modalSuitable": "Für alle Hauttypen – ideal bei fahler, unreiner oder feuchtigkeitsarmer Haut. Ideal als Vorbereitung für weiterführende Behandlungen.\n\nHinweise\n •   Keine Ausfallzeit\n •   Perfekt als regelmäßige Pflege\n •   Kombinierbar mit weiteren Treatments"
     },
     "ultimate": {
       "title": "THE ULTIMATE RITUAL",
-      "text": "Das ganzheitliche Premium-Ritual für maximale Regeneration, Hautstärkung und Ruhe.",
+      "text": "Ganzheitliches Premium-Ritual für Regeneration, Hautstärkung und tiefe Ruhe.",
       "modalText": "Das ganzheitliche Premium-Ritual für maximale Regeneration, Hautstärkung und Ruhe.\n90 Minuten · 195 € – 235 €",
-      "modalDescription": "The Ultimate Ritual vereint Microneedling, Aquafacial und Lichttherapie in einem exklusiven Behandlungskonzept.\nDiese Behandlung wurde entwickelt, um Hautregeneration, Barrierestärkung und Tiefenentspannung miteinander zu verbinden.\n\nVarianten\n •   Ultimate Cica Aqua EXO\n •   Ultimate Salmon DNA\n •   Ultimate PDX Exosomen\n\nWas diese Behandlung besonders macht\n •   Ganzheitlicher Ansatz auf höchstem Niveau\n •   Kombination aus Technologie und regenerativer Pflege\n •   Maximale Hautstärkung und nachhaltiger Glow",
-      "modalSuitable": "Für anspruchsvolle Haut, bei erhöhtem Regenerationsbedarf oder als intensives Premium-Treatment.\n\nHinweise\n •   Individuelle Anpassung der Behandlung\n •   Persönliche Hautanalyse vorab\n •   Ruhezeit nach der Behandlung empfohlen"
+      "modalDescription": "The Ultimate Ritual vereint Microneedling, Aquafacial und Lichttherapie zu einem exklusiven, ganzheitlichen Behandlungskonzept.\n\nEntwickelt zur intensiven Hautregeneration, gezielter Barrierestärkung und tiefen Entspannung – für sichtbar gestärkte, ausgeglichene Haut.\n\nVarianten\n •   Ultimate Cica Aqua EXO\n •   Ultimate Salmon DNA\n •   Ultimate PDX Exosomen\n\nDie Auswahl der Variante erfolgt individuell nach Hautanalyse.\n\nWas diese Behandlung besonders macht\n •   Ganzheitlicher Ansatz auf höchstem Niveau\n •   Präzise Kombination aus Technologie und regenerativer Pflege\n •   Intensive Hautstärkung mit nachhaltigem Ergebnis",
+      "modalSuitable": "Für anspruchsvolle Haut mit erhöhtem Regenerationsbedarf oder als intensives Premium-Ritual.\n\nRuhezeit nach der Behandlung empfohlen, um das Ergebnis zu unterstützen.\n\nHinweise\n •   Individuelle Anpassung der Behandlung\n •   Persönliche Hautanalyse vorab\n •   Ruhezeit nach der Behandlung empfohlen"
     }
   },
   "about": {
     "title": "ÜBER TÂBTIQUE",
-    "para1": "TÂBTIQUE steht für moderne Hautpflege auf medizinisch-ästhetischem Niveau – reduziert, präzise und bewusst ausgewählt. Im Mittelpunkt steht nicht Quantität, sondern Qualität: individuelle Behandlungen, performed mit höchster Sorgfalt, fundiertem Wissen und einem tiefen Verständnis für Hautgesundheit.",
-    "para2": "Alle Treatments basieren auf professionellen Schulungen und koreanisch inspirierten Methoden, mit Fokus auf Aquafacial, Microneedling und gezielten Hautbehandlungen zur Regeneration, Verfeinerung und Revitalisierung der Haut.",
-    "para3": "TÂBTIQUE verbindet technisches Know-how mit einem ruhigen, geschützten Raum – für Ergebnisse, die sichtbar sind, und ein Erlebnis, das wirkt. Jede Behandlung ist bewusst reduziert, klar strukturiert und auf die Hautbedürfnisse abgestimmt.",
-    "para4": "Luxus bei TÂBTIQUE bedeutet: Zeit, Präzision und Vertrauen."
+    "para1": "Bewusste Hautpflege. Präzise Behandlungen. Zeit für Regeneration.",
+    "para2": "Ich bin die Gründerin von TÂBTIQUE und arbeite als selbstständige Kosmetikerin mit Fokus auf koreanisch inspirierte Gesichtsbehandlungen auf medizinisch-ästhetischem Niveau.",
+    "para3": "Meine Arbeit basiert auf einer professionellen Schulung im Bereich koreanisch inspirierter Aquafacial-Behandlungen, Microneedling und individuell kombinierter Behandlungskonzepte. Dieses Wissen verbinde ich mit einem verantwortungsvollen Umgang mit moderner Technologie, gezielt ausgewählten Wirkstoffen und einem klaren Verständnis für Hautgesundheit.",
+    "para4": "Jede Behandlung wird von mir persönlich durchgeführt und individuell auf den aktuellen Hautzustand abgestimmt. Mein Ansatz ist präzise, bewusst strukturiert und frei von unnötiger Überpflegung – mit dem Ziel, die Haut nachhaltig zu stärken, auszugleichen und zu regenerieren.",
+    "para5": "Bei TÂBTIQUE steht nicht Quantität im Vordergrund, sondern Qualität: persönliche Betreuung, Transparenz und ein ruhiger, geschützter Raum, in dem Haut zur Ruhe kommen kann. Jede Behandlung folgt einem klaren Konzept und orientiert sich an den tatsächlichen Bedürfnissen der Haut.",
+    "para6": "TÂBTIQUE ist bewusst als Boutique-Studio konzipiert – für Kundinnen, die Wert auf Vertrauen, Klarheit und hochwertige, individuell abgestimmte Hautbehandlungen legen."
   },
   "contact": {
     "title": "TERMIN ANFRAGEN",
-    "description": "Jede Behandlung bei TABTIQUE wird individuell abgestimmt. Nutze dieses Formular zur Terminanfrage – ich melde mich persönlich zur Bestätigung und Beratung.",
+    "description": "Jede Behandlung bei TÂBTIQUE wird individuell abgestimmt.\nNutze dieses Formular zur Terminanfrage – ich melde mich persönlich.",
     "name": "Name",
     "email": "E-Mail",
     "phone": "Telefon",
@@ -58,5 +60,17 @@
     "submit": "Termin anfragen",
     "success": "Vielen Dank für deine Nachricht! Wir melden uns so schnell wie möglich bei dir.",
     "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es später erneut."
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "openingHours": "Öffnungszeiten",
+    "hours": "Behandlungen nach Terminvereinbarung"
+  },
+  "imprint-modal": {
+    "title": "Impressum",
+    "owner": "Inhaberin: Michelle Guse",
+    "email": "E-Mail: info@tabtique.de",
+    "phone": "Telefon: +49 172 54 84 11 4",
+    "description": "TÂBTIQUE bietet kosmetische und ästhetische Hautbehandlungen im nicht-medizinischen Bereich an. Es werden keine ärztlichen, heilkundlichen oder therapeutischen Leistungen erbracht."
   }
 }

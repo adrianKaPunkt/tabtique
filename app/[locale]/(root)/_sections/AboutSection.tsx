@@ -26,6 +26,8 @@ const AboutSection = () => {
             <li className="leading-7 mb-4">{t('para2')}</li>
             <li className="leading-7 mb-4">{t('para3')}</li>
             <li className="leading-7 mb-4">{t('para4')}</li>
+            <li className="leading-7 mb-4">{t('para5')}</li>
+            <li className="leading-7 mb-4">{t('para6')}</li>
           </ul>
         </div>
       </div>

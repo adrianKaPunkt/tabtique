@@ -1,10 +1,14 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import Logo from '@/public/Logo';
 import TabiqueLogo from '@/public/TabiqueLogo';
 import Link from 'next/link';
 import { ImpressumModal } from '@/components/ImpressumModal';
-import { SiInstagram, SiFacebook, SiX } from '@icons-pack/react-simple-icons';
+import { SiInstagram } from '@icons-pack/react-simple-icons';
 
 const Footer = () => {
+  const t = useTranslations('footer');
   return (
     <footer className="bg-black text-white flex flex-col items-center justify-between pt-15 pb-10">
       <Logo className="w-10 mb-7" />
@@ -17,8 +21,8 @@ const Footer = () => {
           <p>Hochstraße 43 &nbsp;&nbsp;|&nbsp;&nbsp; 60313 Frankfurt am Main</p>
         </Link>
         <div className="mt-11 text-center">
-          <p>Öffnungszeiten:</p>
-          <p>Montag - Freitag: 11:00 - 18:00</p>
+          <p>{t('openingHours')}:</p>
+          <p>{t('hours')}</p>
         </div>
       </div>
       <div className="flex gap-14 mt-15">
@@ -28,18 +32,12 @@ const Footer = () => {
           aria-label="Instagram">
           <SiInstagram className="h-7 w-7 text-white" />
         </Link>
-        <Link href="#" aria-label="Facebook">
-          <SiFacebook className="h-7 w-7 text-white" />
-        </Link>
-        <Link href="#" aria-label="X">
-          <SiX className="h-7 w-7 text-white" />
-        </Link>
       </div>
       <div className="mt-15 font-light">
         <ImpressumModal />
       </div>
       <p className="mt-10 text-xs text-gray-500">
-        © {new Date().getFullYear()} TABTIQUE
+        © {new Date().getFullYear()} TABTIQUE - {t('rights')}
       </p>
     </footer>
   );

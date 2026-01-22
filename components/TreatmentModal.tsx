@@ -32,7 +32,7 @@ export function TreatmentModal({
         </button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-lg h-[90%] overflow-y-scroll ">
+      <DialogContent className="max-w-lg h-[90%] overflow-y-scroll  md:overflow-y-hidden md:h-auto">
         <DialogHeader>
           <DialogTitle className="text-3xl text-center font-cinzel font-light">
             {title}

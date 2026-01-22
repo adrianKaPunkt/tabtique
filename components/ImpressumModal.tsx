@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -9,11 +10,12 @@ import {
 } from '@/components/ui/dialog';
 
 export function ImpressumModal() {
+  const t = useTranslations('imprint-modal');
   return (
     <Dialog>
       <DialogTrigger asChild>
         <button type="button" className="font-light cursor-pointer">
-          Impressum
+          {t('title')}
         </button>
       </DialogTrigger>
 
@@ -26,7 +28,7 @@ export function ImpressumModal() {
           <p>
             <strong>TÂBTIQUE</strong>
             <br />
-            Inhaberin: Michelle Guse
+            {t('owner')}
             <br />
             Hochstraße 43
             <br />
@@ -36,16 +38,12 @@ export function ImpressumModal() {
           <p>
             <strong>Kontakt</strong>
             <br />
-            E-Mail: info@tabtique.de
+            {t('email')}
             <br />
-            Telefon: +49 172 54 84 11 4
+            {t('phone')}
           </p>
 
-          <p className="text-neutral-500">
-            TÂBTIQUE bietet kosmetische und ästhetische Hautbehandlungen im
-            nicht-medizinischen Bereich an. Es werden keine ärztlichen,
-            heilkundlichen oder therapeutischen Leistungen erbracht.
-          </p>
+          <p className="text-neutral-500">{t('description')}</p>
         </div>
       </DialogContent>
     </Dialog>

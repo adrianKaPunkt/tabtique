@@ -14,39 +14,41 @@
     "title": "Treatments",
     "signature": {
       "title": "SIGNATURE COMBINATION",
-      "text": "Individually tailored combinations of the latest technology and regenerative care.",
+      "text": "Individually tailored treatment concepts combining technology and regenerative care.",
       "modalText": "Individually tailored combinations of the latest technology and regenerative care. 80 minutes · €175 – €190 (depending on active ingredients)",
-      "modalDescription": "The Signature Combinations combine Aquafacial with light therapy and selected regenerative active ingredients.\n\nEach treatment is individually tailored to the current skin condition and combines cleansing, activation, and soothing into a holistic care.\n\nWhat makes this treatment special\n •   Individual combination of technology and active ingredients\n •   Support of skin regeneration and balance\n •   Visibly refined, balanced skin",
-      "modalSuitable": "For clients who desire a personalized treatment and value sustainable skin health. \n\nNotes \n •   Personal skin analysis before each treatment\n •   Active ingredient selection individually\n •   Dermaplaning optional as an add-on"
+      "modalDescription": "The Signature Combinations combine Aquafacial with light therapy and selected regenerative active ingredients.\n\nEach treatment is individually tailored to the current skin condition and combines cleansing, activation, and soothing into a holistic treatment concept.\n\nWhat makes this treatment special\n •   Individual combination of technology and active ingredients\n •   Support of skin regeneration and balance\n •   Visibly refined, balanced skin",
+      "modalSuitable": "For clients seeking personalized treatments and sustainable skin health. \n\nNotes \n •   Personal skin analysis before each treatment\n •   Active ingredient selection is individual\n •   Dermaplaning optional as an add-on"
     },
     "microneedling": {
       "title": "MICRONEEDLING",
-      "text": "Targeted regeneration at a medical-aesthetic level for visibly renewed skin.",
+      "text": "Targeted skin regeneration at a medical-aesthetic level.",
       "modalText": "Targeted regeneration at a medical-aesthetic level for visibly renewed skin.  80 minutes · from €140",
-      "modalDescription": "Microneedling specifically stimulates skin renewal and supports natural regeneration. Through the finest micro-impulses, selected active ingredients are effectively delivered and the skin structure is sustainably improved.\n\nVariants\n •   Cica Aqua EXO – Soothing & hydrating\n •   Salmon DNA – Regenerating & balancing\n •   PDX Exosomes Premium – Intensively regenerating\n\nWhat makes this treatment special\n •   Precise application at a medical-aesthetic level\n •   Promotion of skin renewal\n •   Improvement of skin appearance and texture",
-      "modalSuitable": "For demanding skin types, tired or stressed skin, as well as for targeted regeneration.\n\nNotes\n •   Short redness possible\n •   Treatment interval individual\n •   Sunscreen recommended"
+      "modalDescription": "Microneedling specifically stimulates skin renewal and supports natural regeneration.\n\nThrough controlled micro-impulses, selected active ingredients are effectively introduced to sustainably support skin texture, evenness, and firmness.\n\nVariants\n •   Cica Aqua EXO – Soothing & hydrating\n •   Salmon DNA – Regenerating & balancing\n •   PDX Exosomes Premium – Intensively regenerating\n\nWhat makes this treatment special\n •   Precise application at a medical-aesthetic level\n •   Promotion of skin renewal\n •   Improvement of skin appearance and texture",
+      "modalSuitable": "For demanding, tired, or stressed skin types in need of targeted regeneration.\n\nNotes\n •   Short redness possible\n •   Treatment interval is individual\n •   Sunscreen recommended"
     },
     "aquafacial": {
       "title": "AQUAFACIAL",
-      "text": "Deep cleansing and intensive hydration for a fresh, clear glow.",
-      "modalText": "Deep cleansing and intensive hydration for a fresh, clear glow. \n90 minutes · €175",
-      "modalDescription": "Aquafacial is a multi-step facial treatment for thorough cleansing, gentle exfoliation, and intensive hydration. The skin is deeply purified, simultaneously soothed, and visibly refined.\n\nThe treatment includes cleansing, peeling, extraction, hydration, and protection – for an immediate feeling of freshness and a radiant complexion.\n\nWhat makes this treatment special\n •   Deep cleansing without irritation\n •   Intensive moisture supply\n •   Immediately visible glow",
-      "modalSuitable": "For all skin types – ideal for dull, impure, or dehydrated skin.\n\nNotes\n •   No downtime\n •   Perfect as regular care\n •   Can be combined with other treatments"
+      "text": "Deep cleansing and intensive hydration for a clear, balanced complexion.",
+      "modalText": "Deep cleansing and intensive hydration at a medical-aesthetic level. \n90 minutes · €175",
+      "modalDescription": "Aquafacial is a multi-step facial treatment for thorough cleansing, gentle exfoliation, and intensive hydration. The skin is deeply clarified, soothed, and visibly balanced. At the same time, the natural skin barrier is supported to promote a fresh, even complexion.\n\nThe treatment includes cleansing, peeling, extraction, hydration, and protection – for an immediate feeling of freshness and a visibly clear complexion.\n\nWhat makes this treatment special\n •   Deep cleansing without unnecessary irritation\n •   Intensive moisture supply\n •   Immediately visible balanced complexion",
+      "modalSuitable": "For all skin types – ideal for dull, impure, or dehydrated skin. Ideal as a preparation for further treatments.\n\nNotes\n •   No downtime\n •   Perfect as regular care\n •   Can be combined with other treatments"
     },
     "ultimate": {
       "title": "THE ULTIMATE RITUAL",
-      "text": "The holistic premium ritual for maximum regeneration, skin strengthening, and relaxation.",
+      "text": "Holistic premium ritual for regeneration, skin strengthening, and deep relaxation.",
       "modalText": "The holistic premium ritual for maximum regeneration, skin strengthening, and relaxation.\n90 minutes · €195 – €235",
-      "modalDescription": "The Ultimate Ritual combines Microneedling, Aquafacial, and light therapy in an exclusive treatment concept.\nThis treatment was developed to combine skin regeneration, barrier strengthening, and deep relaxation.\n\nVariants\n •   Ultimate Cica Aqua EXO\n •   Ultimate Salmon DNA\n •   Ultimate PDX Exosomes\n\nWhat makes this treatment special\n •   Holistic approach at the highest level\n •   Combination of technology and regenerative care\n •   Maximum skin strengthening and sustainable glow",
-      "modalSuitable": "For demanding skin, with increased regeneration needs, or as an intensive premium treatment.\n\nNotes\n •   Individual adjustment of the treatment\n •   Personal skin analysis in advance\n •   Rest time after the treatment recommended"
+      "modalDescription": "The Ultimate Ritual combines Microneedling, Aquafacial, and light therapy into an exclusive, holistic treatment concept.\n\nDeveloped for intensive skin regeneration, targeted barrier strengthening, and deep relaxation – for visibly strengthened, balanced skin.\n\nVariants\n •   Ultimate Cica Aqua EXO\n •   Ultimate Salmon DNA\n •   Ultimate PDX Exosomes\n\nThe choice of variant is made individually based on skin analysis.\n\nWhat makes this treatment special\n •   Holistic approach at the highest level\n •   Precise combination of technology and regenerative care\n •   Intensive skin strengthening with sustainable results",
+      "modalSuitable": "For demanding skin with increased regeneration needs or as an intensive premium ritual.\n\nRest time after the treatment is recommended to support the result.\n\nNotes\n •   Individual adjustment of the treatment\n •   Personal skin analysis in advance\n •   Rest time after the treatment is recommended"
     }
   },
   "about": {
     "title": "ABOUT TÂBTIQUE",
-    "para1": "TÂBTIQUE stands for modern skincare at a medical-aesthetic level – reduced, precise, and carefully selected. The focus is not on quantity but on quality: individual treatments, performed with the highest care, expert knowledge, and a deep understanding of skin health.",
-    "para2": "All treatments are based on professional training and Korean-inspired methods, with a focus on Aquafacial, Microneedling, and targeted skin treatments for regeneration, refinement, and revitalization.",
-    "para3": "TÂBTIQUE combines technical expertise with a calm, protected space – for results that are visible and an experience that truly works. Every treatment is deliberately reduced, clearly structured, and tailored to skin needs.",
-    "para4": "Luxury at TÂBTIQUE means: time, precision, and trust."
+    "para1": "Conscious skincare. Precise treatments. Time for regeneration.",
+    "para2": "I am the founder of TÂBTIQUE and work as a freelance beautician with a focus on Korean-inspired facial treatments at a medical-aesthetic level.",
+    "para3": "My work is based on professional training in Korean-inspired Aquafacial treatments, microneedling, and individually combined treatment concepts. I combine this knowledge with a responsible approach to modern technology, carefully selected active ingredients, and a clear understanding of skin health.",
+    "para4": "Each treatment is personally performed by me and individually tailored to the current skin condition. My approach is precise, consciously structured, and free from unnecessary overcare – with the goal of sustainably strengthening, balancing, and regenerating the skin.",
+    "para5": "At TÂBTIQUE, quality is prioritized over quantity: personal care, transparency, and a calm, protected space where skin can relax. Each treatment follows a clear concept and is oriented towards the actual needs of the skin.",
+    "para6": "TÂBTIQUE is consciously designed as a boutique studio – for clients who value trust, clarity, and high-quality, individually tailored skin treatments."
   },
   "contact": {
     "title": "REQUEST AN APPOINTMENT",
@@ -58,5 +60,19 @@
     "submit": "Request Appointment",
     "success": "Thank you for your message! We will get back to you as soon as possible.",
     "error": "An error occurred while sending the message. Please try again later."
+  },
+  "footer": {
+    "imprint": "Imprint",
+    "privacy": "Privacy Policy",
+    "rights": "All rights reserved.",
+    "openingHours": "Opening Hours",
+    "hours": "Treatments by appointment only"
+  },
+  "imprint-modal": {
+    "title": "Imprint",
+    "owner": "Owner: Michelle Guse",
+    "email": "Email: info@tabtique.de",
+    "phone": "Phone: +49 172 54 84 11 4",
+    "description": "TÂBTIQUE offers cosmetic and aesthetic skin treatments in the non-medical field. No medical, healing, or therapeutic services are provided."
   }
 }
