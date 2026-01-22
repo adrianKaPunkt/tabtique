@@ -24,7 +24,9 @@ export function ImpressumModal() {
 
         <div className="space-y-4 text-sm leading-relaxed">
           <p>
-            <strong>TABTIQUE</strong>
+            <strong>TÂBTIQUE</strong>
+            <br />
+            Inhaberin: Michelle Guse
             <br />
             Hochstraße 43
             <br />
@@ -40,7 +42,9 @@ export function ImpressumModal() {
           </p>
 
           <p className="text-neutral-500">
-            (Hier kommt dann dein vollständiger Impressumstext rein.)
+            TÂBTIQUE bietet kosmetische und ästhetische Hautbehandlungen im
+            nicht-medizinischen Bereich an. Es werden keine ärztlichen,
+            heilkundlichen oder therapeutischen Leistungen erbracht.
           </p>
         </div>
       </DialogContent>

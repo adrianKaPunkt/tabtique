@@ -18,20 +18,26 @@ const AboutSection = () => {
         <div className="flex items-center font-light px-4">
           <ul className="">
             <li className="leading-7 mb-4">
-              Internationale Expertise trifft koreanische Hautphilosophie.
+              TABTIQUE steht für moderne Hautpflege auf medizinisch-ästhetischem
+              Niveau – reduziert, präzise und bewusst ausgewählt. Im Mittelpunkt
+              steht nicht Quantität, sondern Qualität: individuelle
+              Behandlungen, performed mit höchster Sorgfalt, fundiertem Wissen
+              und einem tiefen Verständnis für Hautgesundheit.
             </li>
             <li className="leading-7 mb-4">
-              TABTIQUE ist spezialisiert auf koreanisch inspirierte
-              Facial-Behandlungen mit Fokus auf Hautgesundheit, nachhaltige
-              Ergebnisse und präzise Wirkstoffarbeit.
+              Alle Treatments basieren auf professionellen Schulungen und
+              koreanisch inspirierten Methoden, mit Fokus auf Aquafacial,
+              Microneedling und gezielten Hautbehandlungen zur Regeneration,
+              Verfeinerung und Revitalisierung der Haut.
             </li>
             <li className="leading-7 mb-4">
-              Meine Ausbildung in koreanischen Facial-Techniken bildet die
-              Grundlage jeder Behandlung – kombiniert mit moderner Hautanalyse,
-              klaren Behandlungsprotokollen und individueller Anpassung.
+              TABTIQUE verbindet technisches Know-how mit einem ruhigen,
+              geschützten Raum – für Ergebnisse, die sichtbar sind, und ein
+              Erlebnis, das wirkt. Jede Behandlung ist bewusst reduziert, klar
+              strukturiert und auf die Hautbedürfnisse abgestimmt.
             </li>
             <li className="leading-7 mb-4">
-              Für Haut, die nicht nur gepflegt aussieht, sondern gesund ist.
+              Luxus bei TABTIQUE bedeutet: Zeit, Präzision und Vertrauen.
             </li>
           </ul>
         </div>
