@@ -1,4 +1,11 @@
 {
+  "navbar": {
+    "home": "STARTSEITE",
+    "treatments": "BEHANDLUNGEN",
+    "about": "ÜBER TÂBTIQUE",
+    "contact": "TERMIN ANFRAGEN",
+    "rights": "Alle Rechte vorbehalten."
+  },
   "hero": {
     "subtitle": "Bewusste Hautpflege. Präzise Behandlungen. Zeit für Regeneration.",
     "cta": "Termin vereinbaren"

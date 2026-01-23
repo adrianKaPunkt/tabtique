@@ -7,7 +7,9 @@ import TreatmentCard from '@/components/TreatmentCard';
 const TreatmentSection = () => {
   const t = useTranslations('treatment-section');
   return (
-    <section id="treatment" className="my-25 w-[90%] xl:w-300 mx-auto">
+    <section
+      id="treatments"
+      className="my-25 w-[90%] xl:w-300 mx-auto scroll-mt-40">
       <Headline title={t('title')} />
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-8 justify-between mt-7">
         <TreatmentCard

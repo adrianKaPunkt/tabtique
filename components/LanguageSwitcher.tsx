@@ -42,17 +42,20 @@ export function LanguageSwitcher() {
     LOCALES.find((l) => l.code === currentLocale)?.label ?? currentLocale;
 
   return (
-    <>
-      {LOCALES.map((l) => (
-        <span
-          key={l.code}
-          onClick={() => switchLocale(l.code)}
-          className={`${
-            l.code === currentLocale ? 'font-medium' : undefined
-          } text-2xl cursor-pointer`}>
-          {l.code}&nbsp;&nbsp;
-        </span>
-      ))}
-    </>
+    <div className="font-light">
+      <span
+        key={'de'}
+        className={`${'de' === currentLocale ? 'font-normal' : undefined} text-sm lg:text-xl cursor-pointer`}
+        onClick={() => switchLocale('de')}>
+        de
+      </span>
+      <span className="text-sm lg:text-2xl">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <span
+        key={'en'}
+        className={`${'en' === currentLocale ? 'font-normal' : undefined} text-sm lg:text-xl cursor-pointer`}
+        onClick={() => switchLocale('en')}>
+        en
+      </span>
+    </div>
   );
 }

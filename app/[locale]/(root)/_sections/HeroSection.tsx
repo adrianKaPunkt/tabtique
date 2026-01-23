@@ -25,13 +25,15 @@ const HeroSection = () => {
           <Logo className="fill-white w-12" />
           <TabiqueLogo className="fill-white w-75 lg:w-130" />
         </div>
-        <div className="text-white text-xl font-light">
+        <div className="text-white w-75 lg:w-full text-xl font-light">
           <p>{t('subtitle')}</p>
         </div>
         <Button
           text={t('cta')}
           onClick={() => {
-            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById('contact')
+              ?.scrollIntoView({ behavior: 'smooth' });
           }}
         />
       </div>

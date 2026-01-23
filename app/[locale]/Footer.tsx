@@ -37,7 +37,7 @@ const Footer = () => {
         <ImpressumModal />
       </div>
       <p className="mt-10 text-xs text-gray-500">
-        © {new Date().getFullYear()} TABTIQUE - {t('rights')}
+        © {new Date().getFullYear()} TÂBTIQUE - {t('rights')}
       </p>
     </footer>
   );

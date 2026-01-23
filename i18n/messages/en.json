@@ -1,4 +1,11 @@
 {
+  "navbar": {
+    "home": "HOME",
+    "treatments": "TREATMENTS",
+    "about": "ABOUT TÂBTIQUE",
+    "contact": "REQUEST APPOINTMENT",
+    "rights": "All rights reserved."
+  },
   "hero": {
     "subtitle": "Conscious skincare. Precise treatments. Time for regeneration.",
     "cta": "Book an Appointment"
