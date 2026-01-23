@@ -4,7 +4,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useTranslations } from 'next-intl';
 import Logo from '@/public/Logo';
 import TabiqueLogo from '@/public/TabiqueLogo';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CiMenuBurger } from 'react-icons/ci';
 import { IoCloseOutline } from 'react-icons/io5';
 import { SiInstagram } from '@icons-pack/react-simple-icons';
@@ -13,6 +13,18 @@ import Link from 'next/link';
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const t = useTranslations('navbar');
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
   return (
     <header className="fixed bg-white w-full mx-auto px-2 lg:px-0 py-4 lg:p-6 z-50 shadow-xl">
       <nav>
@@ -22,7 +34,7 @@ const Navbar = () => {
             <LanguageSwitcher />
           </div>
           <div></div>
-          <div className="absolute right-0 top-3 z-60">
+          <div className="absolute right-0 top-1 lg:top-3 z-60">
             <button
               className="cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}>
@@ -35,7 +47,7 @@ const Navbar = () => {
           </div>
         </div>
         {menuOpen && (
-          <div className="absolute flex flex-col items-center bg-white top-0 -left-5 w-screen h-screen">
+          <div className="absolute flex flex-col items-center bg-white top-0 left-0 w-screen h-screen">
             <Logo className="fill-gray-700 w-7 mt-20" />
             <TabiqueLogo className="fill-gray-700 w-50 mt-4 ml-5" />
             <div className="mt-20 flex flex-col space-y-8 text-gray-700 font-light text-lg text-center">
