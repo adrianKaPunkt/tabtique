@@ -12,6 +12,7 @@ interface TreatmentCardProps {
   modalText?: string;
   modalDescription?: string;
   modalSuitable?: string;
+  treatmentKey?: string;
 }
 
 const TreatmentCard = ({
@@ -21,6 +22,7 @@ const TreatmentCard = ({
   modalText,
   modalDescription,
   modalSuitable,
+  treatmentKey,
 }: TreatmentCardProps) => {
   const [open, setOpen] = useState(false);
   const t = useTranslations('treatment-modal');
@@ -51,6 +53,7 @@ const TreatmentCard = ({
         suitable={modalSuitable}
         open={open}
         onOpenChange={setOpen}
+        treatmentKey={treatmentKey}
       />
     </>
   );

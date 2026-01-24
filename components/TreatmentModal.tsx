@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import Button from './Button';
+import useTreatmentStore from '@/store/treatment-store';
 
 interface TreatmentModalProps {
   title: string;
@@ -15,6 +16,7 @@ interface TreatmentModalProps {
   description?: string;
   suitable?: string;
   open?: boolean;
+  treatmentKey?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -25,11 +27,12 @@ export function TreatmentModal({
   suitable,
   open,
   onOpenChange,
+  treatmentKey,
 }: TreatmentModalProps) {
   const t = useTranslations('treatment-modal');
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg h-[90%] overflow-y-scroll  md:overflow-y-hidden md:h-auto">
+      <DialogContent className="max-w-lg h-[90%] overflow-y-scroll md:overflow-y-hidden md:h-auto">
         <DialogHeader>
           <DialogTitle className="text-3xl text-center font-cinzel font-light">
             {title}
@@ -49,6 +52,7 @@ export function TreatmentModal({
           <Button
             text={t('button')}
             onClick={() => {
+              useTreatmentStore.setState({ treatment: treatmentKey || '' });
               document
                 .getElementById('contact')
                 ?.scrollIntoView({ behavior: 'smooth' });

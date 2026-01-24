@@ -65,7 +65,15 @@
     "message": "Gewünschte Behandlung, Zeitraum und kurze Info zu deiner Haut.",
     "submit": "Termin anfragen",
     "success": "Vielen Dank für deine Nachricht! Wir melden uns so schnell wie möglich bei dir.",
-    "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es später erneut."
+    "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
+    "required": "Dieses Feld ist erforderlich.",
+    "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
+    "invalidPhone": "Bitte gib eine gültige Telefonnummer ein.",
+    "invalidMessage": "Die Nachricht muss mindestens 10 Zeichen lang sein.",
+    "selectedSignature": "Du hast das Signature Treatment ausgewählt",
+    "selectedMicroneedling": "Du hast das Microneedling ausgewählt",
+    "selectedAquafacial": "Du hast das Aquafacial ausgewählt",
+    "selectedUltimate": "Du hast The Ultimate Ritual ausgewählt"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",

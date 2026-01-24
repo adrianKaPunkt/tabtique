@@ -7,22 +7,28 @@ import Headline from '@/components/Headline';
 import Button from '@/components/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-import MicroneedlingIcon from '@/public/MicroneedlingIcon';
-import SignatureIcon from '@/public/SignatureIcon';
-import AquafacialIcon from '@/public/AquafacialIcon';
-import UltimateIcon from '@/public/UltimateIcon';
-import { log } from 'console';
-import { cn } from '@/lib/utils';
+import useTreatmentStore from '@/store/treatment-store';
+import TreatmentPicker from '@/components/TreatmentPicker';
 
 const Contact = () => {
   const t = useTranslations('contact');
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'error' | 'success'
   >('idle');
-  const [treatment, setTreatment] = useState<
-    'signature' | 'microneedling' | 'aquafacial' | 'ultimate' | null
-  >(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
+  const treatment = useTreatmentStore((state) => state.treatment);
+  const treatmentObj = [
+    { key: 'signature', message: t('selectedSignature') },
+    {
+      key: 'microneedling',
+      message: t('selectedMicroneedling'),
+    },
+    {
+      key: 'aquafacial',
+      message: t('selectedAquafacial'),
+    },
+    { key: 'ultimate', message: t('selectedUltimate') },
+  ];
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,6 +42,7 @@ const Contact = () => {
       phone: String(form.get('phone') || '').trim(),
       message: String(form.get('message') || '').trim(),
       email: String(form.get('email') || '').trim(),
+      treatment: treatment,
     };
 
     try {
@@ -72,45 +79,13 @@ const Contact = () => {
       <p className="p-5 leading-7 mt-7 font-light md:text-center">
         {t('description')}
       </p>
-      <div className="flex justify-between mb-8 w-70 mx-auto">
-        <SignatureIcon
-          className={cn(
-            'w-10 h-10 cursor-pointer transition-[fill] duration-700',
-            treatment === 'signature' ? 'fill-gray-700' : 'fill-gray-300',
-          )}
-          onClick={() => {
-            setTreatment('signature');
-          }}
-        />
-        <AquafacialIcon
-          className={cn(
-            'w-10 h-10 cursor-pointer transition-[fill] duration-700',
-            treatment === 'aquafacial' ? 'fill-gray-700' : 'fill-gray-300',
-          )}
-          onClick={() => {
-            setTreatment('aquafacial');
-          }}
-        />
-        <MicroneedlingIcon
-          className={cn(
-            'w-10 h-10 cursor-pointer transition-[fill] duration-700',
-            treatment === 'microneedling' ? 'fill-gray-700' : 'fill-gray-300',
-          )}
-          onClick={() => {
-            setTreatment('microneedling');
-          }}
-        />
-        <UltimateIcon
-          className={cn(
-            'w-10 h-10 cursor-pointer transition-[fill] duration-700',
-            treatment === 'ultimate' ? 'fill-gray-700' : 'fill-gray-300',
-          )}
-          onClick={() => {
-            setTreatment('ultimate');
-          }}
-        />
+      <div className="flex justify-between mt-7 mb-3 w-70 mx-auto">
+        <TreatmentPicker />
       </div>
-      <div className="my-15 grid grid-cols-1 md:grid-cols-2 gap-12">
+      <p className="text-center text-sm font-light">
+        {treatmentObj.find((item) => item.key === treatment)?.message}
+      </p>
+      <div className="mb-15 mt-10 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="self-center">
           <form
             onSubmit={onSubmit}

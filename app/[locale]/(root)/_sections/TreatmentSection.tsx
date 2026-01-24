@@ -19,6 +19,7 @@ const TreatmentSection = () => {
           modalText={t('signature.modalText')}
           modalDescription={t('signature.modalDescription')}
           modalSuitable={t('signature.modalSuitable')}
+          treatmentKey="signature"
         />
         <TreatmentCard
           image="/treatment-2.jpg"
@@ -27,6 +28,7 @@ const TreatmentSection = () => {
           modalText={t('microneedling.modalText')}
           modalDescription={t('microneedling.modalDescription')}
           modalSuitable={t('microneedling.modalSuitable')}
+          treatmentKey="microneedling"
         />
         <TreatmentCard
           image="/treatment-3.jpg"
@@ -35,6 +37,7 @@ const TreatmentSection = () => {
           modalText={t('aquafacial.modalText')}
           modalDescription={t('aquafacial.modalDescription')}
           modalSuitable={t('aquafacial.modalSuitable')}
+          treatmentKey="aquafacial"
         />
         <div className="lg:col-start-2">
           <TreatmentCard
@@ -44,6 +47,7 @@ const TreatmentSection = () => {
             modalText={t('ultimate.modalText')}
             modalDescription={t('ultimate.modalDescription')}
             modalSuitable={t('ultimate.modalSuitable')}
+            treatmentKey="ultimate"
           />
         </div>
       </div>
