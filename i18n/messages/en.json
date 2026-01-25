@@ -87,6 +87,10 @@
       "message": "Message"
     },
     "error": {
+      "date": {
+        "required": "Date required",
+        "invalid": "Invalid date"
+      },
       "name": {
         "required": "Name required",
         "too-long": "Name too long"

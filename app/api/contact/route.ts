@@ -5,6 +5,7 @@ import {
   type ContactFormValues,
   TREATMENTS,
 } from '@/lib/validation/contact';
+import { getDateParts, parseLocalDate } from '@/lib/date';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -67,7 +68,17 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, message, phone, treatment } = parsed.data;
+    const { date, name, email, message, phone, treatment } = parsed.data;
+
+    /**
+     * Prepare date
+     */
+    const dateParts = getDateParts(date);
+    if (!dateParts) {
+      console.error('Ungültiges Datum.');
+      return NextResponse.json({ error: 'Ungültiges Datum.' }, { status: 400 });
+    }
+    const { year, month, day, weekday, monthName } = dateParts;
 
     const to = process.env.CONTACT_TO_EMAIL;
     const from = process.env.CONTACT_FROM_EMAIL;
@@ -83,8 +94,8 @@ export async function POST(req: Request) {
     const emailArgs: EmailArgs = {
       from,
       to,
-      subject: `Terminanfrage für ${TREATMENTS.find((t) => t.key === treatment)?.name || treatment}`,
-      text: `Behandlung: ${TREATMENTS.find((t) => t.key === treatment)?.name || treatment}\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\n\nNachricht:\n${message}\n`,
+      subject: `Terminanfrge am ${day}.${month}.${year}`,
+      text: `Datum: ${weekday}, ${day}. ${monthName} ${year}\nBehandlung: ${TREATMENTS.find((t) => t.key === treatment)?.name || treatment}\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\n\nNachricht:\n${message}\n`,
     };
 
     if (email && email.trim().length > 0) {

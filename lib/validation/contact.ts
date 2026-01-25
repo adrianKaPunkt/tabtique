@@ -20,6 +20,10 @@ export const TREATMENTS = [
 const TreatmentEnum = z.enum(TREATMENT_KEYS);
 
 export const ContactSchema = z.object({
+  date: z
+    .string()
+    .min(1, 'error.date.required')
+    .refine((val) => !isNaN(Date.parse(val)), 'error.date.invalid'),
   name: z.string().min(1, 'error.name.required').max(30, 'error.name.too-long'),
   email: z
     .string()
@@ -34,8 +38,9 @@ export const ContactSchema = z.object({
     .regex(/^[0-9+()\/\s-]+$/, 'error.phone.invalid'),
   message: z
     .string()
-    .min(1, 'error.message.required')
-    .max(1000, 'error.message.too-long'),
+    .max(1000, 'error.message.too-long')
+    .optional()
+    .or(z.literal('')),
 
   // required + enum valid
   treatment: z

@@ -16,10 +16,11 @@ import {
 } from '@/lib/validation/contact';
 import Input from '@/components/Input';
 import TextArea from '@/components/TextArea';
+import DateInput from '@/components/DateInput';
 
 const Contact = () => {
   const t = useTranslations('contact');
-  const f = useTranslations('form');
+  const [date, setDate] = useState<string>('');
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'error' | 'success'
   >('idle');
@@ -101,6 +102,7 @@ const Contact = () => {
       message: String(form.get('message') || '').trim(),
       email: String(form.get('email') || '').trim(),
       treatment: treatment,
+      date: date,
     };
     const result = ContactSchema.safeParse(payload);
 
@@ -162,6 +164,33 @@ const Contact = () => {
           <form
             onSubmit={onSubmit}
             className="space-y-4 flex flex-col items-center gap-2 font-light text-sm">
+            <DateInput
+              name="date"
+              error={fieldErrors.date}
+              value={date}
+              onChange={(e) => {
+                setDate(e.currentTarget.value);
+
+                // optional: wenn schon ein Fehler da war, live entfernen
+                if (fieldErrors.date) {
+                  setFieldErrors((prev) => {
+                    const { date: _removed, ...rest } = prev;
+                    return rest;
+                  });
+                }
+              }}
+              onBlur={() => {
+                // onBlur validieren (wie bei anderen Feldern)
+                const result = ContactSchema.shape.date.safeParse(date);
+                setFieldErrors((prev) => {
+                  if (result.success) {
+                    const { date: _removed, ...rest } = prev;
+                    return rest;
+                  }
+                  return { ...prev, date: result.error.issues[0]?.message };
+                });
+              }}
+            />
             <Input
               name="name"
               error={fieldErrors.name}
