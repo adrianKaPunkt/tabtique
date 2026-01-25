@@ -57,23 +57,11 @@
     "para6": "TÂBTIQUE is consciously designed as a boutique studio – for clients who value trust, clarity, and high-quality, individually tailored skin treatments."
   },
   "contact": {
-    "title": "REQUEST AN APPOINTMENT",
-    "description": "Each treatment at TABTIQUE is individually tailored. Use this form to request an appointment – I will get back to you personally for confirmation and consultation.",
+    "title": "REQUEST APPOINTMENT",
+    "description": "Each treatment at TÂBTIQUE is individually tailored.\nUse this form to request an appointment – I will get back to you personally.",
     "message": "Desired treatment, timeframe, and a brief info about your skin.",
-    "name": "Name",
-    "email": "Email",
-    "phone": "Phone",
     "submit": "Request Appointment",
-    "success": "Thank you for your message! We will get back to you as soon as possible.",
-    "error": "An error occurred while sending the message. Please try again later.",
-    "required": "This field is required.",
-    "invalidEmail": "Please enter a valid email address.",
-    "invalidPhone": "Please enter a valid phone number.",
-    "invalidMessage": "The message must be at least 10 characters long.",
-    "selectedSignature": "You have selected the Signature Treatment",
-    "selectedMicroneedling": "You have selected the Microneedling Treatment",
-    "selectedAquafacial": "You have selected the Aquafacial Treatment",
-    "selectedUltimate": "You have selected The Ultimate Ritual"
+    "success": "Thank you for your message! I will get back to you as soon as possible."
   },
   "footer": {
     "imprint": "Imprint",
@@ -90,5 +78,40 @@
     "description": "TÂBTIQUE offers cosmetic and aesthetic skin treatments in the non-medical field. No medical, healing, or therapeutic services are provided.",
     "privacy": "Privacy Policy",
     "privacyText": "TÂBTIQUE processes personal data exclusively in accordance with the General Data Protection Regulation (GDPR). Personal data is only collected to the extent necessary for the operation of the website or to process inquiries. No data is shared with third parties unless there is a legal obligation. You have the right to access, correct, or delete your data at any time."
+  },
+  "form": {
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message"
+    },
+    "error": {
+      "name": {
+        "required": "Name required",
+        "too-long": "Name too long"
+      },
+      "email": {
+        "required": "Email required",
+        "invalid": "Invalid email address"
+      },
+      "phone": {
+        "too-long": "Phone number too long",
+        "required": "Phone number required"
+      },
+      "message": {
+        "required": "Message required",
+        "too-long": "Message too long"
+      },
+      "treatment": {
+        "required": "Please select a treatment"
+      }
+    },
+    "selected": {
+      "signature": "You have selected the Signature Treatment",
+      "microneedling": "You have selected the Microneedling Treatment",
+      "aquafacial": "You have selected the Aquafacial Treatment",
+      "ultimate": "You have selected The Ultimate Ritual"
+    }
   }
 }

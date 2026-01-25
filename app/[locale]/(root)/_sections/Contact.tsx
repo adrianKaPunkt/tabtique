@@ -9,30 +9,88 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useTreatmentStore from '@/store/treatment-store';
 import TreatmentPicker from '@/components/TreatmentPicker';
+import {
+  ContactFormValues,
+  ContactSchema,
+  validateContactField,
+} from '@/lib/validation/contact';
+import Input from '@/components/Input';
+import TextArea from '@/components/TextArea';
 
 const Contact = () => {
   const t = useTranslations('contact');
+  const f = useTranslations('form');
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'error' | 'success'
   >('idle');
-  // const [error, setError] = useState<string | null>(null);
+  type FieldErrors = Partial<Record<keyof ContactFormValues, string>>;
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const treatment = useTreatmentStore((state) => state.treatment);
-  const treatmentObj = [
-    { key: 'signature', message: t('selectedSignature') },
-    {
-      key: 'microneedling',
-      message: t('selectedMicroneedling'),
-    },
-    {
-      key: 'aquafacial',
-      message: t('selectedAquafacial'),
-    },
-    { key: 'ultimate', message: t('selectedUltimate') },
-  ];
+  const clearTreatment = useTreatmentStore((s) => s.clearTreatment);
 
+  /**
+   * 'Clear treatment field error
+   */
+  const clearTreatmentError = () => {
+    setFieldErrors((prev) => {
+      if (!prev.treatment) return prev;
+      const { treatment, ...rest } = prev;
+      return rest;
+    });
+  };
+
+  /**
+   * 'Validate single field
+   * @param field
+   * @param raw
+   */
+  const validateField = (field: keyof ContactFormValues, raw: string) => {
+    const value = raw.trim();
+    const msg = validateContactField(field, value);
+
+    setFieldErrors((prev) => {
+      if (!msg) {
+        if (!prev[field]) return prev;
+        const { [field]: _reomoved, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [field]: msg };
+    });
+  };
+
+  /**
+   * 'Field blur event handler
+   * @param field
+   * @returns
+   */
+  const onBlurField =
+    (field: keyof ContactFormValues) =>
+    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      validateField(field, e.target.value);
+    };
+
+  /**
+   * 'Field change event handler
+   * @param field
+   * @returns
+   */
+  const onChangeField =
+    (field: keyof ContactFormValues) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      if (!fieldErrors[field]) return;
+      validateField(field, e.target.value);
+    };
+
+  /**
+   * 'Form submit handler -------------------------------------------
+   * @param e
+   * @returns
+   */
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus('loading');
+
+    setFieldErrors({});
 
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
@@ -44,12 +102,24 @@ const Contact = () => {
       email: String(form.get('email') || '').trim(),
       treatment: treatment,
     };
+    const result = ContactSchema.safeParse(payload);
+
+    if (!result.success) {
+      const errors: FieldErrors = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path[0] as keyof FieldErrors;
+        if (key && !errors[key]) errors[key] = issue.message; // erste Message pro Feld
+      }
+      setFieldErrors(errors);
+      setStatus('error');
+      return;
+    }
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(result.data),
       });
 
       const contentType = res.headers.get('content-type') || '';
@@ -66,6 +136,8 @@ const Contact = () => {
       toast.success(t('success'));
       setStatus('success');
       formEl.reset();
+      clearTreatment();
+      setFieldErrors({});
     } catch (err) {
       console.error(err);
       toast.error(t('error'));
@@ -79,40 +151,40 @@ const Contact = () => {
       <p className="p-5 leading-7 mt-7 font-light md:text-center">
         {t('description')}
       </p>
-      <div className="flex justify-between mt-7 mb-3 w-70 mx-auto">
-        <TreatmentPicker />
-      </div>
-      <p className="text-center text-sm font-light">
-        {treatmentObj.find((item) => item.key === treatment)?.message}
-      </p>
+
+      <TreatmentPicker
+        onSelect={clearTreatmentError}
+        error={fieldErrors.treatment}
+      />
+
       <div className="mb-15 mt-10 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="self-center">
           <form
             onSubmit={onSubmit}
             className="space-y-4 flex flex-col items-center gap-2 font-light text-sm">
-            <input
+            <Input
               name="name"
-              placeholder={t('name') + ' *'}
-              required
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
+              error={fieldErrors.name}
+              onBlur={onBlurField('name')}
+              onChange={onChangeField('name')}
             />
-            <input
+            <Input
               name="email"
-              placeholder={t('email') + ' *'}
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
+              error={fieldErrors.email}
+              onBlur={onBlurField('email')}
+              onChange={onChangeField('email')}
             />
-            <input
+            <Input
               name="phone"
-              placeholder={t('phone') + ' *'}
-              required
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
+              error={fieldErrors.phone}
+              onBlur={onBlurField('phone')}
+              onChange={onChangeField('phone')}
             />
-            <textarea
+            <TextArea
               name="message"
-              placeholder={t('message') + ' *'}
-              required
-              rows={6}
-              className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
+              error={fieldErrors.message}
+              onBlur={onBlurField('message')}
+              onChange={onChangeField('message')}
             />
             <Button
               text={status === 'loading' ? t('submit') + '...' : t('submit')}

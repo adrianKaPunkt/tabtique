@@ -59,21 +59,10 @@
   "contact": {
     "title": "TERMIN ANFRAGEN",
     "description": "Jede Behandlung bei TÂBTIQUE wird individuell abgestimmt.\nNutze dieses Formular zur Terminanfrage – ich melde mich persönlich.",
-    "name": "Name",
-    "email": "E-Mail",
-    "phone": "Telefon",
     "message": "Gewünschte Behandlung, Zeitraum und kurze Info zu deiner Haut.",
     "submit": "Termin anfragen",
-    "success": "Vielen Dank für deine Nachricht! Wir melden uns so schnell wie möglich bei dir.",
-    "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
-    "required": "Dieses Feld ist erforderlich.",
-    "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
-    "invalidPhone": "Bitte gib eine gültige Telefonnummer ein.",
-    "invalidMessage": "Die Nachricht muss mindestens 10 Zeichen lang sein.",
-    "selectedSignature": "Du hast das Signature Treatment ausgewählt",
-    "selectedMicroneedling": "Du hast das Microneedling ausgewählt",
-    "selectedAquafacial": "Du hast das Aquafacial ausgewählt",
-    "selectedUltimate": "Du hast The Ultimate Ritual ausgewählt"
+    "success": "Vielen Dank für deine Nachricht! Ich melde mich so schnell wie möglich bei dir.",
+    "error": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es später erneut."
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
@@ -88,5 +77,44 @@
     "description": "TÂBTIQUE bietet kosmetische und ästhetische Hautbehandlungen im nicht-medizinischen Bereich an. Es werden keine ärztlichen, heilkundlichen oder therapeutischen Leistungen erbracht.",
     "privacy": "Datenschutzerklärung",
     "privacyText": "TÂBTIQUE verarbeitet personenbezogene Daten ausschließlich im Einklang mit der Datenschutz-Grundverordnung (DSGVO). Personenbezogene Daten werden nur erhoben, soweit dies für den Betrieb der Website oder zur Bearbeitung von Anfragen erforderlich ist. Eine Weitergabe an Dritte erfolgt nicht, sofern keine gesetzliche Verpflichtung besteht. Sie haben jederzeit das Recht auf Auskunft, Berichtigung oder Löschung Ihrer Daten."
+  },
+  "form": {
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "message": "Nachricht"
+    },
+    "error": {
+      "name": {
+        "required": "Name erforderlich",
+        "too-long": "Name zu lang"
+      },
+      "email": {
+        "required": "E-Mail erforderlich",
+        "too-long": "E-Mail zu lang",
+        "invalid": "Ungültige E-Mail-Adresse"
+      },
+      "phone": {
+        "required": "Telefonnummer erforderlich",
+        "too-long": "Telefonnummer zu lang",
+        "invalid": "Ungültige Telefonnummer"
+      },
+      "message": {
+        "required": "Nachricht erforderlich",
+        "too-long": "Nachricht zu lang"
+      },
+      "treatment": {
+        "required": "Bitte wähle eine Behandlung aus"
+      }
+    },
+    "selected": {
+      "treatment": {
+        "signature": "Du hast das Signature Treatment ausgewählt",
+        "microneedling": "Du hast das Microneedling Treatment ausgewählt",
+        "aquafacial": "Du hast das Aquafacial Treatment ausgewählt",
+        "ultimate": "Du hast The Ultimate Ritual ausgewählt"
+      }
+    }
   }
 }

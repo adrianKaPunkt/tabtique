@@ -39,14 +39,12 @@ export function TreatmentModal({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="p-2 text-light mt-4 space-y-4 text-sm leading-relaxed whitespace-pre-line whitespace-pre-wrap">
+        <div className="p-2 text-light mt-4 space-y-4 text-sm leading-relaxed whitespace-pre-wrap">
           {text}
           <h3 className="text-xl mt-6">{t('description')}</h3>
-          <p className="whitespace-pre-line whitespace-pre-wrap">
-            {description}
-          </p>
+          <p className="whitespace-pre-wrap">{description}</p>
           <h3 className="text-xl mt-6">{t('suitable')}</h3>
-          <p className="whitespace-pre-line whitespace-pre-wrap">{suitable}</p>
+          <p className="whitespace-pre-wrap">{suitable}</p>
         </div>
         <div className="mt-5 text-center">
           <Button

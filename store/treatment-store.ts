@@ -1,11 +1,15 @@
 import { create } from 'zustand';
 
-const useTreatmentStore = create<{
+type TreatmentState = {
   treatment: string | null;
   setTreatment: (treatment: string | null) => void;
-}>((set) => ({
+  clearTreatment: () => void;
+};
+
+const useTreatmentStore = create<TreatmentState>((set) => ({
   treatment: null,
   setTreatment: (treatment) => set({ treatment }),
+  clearTreatment: () => set({ treatment: null }),
 }));
 
 export default useTreatmentStore;

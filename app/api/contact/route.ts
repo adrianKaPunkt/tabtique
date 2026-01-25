@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { z } from 'zod';
+import {
+  ContactSchema,
+  type ContactFormValues,
+  TREATMENTS,
+} from '@/lib/validation/contact';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -12,29 +16,11 @@ interface EmailArgs {
   replyTo?: string;
 }
 
-// Input validation
-const ContactSchema = z.object({
-  name: z.string().min(2).max(30),
-  email: z
-    .string()
-    .trim()
-    .email('Ungültige E-Mail')
-    .max(50)
-    .optional()
-    .or(z.literal('')),
-  phone: z
-    .string()
-    .min(6, 'Telefonnummer zu kurz')
-    .max(20, 'Telefonnummer zu lang')
-    .regex(/^[0-9+()\/\s-]+$/, 'Ungültige Telefonnummer'),
-  message: z.string().min(10, 'Nachricht zu kurz.').max(1000),
-});
-
-// Limit
 const BUCKET = new Map<string, { count: number; resetAt: number }>();
 const LIMIT = 5;
 const WINDOW_MS = 10 * 60 * 1000;
 
+//' Limiting function
 function rateLimit(ip: string) {
   const now = Date.now();
   const entry = BUCKET.get(ip);
@@ -48,9 +34,13 @@ function rateLimit(ip: string) {
   entry.count += 1;
   return { ok: true };
 }
+//' ---
 
-// POST
-
+/**
+ * 'Contact form handler
+ * @param req Request
+ * @returns NextResponse
+ */
 export async function POST(req: Request) {
   try {
     const ip =
@@ -63,7 +53,7 @@ export async function POST(req: Request) {
       console.error('Zu viele Anfragen. Bitte später erneut versuchen.');
       return NextResponse.json(
         { error: 'Zu viele Anfragen. Bitte später erneut versuchen.' },
-        { status: 429 }
+        { status: 429 },
       );
     }
     const json = await req.json();
@@ -73,11 +63,11 @@ export async function POST(req: Request) {
       console.error('Ungültige Eingabe.');
       return NextResponse.json(
         { error: 'Ungültige Eingabe.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const { name, email, message, phone } = parsed.data;
+    const { name, email, message, phone, treatment } = parsed.data;
 
     const to = process.env.CONTACT_TO_EMAIL;
     const from = process.env.CONTACT_FROM_EMAIL;
@@ -86,17 +76,15 @@ export async function POST(req: Request) {
       console.error('Server-Konfiguration fehlt.');
       return NextResponse.json(
         { error: 'Server-Konfiguration fehlt.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     const emailArgs: EmailArgs = {
       from,
       to,
-      subject: `Kontaktanfrage von ${name} (${phone})`,
-      text: `Name: ${name}\nTelefon: ${phone}\nE-Mail: ${
-        email || '-'
-      }\n\nNachricht:\n${message}\n`,
+      subject: `Terminanfrage für ${TREATMENTS.find((t) => t.key === treatment)?.name || treatment}`,
+      text: `Behandlung: ${TREATMENTS.find((t) => t.key === treatment)?.name || treatment}\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\n\nNachricht:\n${message}\n`,
     };
 
     if (email && email.trim().length > 0) {
@@ -105,13 +93,12 @@ export async function POST(req: Request) {
 
     await resend.emails.send(emailArgs);
 
-    console.log('SUCCESSSS');
     return NextResponse.json({ ok: true }, { status: 200 });
   } catch {
     console.error('Senden fehlgeschlagen. Bitte erneut versuchen.');
     return NextResponse.json(
       { error: 'Senden fehlgeschlagen. Bitte erneut versuchen.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
