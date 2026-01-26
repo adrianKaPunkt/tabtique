@@ -35,11 +35,12 @@ export default function TimeSlots({
         onChange={(e) => onChange(e.currentTarget.value as TimeSlot | '')}
         className={cn(
           'w-full border bg-transparent px-4 py-3 rounded-xl border-neutral-300',
+          value === '' ? 'text-neutral-400' : 'text-neutral-900',
           disabled && 'opacity-60 cursor-not-allowed',
           className,
         )}>
         {/* "Placeholder" */}
-        <option value="" disabled className="text-neutral-300">
+        <option value="" disabled>
           {f('fields.time')}
         </option>
 

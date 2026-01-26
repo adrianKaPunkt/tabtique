@@ -80,8 +80,8 @@
   },
   "form": {
     "fields": {
-      "date": "Wunschdatum *",
-      "time": "Wunschzeit *",
+      "date": "Datum *",
+      "time": "Zeit *",
       "name": "Name *",
       "email": "E-Mail *",
       "phone": "Telefon *",
@@ -89,11 +89,11 @@
     },
     "error": {
       "date": {
-        "required": "Wunschdatum erforderlich",
+        "required": "Datum erforderlich",
         "invalid": "Ungültiges Datum"
       },
       "time": {
-        "required": "Wunschzeit erforderlich"
+        "required": "Zeit erforderlich"
       },
       "name": {
         "required": "Name erforderlich",

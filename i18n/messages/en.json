@@ -81,8 +81,8 @@
   },
   "form": {
     "fields": {
-      "date": "Desired Date *",
-      "time": "Desired Time *",
+      "date": "Date *",
+      "time": "Time *",
       "name": "Name",
       "email": "Email",
       "phone": "Phone",
