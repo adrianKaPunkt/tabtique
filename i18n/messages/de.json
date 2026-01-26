@@ -116,6 +116,10 @@
       },
       "treatment": {
         "required": "Bitte wähle eine Behandlung aus"
+      },
+      "treatmentVariant": {
+        "required": "Bitte wähle eine Behandlungsvariante aus",
+        "invalid": "Ungültige Behandlungsvariante für die gewählte Behandlung"
       }
     },
     "selected": {

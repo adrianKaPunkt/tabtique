@@ -10,10 +10,15 @@ import TreatmentVariantIcon from '@/public/TreatmentVariantIcon';
 
 type TreatmentPickerProps = {
   onSelect?: () => void;
-  error?: string;
+  errorTreatment?: string;
+  errorTreatmentVariant?: string;
 };
 
-const TreatmentPicker = ({ onSelect, error }: TreatmentPickerProps) => {
+const TreatmentPicker = ({
+  onSelect,
+  errorTreatment,
+  errorTreatmentVariant,
+}: TreatmentPickerProps) => {
   const t = useTranslations('form');
   const treatment = useTreatmentStore((state) => state.treatment);
   const treatmentVariant = useTreatmentStore((state) => state.treatmentVariant);
@@ -95,13 +100,12 @@ const TreatmentPicker = ({ onSelect, error }: TreatmentPickerProps) => {
         )}
       </div>
       <div className="mt-3">
-        {error ? (
-          <p
-            className="text-center text-xs font-light"
-            style={{ color: 'red' }}>
-            {t(error)}
+        {errorTreatment || errorTreatmentVariant ? (
+          <p className="text-center text-xs font-light text-red-500">
+            {errorTreatment ? t(errorTreatment) : t(errorTreatmentVariant!)}
           </p>
         ) : (
+          treatment &&
           treatmentVariant && (
             <p className="text-center text-sm font-light">
               {t(`selected.treatment.${treatment}`) || ''} +{' '}

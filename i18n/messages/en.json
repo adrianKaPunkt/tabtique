@@ -83,45 +83,53 @@
     "fields": {
       "date": "Date *",
       "time": "Time *",
-      "name": "Name",
-      "email": "Email",
-      "phone": "Phone",
-      "message": "Message"
+      "name": "Name *",
+      "email": "Email *",
+      "phone": "Phone *",
+      "message": "Message",
+      "treatment": "Select Treatment",
+      "treatmentVariant": "Select Variant"
     },
     "error": {
       "date": {
-        "required": "Date required",
-        "invalid": "Invalid date"
+        "required": "Date is required",
+        "invalid": "Invalid date",
+        "past": "Date cannot be in the past"
       },
       "time": {
-        "required": "Time required"
+        "required": "Time is required"
       },
       "name": {
-        "required": "Name required",
-        "too-long": "Name too long"
+        "required": "Name is required",
+        "min": "Name must be at least 2 characters",
+        "max": "Name must be at most 100 characters"
       },
       "email": {
-        "required": "Email required",
-        "invalid": "Invalid email address"
+        "required": "Email is required",
+        "invalid": "Invalid email address",
+        "max": "Email must be at most 100 characters"
       },
       "phone": {
-        "too-long": "Phone number too long",
-        "required": "Phone number required"
+        "max": "Phone number must be at most 20 characters"
       },
       "message": {
-        "required": "Message required",
-        "too-long": "Message too long"
+        "required": "Message is required",
+        "max": "Message must be at most 1000 characters"
       },
       "treatment": {
         "required": "Please select a treatment"
+      },
+      "treatmentVariant": {
+        "required": "Please select a treatment variant",
+        "invalid": "Invalid treatment variant for the selected treatment"
       }
     },
     "selected": {
       "treatment": {
-        "signature": "You have selected the Signature Treatment",
-        "microneedling": "You have selected the Microneedling Treatment",
-        "aquafacial": "You have selected the Aquafacial Treatment",
-        "ultimate": "You have selected The Ultimate Ritual"
+        "signature": "Signature Combination",
+        "microneedling": "Microneedling",
+        "aquafacial": "Aquafacial",
+        "ultimate": "The Ultimate Ritual"
       }
     }
   }

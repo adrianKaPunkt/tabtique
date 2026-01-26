@@ -76,3 +76,36 @@ export function getTodayISO(timeZone: string = 'Europe/Berlin'): string {
 
   return `${year}-${month}-${day}`;
 }
+
+/**
+ * 'Formats a date or date string to Berlin date and time format
+ * @param date
+ * @returns
+ */
+export function formatBerlinDateTime(date: string | Date) {
+  return new Intl.DateTimeFormat('de-DE', {
+    timeZone: 'Europe/Berlin',
+    dateStyle: 'short',
+    timeStyle: 'short',
+  }).format(new Date(date));
+}
+
+/**
+ * 'Converts a date or date string to Berlin time zone Date object
+ * @param date
+ * @returns
+ */
+export function toBerlinTime(date: Date | string) {
+  return new Date(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Europe/Berlin',
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    }).format(new Date(date)),
+  );
+}

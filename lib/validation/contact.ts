@@ -8,21 +8,30 @@ import {
 } from '@/lib/constants/treatments';
 import { TIME_SLOTS } from '@/lib/constants/timeSlots';
 
-// Zod enums aus deinen "as const" Arrays
-const TreatmentSchema = z.enum(TREATMENTS);
-const TreatmentVariantSchema = z.enum(TREATMENT_VARIANTS);
-const TimeSlotSchema = z.enum(TIME_SLOTS);
-
 export const ContactSchema = z
   .object({
-    name: z.string().min(2).max(200),
-    email: z.string().email().max(320),
-    phone: z.string().min(3).max(50).optional().or(z.literal('')),
-    date: z.string(), // falls du später willst: z.coerce.date() etc.
-    time: TimeSlotSchema,
+    date: z.string().min(1, 'error.date.required'),
+    time: z.enum(TIME_SLOTS, 'error.time.required'),
+    name: z.string().min(1, 'error.name.required').max(200),
+    email: z
+      .string()
+      .min(1, 'error.email.required')
+      .email('error.email.invalid')
+      .max(320),
+    phone: z
+      .string()
+      .min(1, 'error.phone.required')
+      .max(50, 'error.phone.too-long')
+      .refine(
+        (v) => !v || /^[0-9+\-()\/\s]{6,50}$/.test(v),
+        'error.phone.invalid',
+      ),
 
-    treatment: TreatmentSchema,
-    treatmentVariant: TreatmentVariantSchema.default('basic'),
+    treatment: z.enum(TREATMENTS, 'error.treatment.required'),
+    treatmentVariant: z.enum(
+      TREATMENT_VARIANTS,
+      'error.treatmentVariant.required',
+    ),
 
     message: z.string().max(5000).optional().or(z.literal('')),
   })
@@ -31,7 +40,7 @@ export const ContactSchema = z
       data.treatment as Treatment
     ] as readonly TreatmentVariant[];
 
-    if (!allowed.includes(data.treatmentVariant)) {
+    if (!allowed.includes(data.treatmentVariant as TreatmentVariant)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['treatmentVariant'],

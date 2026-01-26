@@ -36,14 +36,19 @@ const Contact = () => {
   /**
    * 'Clear treatment field error
    */
-  const clearTreatmentError = () => {
+  // const clearTreatmentError = () => {
+  //   setFieldErrors((prev) => {
+  //     if (!prev.treatment) return prev;
+  //     const { treatment, ...rest } = prev;
+  //     return rest;
+  //   });
+  // };
+  const clearTreatmentErrors = () => {
     setFieldErrors((prev) => {
-      if (!prev.treatment) return prev;
-      const { treatment, ...rest } = prev;
+      const { treatment, treatmentVariant, ...rest } = prev;
       return rest;
     });
   };
-
   /**
    * 'Validate single field
    * @param field
@@ -114,7 +119,13 @@ const Contact = () => {
     const result = ContactSchema.safeParse(payload);
 
     if (!result.success) {
-      toast.error(result.error.issues?.[0]?.message ?? 'Zod validation failed');
+      const errors: FieldErrors = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path[0] as keyof FieldErrors;
+        if (key && !errors[key]) errors[key] = issue.message; // erste Message pro Feld
+      }
+
+      setFieldErrors(errors);
       setStatus('error');
       return;
     }
@@ -145,7 +156,6 @@ const Contact = () => {
       setTime('');
       setFieldErrors({});
     } catch (err) {
-      console.error(err);
       toast.error(t('error'));
       setStatus('error');
     }
@@ -159,8 +169,9 @@ const Contact = () => {
       </p>
 
       <TreatmentPicker
-        onSelect={clearTreatmentError}
-        error={fieldErrors.treatment}
+        onSelect={clearTreatmentErrors}
+        errorTreatment={fieldErrors.treatment}
+        errorTreatmentVariant={fieldErrors.treatmentVariant}
       />
 
       <div className="mb-15 mt-10 grid grid-cols-1 md:grid-cols-2 gap-12">
