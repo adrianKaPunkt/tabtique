@@ -34,8 +34,7 @@ export default function TimeSlots({
         aria-describedby={error ? 'error' : undefined}
         onChange={(e) => onChange(e.currentTarget.value as TimeSlot | '')}
         className={cn(
-          'w-full border bg-transparent px-4 py-3 rounded-xl',
-          error ? 'border-red-500' : 'border-neutral-300',
+          'w-full border bg-transparent px-4 py-3 rounded-xl border-neutral-300',
           disabled && 'opacity-60 cursor-not-allowed',
           className,
         )}>

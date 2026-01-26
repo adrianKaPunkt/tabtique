@@ -41,8 +41,7 @@ export default function DateInput({
           aria-describedby={error ? `${name}-error` : undefined}
           className={cn(
             'w-full border bg-transparent px-4 py-3 rounded-xl',
-            !hasValue && 'text-transparent',
-            error ? 'border-red-500' : 'border-neutral-300',
+            !hasValue && 'text-transparent border-neutral-300',
             className,
           )}
           value={value}
