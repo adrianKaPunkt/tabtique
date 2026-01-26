@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { TIME_SLOTS, TREATMENTS } from '../types';
+import { getTodayISO, parseLocalDate } from '../date';
 
 const TimeSlotsEnum = z.enum(TIME_SLOTS);
 const TreatmentEnum = z.enum(TREATMENTS);
@@ -8,7 +9,12 @@ export const ContactSchema = z.object({
   date: z
     .string()
     .min(1, 'error.date.required')
-    .refine((val) => !isNaN(Date.parse(val)), 'error.date.invalid'),
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'error.date.invalid')
+    .refine((val) => parseLocalDate(val) !== null, 'error.date.invalid')
+    .refine((val) => {
+      const today = getTodayISO('Europe/Berlin');
+      return val >= today;
+    }, 'error.date.past'),
   time: z
     .preprocess(
       (v) => (typeof v === 'string' && v.length ? v : undefined),

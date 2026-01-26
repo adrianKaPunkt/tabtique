@@ -90,7 +90,8 @@
     "error": {
       "date": {
         "required": "Datum erforderlich",
-        "invalid": "Ungültiges Datum"
+        "invalid": "Ungültiges Datum",
+        "past": "Datum in der Vergangenheit"
       },
       "time": {
         "required": "Zeit erforderlich"

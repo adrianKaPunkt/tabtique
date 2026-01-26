@@ -21,6 +21,7 @@ import TimeSlots from '@/components/TimeSlots';
 
 const Contact = () => {
   const t = useTranslations('contact');
+  const todayISO = new Date().toISOString().slice(0, 10);
   const [date, setDate] = useState<string>('');
   const [time, setTime] = useState<string>('');
   const [status, setStatus] = useState<
@@ -174,6 +175,7 @@ const Contact = () => {
                 name="date"
                 error={fieldErrors.date}
                 value={date}
+                min={todayISO}
                 onChange={(e) => {
                   setDate(e.currentTarget.value);
 
