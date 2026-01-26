@@ -13,18 +13,12 @@ const TextArea = ({ name, error, ...rest }: TextAreaProps) => {
     <div className="w-full">
       <textarea
         name={name}
-        placeholder={t(`fields.${name}`) + ' *'}
+        placeholder={t(`fields.${name}`)}
         rows={4}
         className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
         {...rest}
       />
-      {error && (
-        <span
-          className="text-xs"
-          style={{ color: '#ff6666', paddingLeft: '16px' }}>
-          {t(error)}
-        </span>
-      )}
+      {error && <span className="text-xs pl-4 text-red-500">{t(error)}</span>}
     </div>
   );
 };

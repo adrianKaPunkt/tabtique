@@ -3,9 +3,9 @@ import { Resend } from 'resend';
 import {
   ContactSchema,
   type ContactFormValues,
-  TREATMENTS,
 } from '@/lib/validation/contact';
-import { getDateParts, parseLocalDate } from '@/lib/date';
+import { TREATMENTS_OBJ } from '@/lib/types';
+import { getDateParts } from '@/lib/date';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { date, name, email, message, phone, treatment } = parsed.data;
+    const { date, time, name, email, message, phone, treatment } = parsed.data;
 
     /**
      * Prepare date
@@ -94,8 +94,8 @@ export async function POST(req: Request) {
     const emailArgs: EmailArgs = {
       from,
       to,
-      subject: `Terminanfrge am ${day}.${month}.${year}`,
-      text: `Datum: ${weekday}, ${day}. ${monthName} ${year}\nBehandlung: ${TREATMENTS.find((t) => t.key === treatment)?.name || treatment}\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\n\nNachricht:\n${message}\n`,
+      subject: `Terminanfrge am ${day}.${month}.${year} um ${time} Uhr`,
+      text: `Datum: ${weekday}, ${day}. ${monthName} ${year} um ${time} Uhr\nBehandlung: ${TREATMENTS_OBJ.find((t) => t.key === treatment)?.name || treatment}\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\n\nNachricht:\n${message}\n`,
     };
 
     if (email && email.trim().length > 0) {

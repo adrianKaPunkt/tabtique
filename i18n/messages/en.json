@@ -81,6 +81,8 @@
   },
   "form": {
     "fields": {
+      "date": "Desired Date *",
+      "time": "Desired Time *",
       "name": "Name",
       "email": "Email",
       "phone": "Phone",
@@ -90,6 +92,9 @@
       "date": {
         "required": "Date required",
         "invalid": "Invalid date"
+      },
+      "time": {
+        "required": "Time required"
       },
       "name": {
         "required": "Name required",
@@ -112,10 +117,12 @@
       }
     },
     "selected": {
-      "signature": "You have selected the Signature Treatment",
-      "microneedling": "You have selected the Microneedling Treatment",
-      "aquafacial": "You have selected the Aquafacial Treatment",
-      "ultimate": "You have selected The Ultimate Ritual"
+      "treatment": {
+        "signature": "You have selected the Signature Treatment",
+        "microneedling": "You have selected the Microneedling Treatment",
+        "aquafacial": "You have selected the Aquafacial Treatment",
+        "ultimate": "You have selected The Ultimate Ritual"
+      }
     }
   }
 }

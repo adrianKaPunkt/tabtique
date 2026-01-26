@@ -1,29 +1,20 @@
 import { z } from 'zod';
+import { TIME_SLOTS, TREATMENTS } from '../types';
 
-// Keys als Tuple (TS-sicher für z.enum)
-export const TREATMENT_KEYS = [
-  'signature',
-  'microneedling',
-  'aquafacial',
-  'ultimate',
-] as const;
-
-export type TreatmentKey = (typeof TREATMENT_KEYS)[number];
-
-export const TREATMENTS = [
-  { key: 'signature', name: 'Signature Treatment' },
-  { key: 'microneedling', name: 'Microneedling' },
-  { key: 'aquafacial', name: 'Aquafacial' },
-  { key: 'ultimate', name: 'Ultimate Treatment' },
-] as const;
-
-const TreatmentEnum = z.enum(TREATMENT_KEYS);
+const TimeSlotsEnum = z.enum(TIME_SLOTS);
+const TreatmentEnum = z.enum(TREATMENTS);
 
 export const ContactSchema = z.object({
   date: z
     .string()
     .min(1, 'error.date.required')
     .refine((val) => !isNaN(Date.parse(val)), 'error.date.invalid'),
+  time: z
+    .preprocess(
+      (v) => (typeof v === 'string' && v.length ? v : undefined),
+      TimeSlotsEnum.optional(),
+    )
+    .refine((v) => v !== undefined, { message: 'error.time.required' }),
   name: z.string().min(1, 'error.name.required').max(30, 'error.name.too-long'),
   email: z
     .string()
