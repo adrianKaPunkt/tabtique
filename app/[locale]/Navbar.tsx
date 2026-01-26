@@ -48,7 +48,7 @@ const Navbar = () => {
         </div>
         {menuOpen && (
           <div className="absolute flex flex-col items-center bg-white top-0 left-0 w-screen h-screen">
-            <Logo className="fill-gray-700 w-7 mt-20" />
+            <Logo className="fill-gray-700 w-14 mt-20" />
             <TabiqueLogo className="fill-gray-700 w-50 mt-4 ml-5" />
             <div className="mt-20 flex flex-col space-y-8 text-gray-700 font-light text-lg text-center">
               <Link href="/" onClick={() => setMenuOpen(!menuOpen)}>

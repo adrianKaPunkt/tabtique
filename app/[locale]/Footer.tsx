@@ -11,7 +11,7 @@ const Footer = () => {
   const t = useTranslations('footer');
   return (
     <footer className="bg-black text-white flex flex-col items-center justify-between pt-15 pb-10">
-      <Logo className="w-10 mb-7" />
+      <Logo className="w-18 mb-7" />
       <TabiqueLogo className="fill-white w-80 mb-3" />
       <div className="flex flex-col items-center font-light">
         <Link

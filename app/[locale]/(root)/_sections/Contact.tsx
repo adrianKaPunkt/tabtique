@@ -87,8 +87,8 @@ const Contact = () => {
 
   /**
    * 'Form submit handler -------------------------------------------
-   * @param e
-   * @returns
+   * @param e {React.FormEvent<HTMLFormElement>}
+   * @returns {Promise<void>}
    */
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

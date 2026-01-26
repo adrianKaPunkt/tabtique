@@ -50,6 +50,12 @@ export const ContactSchema = z.object({
 
 export type ContactFormValues = z.infer<typeof ContactSchema>;
 
+/**
+ * 'Validate a single contact form field
+ * @param field
+ * @param value
+ * @returns
+ */
 export function validateContactField<K extends keyof ContactFormValues>(
   field: K,
   value: unknown,
