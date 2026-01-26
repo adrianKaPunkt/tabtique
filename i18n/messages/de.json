@@ -120,10 +120,10 @@
     },
     "selected": {
       "treatment": {
-        "signature": "Du hast das Signature Treatment ausgewählt",
-        "microneedling": "Du hast das Microneedling Treatment ausgewählt",
-        "aquafacial": "Du hast das Aquafacial Treatment ausgewählt",
-        "ultimate": "Du hast The Ultimate Ritual ausgewählt"
+        "signature": "Signature Treatment",
+        "microneedling": "Microneedling Treatment",
+        "aquafacial": "Aquafacial Treatment",
+        "ultimate": "Ultimate Ritual"
       }
     }
   }

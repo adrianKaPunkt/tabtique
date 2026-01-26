@@ -31,6 +31,7 @@ const Contact = () => {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const treatment = useTreatmentStore((state) => state.treatment);
   const clearTreatment = useTreatmentStore((s) => s.clearTreatment);
+  const treatmentVariant = useTreatmentStore((s) => s.treatmentVariant);
 
   /**
    * 'Clear treatment field error
@@ -93,6 +94,7 @@ const Contact = () => {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus('loading');
+    console.log('1) start');
 
     setFieldErrors({});
 
@@ -105,18 +107,14 @@ const Contact = () => {
       message: String(form.get('message') || '').trim(),
       email: String(form.get('email') || '').trim(),
       treatment: treatment,
+      treatmentVariant: treatmentVariant,
       date: date,
       time: time,
     };
     const result = ContactSchema.safeParse(payload);
 
     if (!result.success) {
-      const errors: FieldErrors = {};
-      for (const issue of result.error.issues) {
-        const key = issue.path[0] as keyof FieldErrors;
-        if (key && !errors[key]) errors[key] = issue.message; // erste Message pro Feld
-      }
-      setFieldErrors(errors);
+      toast.error(result.error.issues?.[0]?.message ?? 'Zod validation failed');
       setStatus('error');
       return;
     }

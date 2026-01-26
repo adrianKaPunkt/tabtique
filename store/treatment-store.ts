@@ -6,6 +6,7 @@ type TreatmentState = {
   setTreatment: (treatment: string | null) => void;
   setTreatmentVariant: (treatmentVariant: string | null) => void;
   clearTreatment: () => void;
+  clearTreatmentVariant: () => void;
 };
 
 const useTreatmentStore = create<TreatmentState>((set) => ({

@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { TIME_SLOTS, type TimeSlot } from '@/lib/types';
+import { TIME_SLOTS, type TimeSlot } from '@/lib/constants/timeSlots';
 
 type Props = {
   value: string;
@@ -10,7 +10,6 @@ type Props = {
   error?: string;
   className?: string;
   containerClassName?: string;
-  /** Optional: disables selection */
   disabled?: boolean;
 };
 
