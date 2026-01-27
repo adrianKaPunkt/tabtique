@@ -1,8 +1,7 @@
 import HeroSection from './_sections/HeroSection';
 import TreatmentSection from './_sections/TreatmentSection';
 import AboutSection from './_sections/AboutSection';
-import Contact from './_sections/Contact';
-import Footer from '@/components/Footer';
+import ContactSection from './_sections/ContactSection';
 
 export default function HomePage() {
   return (
@@ -11,7 +10,7 @@ export default function HomePage() {
       <HeroSection />
       <TreatmentSection />
       <AboutSection />
-      <Contact />
+      <ContactSection />
     </div>
   );
 }

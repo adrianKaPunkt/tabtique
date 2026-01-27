@@ -22,7 +22,7 @@ const HeroSection = () => {
       />
       <div className="flex relative flex-col justify-between items-center h-105">
         <div className="flex flex-col items-center">
-          <Logo className="fill-white w-20 mb-5" />
+          <Logo className="fill-white w-25 mb-5" />
           <TabiqueLogo className="fill-white w-75 lg:w-130" />
         </div>
         <div className="text-white w-75 lg:w-full text-xl font-light">

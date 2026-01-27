@@ -12,14 +12,16 @@ const TreatmentVariantIcon = ({
   handleVariantPick,
 }: TreatmentVariantIconProps) => {
   return (
-    <p
-      className={cn(
-        'cursor-pointer',
-        treatmentVariant === variant ? 'font-medium' : 'font-light',
-      )}
+    <div
+      className="rounded-full border border-gray-300 w-13 h-13 flex items-center justify-center cursor-pointer"
       onClick={() => handleVariantPick(variant)}>
-      {variant.toUpperCase()}
-    </p>
+      <p
+        className={cn(
+          treatmentVariant === variant ? 'font-medium' : 'font-light',
+        )}>
+        {variant.toUpperCase()}
+      </p>
+    </div>
   );
 };
 export default TreatmentVariantIcon;

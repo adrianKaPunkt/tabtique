@@ -6,15 +6,18 @@ import UltimateIcon from '@/public/UltimateIcon';
 import useTreatmentStore from '@/store/treatment-store';
 import { Treatment, VARIANTS_BY_TREATMENT } from '@/lib/constants/treatments';
 import { useTranslations } from 'next-intl';
-import TreatmentVariantIcon from '@/public/TreatmentVariantIcon';
+import TreatmentVariantIcon from '@/components/TreatmentVariantIcon';
+import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferings';
 
 type TreatmentPickerProps = {
+  offerings: TreatmentOfferingDTO[];
   onSelect?: () => void;
   errorTreatment?: string;
   errorTreatmentVariant?: string;
 };
 
 const TreatmentPicker = ({
+  offerings,
   onSelect,
   errorTreatment,
   errorTreatmentVariant,
@@ -40,6 +43,20 @@ const TreatmentPicker = ({
     setTreatmentVariant(variant);
     onSelect?.();
   };
+
+  const variantsForTreatment = (treatmentCode: string) => {
+    return offerings
+      .filter((offer) => offer.treatmentCode === treatmentCode)
+      .map((offer) => offer.variantCode);
+  };
+
+  const selectedOffering =
+    treatment && treatmentVariant
+      ? offerings.find(
+          (o) =>
+            o.treatmentCode === treatment && o.variantCode === treatmentVariant,
+        )
+      : undefined;
 
   return (
     <div>
@@ -87,7 +104,7 @@ const TreatmentPicker = ({
         {treatment && (
           <div id="treatment-variant-picker" className="w-full">
             <div className="flex gap-7 items-center justify-center">
-              {VARIANTS_BY_TREATMENT[treatment as Treatment].map((variant) => (
+              {variantsForTreatment(treatment).map((variant) => (
                 <TreatmentVariantIcon
                   key={variant}
                   variant={variant}
@@ -107,10 +124,18 @@ const TreatmentPicker = ({
         ) : (
           treatment &&
           treatmentVariant && (
-            <p className="text-center text-sm font-light">
-              {t(`selected.treatment.${treatment}`) || ''} +{' '}
-              {treatmentVariant.toUpperCase()}
-            </p>
+            <div className="mt-5">
+              <p className="text-center text-sm font-light">
+                {t(`selected.treatment.${treatment}`) || ''} +{' '}
+                {treatmentVariant.toUpperCase()}
+              </p>
+              {selectedOffering && (
+                <p className="text-center text-xs font-light mt-1">
+                  {selectedOffering.durationMin} min ·{' '}
+                  {(selectedOffering.priceCents / 100).toFixed(2)} €
+                </p>
+              )}
+            </div>
           )
         )}
       </div>

@@ -18,8 +18,13 @@ import Input from '@/components/Input';
 import TextArea from '@/components/TextArea';
 import DateInput from '@/components/DateInput';
 import TimeSlots from '@/components/TimeSlots';
+import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferings';
 
-const Contact = () => {
+type ContactProps = {
+  offerings: TreatmentOfferingDTO[];
+};
+
+const Contact = ({ offerings }: ContactProps) => {
   const t = useTranslations('contact');
   const todayISO = new Date().toISOString().slice(0, 10);
   const [date, setDate] = useState<string>('');
@@ -169,6 +174,7 @@ const Contact = () => {
       </p>
 
       <TreatmentPicker
+        offerings={offerings}
         onSelect={clearTreatmentErrors}
         errorTreatment={fieldErrors.treatment}
         errorTreatmentVariant={fieldErrors.treatmentVariant}

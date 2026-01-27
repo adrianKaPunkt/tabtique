@@ -51,7 +51,7 @@ export const VARIANTS_BY_TREATMENT: Record<
 > = {
   signature: ['exo', 'dna'],
   microneedling: ['exo', 'dna', 'pdx'],
-  aquafacial: ['exo', 'dna', 'pdx'],
+  aquafacial: ['dna'],
   ultimate: ['exo', 'dna', 'pdx'],
 } as const;
 
