@@ -13,11 +13,16 @@ const TreatmentVariantIcon = ({
 }: TreatmentVariantIconProps) => {
   return (
     <div
-      className="rounded-full border border-gray-300 w-13 h-13 flex items-center justify-center cursor-pointer"
+      className={cn(
+        treatmentVariant === variant ? 'border-gray-500' : 'border-gray-300',
+        'rounded-full border w-13 h-13 flex items-center justify-center cursor-pointer text-gray-300',
+      )}
       onClick={() => handleVariantPick(variant)}>
       <p
         className={cn(
-          treatmentVariant === variant ? 'font-medium' : 'font-light',
+          treatmentVariant === variant
+            ? 'font-normal text-gray-500'
+            : 'font-light',
         )}>
         {variant.toUpperCase()}
       </p>

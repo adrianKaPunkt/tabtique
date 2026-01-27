@@ -104,7 +104,8 @@ insert into treatment_variants (code, label, is_active)
 values
   ('exo', 'Cica Aqua EXO',          true),
   ('dna', 'Salmon DNA',             true),
-  ('pdx', 'PDX Exosomen Premium',   true)
+  ('pdx', 'PDX Exosomen Premium',   true),
+  ('dp', 'Derma Planning',            true),
 on conflict (code)
 do update set
   label = excluded.label,
@@ -127,8 +128,8 @@ seed as (
     ('microneedling','dna', 15500, 80),
     ('microneedling','pdx', 17000, 80),
 
-    -- Aquafacial Treatment (laut Preisliste: nur DNA)
-    ('aquafacial','dna', 17500, 90),
+    -- Aquafacial Treatment (laut Preisliste: nur DP)
+    ('aquafacial','dp', 17500, 90),
 
     -- The Ultimate Ritual
     ('ultimate','exo', 19500, 90),
