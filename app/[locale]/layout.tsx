@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from 'sonner';
 import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
@@ -42,23 +43,22 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }>) {
-  const {locale} = await params;
+  const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  const messages = (await import(`@/i18n/messages/${locale}.json`))
-    .default;
+  const messages = (await import(`@/i18n/messages/${locale}.json`)).default;
   return (
-    <html
-      lang={locale}
-      className={`${cinzel.variable} ${inter.variable} ${cormorant.variable} antialiased`}>
-      <body>
-        <NextIntlClientProvider
-          locale={locale}
-          messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-        <Toaster position="bottom-center" theme="light"></Toaster>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html
+        lang={locale}
+        className={`${cinzel.variable} ${inter.variable} ${cormorant.variable} antialiased`}>
+        <body>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+          <Toaster position="bottom-center" theme="light"></Toaster>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

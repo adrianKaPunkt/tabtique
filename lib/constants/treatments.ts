@@ -49,10 +49,10 @@ export const VARIANTS_BY_TREATMENT: Record<
   Treatment,
   readonly TreatmentVariant[]
 > = {
-  signature: ['exo', 'dna', 'pdx'],
-  microneedling: ['exo', 'pdx'],
-  aquafacial: ['dna', 'pdx'],
-  ultimate: ['exo'],
+  signature: ['exo', 'dna'],
+  microneedling: ['exo', 'dna', 'pdx'],
+  aquafacial: ['exo', 'dna', 'pdx'],
+  ultimate: ['exo', 'dna', 'pdx'],
 } as const;
 
 export type VariantsFor<T extends Treatment> =
