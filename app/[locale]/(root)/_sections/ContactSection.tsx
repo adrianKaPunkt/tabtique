@@ -1,8 +1,9 @@
 import Contact from './Contact';
-import { getTreatmentOfferings } from '@/lib/server/getTreatmentOfferings';
+import { getTreatmentOfferingsWithAddons } from '@/lib/server/getTreatmentOfferingsWithAddons';
 
 const ContactSection = async () => {
-  const offerings = await getTreatmentOfferings();
+  const offerings = await getTreatmentOfferingsWithAddons();
+  console.log('Offerings with addons:', offerings);
   return (
     <div>
       <Contact offerings={offerings} />

@@ -28,6 +28,7 @@ export const ContactSchema = z.object({
     .uuid('error.treatment.invalid'),
 
   message: z.string().max(5000).optional().or(z.literal('')),
+  selectedAddonCodes: z.array(z.string()).default([]),
 });
 
 export type ContactFormValues = z.infer<typeof ContactSchema>;

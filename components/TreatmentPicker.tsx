@@ -6,28 +6,56 @@ import UltimateIcon from '@/public/UltimateIcon';
 import TreatmentVariantIcon from '@/components/TreatmentVariantIcon';
 import useTreatmentStore from '@/store/treatment-store';
 import { useTranslations } from 'next-intl';
-import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferings';
 
 type Treatment = 'signature' | 'microneedling' | 'aquafacial' | 'ultimate';
+
+export type OfferingAddonDTO = {
+  addonId: string;
+  addonCode: string;
+  addonLabel: string;
+
+  isIncluded: boolean;
+  isOptional: boolean;
+
+  priceDeltaCents: number;
+  durationDeltaMin: number;
+};
+
+export type TreatmentOfferingDTO = {
+  offeringId: string;
+
+  treatmentCode: string;
+  treatmentLabel: string;
+
+  variantCode: string;
+  variantLabel: string;
+
+  priceCents: number;
+  durationMin: number;
+
+  addons: OfferingAddonDTO[];
+};
 
 type TreatmentPickerProps = {
   offerings: TreatmentOfferingDTO[];
   onSelect?: () => void;
   errorTreatment?: string;
-  errorTreatmentVariant?: string;
 };
 
 const TreatmentPicker = ({
   offerings,
   onSelect,
   errorTreatment,
-  errorTreatmentVariant,
 }: TreatmentPickerProps) => {
   const t = useTranslations('form');
 
   const treatment = useTreatmentStore((s) => s.treatment);
   const treatmentVariant = useTreatmentStore((s) => s.treatmentVariant);
   const treatmentOfferingId = useTreatmentStore((s) => s.treatmentOfferingId);
+
+  const selectedAddonCodes = useTreatmentStore((s) => s.selectedAddonCodes);
+  const toggleAddonCode = useTreatmentStore((s) => s.toggleAddonCode);
+  const clearAddonCodes = useTreatmentStore((s) => s.clearAddonCodes);
 
   const setTreatment = useTreatmentStore((s) => s.setTreatment);
   const setTreatmentVariant = useTreatmentStore((s) => s.setTreatmentVariant);
@@ -42,7 +70,6 @@ const TreatmentPicker = ({
     (s) => s.clearTreatmentOfferingId,
   );
 
-  // Offerings for currently selected treatment
   const offeringsForTreatment = treatment
     ? offerings.filter((o) => o.treatmentCode === treatment)
     : [];
@@ -57,12 +84,15 @@ const TreatmentPicker = ({
         )
       : undefined;
 
+  const formatEUR = (cents: number) =>
+    (cents / 100).toFixed(2).replace('.', ',') + ' €';
+
   const handlePick = (key: Treatment) => {
     setTreatment(key);
 
-    // reset dependent selections
     clearTreatmentVariant();
     clearTreatmentOfferingId();
+    clearAddonCodes();
 
     onSelect?.();
   };
@@ -70,18 +100,51 @@ const TreatmentPicker = ({
   const handleVariantPick = (variant: string) => {
     setTreatmentVariant(variant);
 
-    // find offering id for (treatment + variant)
     const off = offerings.find(
       (o) => o.treatmentCode === treatment && o.variantCode === variant,
     );
 
     setTreatmentOfferingId(off?.offeringId ?? null);
+    clearAddonCodes();
 
     onSelect?.();
   };
 
-  const formatEUR = (cents: number) =>
-    (cents / 100).toFixed(2).replace('.', ',') + ' €';
+  // ---- Addons + totals (derived) ----
+  const availableAddons = selectedOffering?.addons ?? [];
+  const includedAddons = availableAddons.filter((a) => a.isIncluded);
+  const optionalAddons = availableAddons.filter(
+    (a) => a.isOptional && !a.isIncluded,
+  );
+
+  const includedDeltaCents = includedAddons.reduce(
+    (sum, a) => sum + a.priceDeltaCents,
+    0,
+  );
+  const includedDeltaMin = includedAddons.reduce(
+    (sum, a) => sum + a.durationDeltaMin,
+    0,
+  );
+
+  const selectedOptionalAddons = optionalAddons.filter((a) =>
+    selectedAddonCodes.includes(a.addonCode),
+  );
+
+  const optionalDeltaCents = selectedOptionalAddons.reduce(
+    (sum, a) => sum + a.priceDeltaCents,
+    0,
+  );
+  const optionalDeltaMin = selectedOptionalAddons.reduce(
+    (sum, a) => sum + a.durationDeltaMin,
+    0,
+  );
+
+  const totalPriceCents =
+    (selectedOffering?.priceCents ?? 0) +
+    includedDeltaCents +
+    optionalDeltaCents;
+  const totalDurationMin =
+    (selectedOffering?.durationMin ?? 0) + includedDeltaMin + optionalDeltaMin;
 
   return (
     <div>
@@ -136,9 +199,9 @@ const TreatmentPicker = ({
       </div>
 
       <div className="mt-3">
-        {errorTreatment || errorTreatmentVariant ? (
+        {errorTreatment ? (
           <p className="text-center text-xs font-light text-red-500">
-            {errorTreatment ? t(errorTreatment) : t(errorTreatmentVariant!)}
+            {t(errorTreatment)}
           </p>
         ) : selectedOffering ? (
           <div className="text-center font-light">
@@ -146,22 +209,57 @@ const TreatmentPicker = ({
               {selectedOffering.treatmentLabel} +{' '}
               {selectedOffering.variantLabel}
             </p>
-            <p className="text-xs mt-1">
-              {selectedOffering.durationMin} min ·{' '}
-              {formatEUR(selectedOffering.priceCents)}
+
+            {/* Add-ons */}
+            {availableAddons.length > 0 && (
+              <div className="mt-3 flex flex-col gap-2 items-center">
+                {/* Included */}
+                {includedAddons.map((a) => (
+                  <p key={a.addonCode} className="text-xs">
+                    {a.addonLabel}{' '}
+                    <span className="opacity-70">(inklusive)</span>
+                  </p>
+                ))}
+
+                {/* Optional */}
+                {optionalAddons.map((a) => (
+                  <label
+                    key={a.addonCode}
+                    className="text-xs flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedAddonCodes.includes(a.addonCode)}
+                      onChange={() => toggleAddonCode(a.addonCode)}
+                    />
+                    <span>
+                      {a.addonLabel}{' '}
+                      <span className="opacity-70">
+                        (+{formatEUR(a.priceDeltaCents)})
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {/* Totals */}
+            <p className="text-xs mt-3">
+              {totalDurationMin} min · {formatEUR(totalPriceCents)}
             </p>
 
-            {/* Optional: helps debugging / confidence */}
+            {/* Optional debug */}
             {/* <p className="text-[10px] mt-1 opacity-60">
               offeringId: {treatmentOfferingId}
             </p> */}
           </div>
-        ) : treatment && treatmentVariant ? (
-          // Fallback if something is inconsistent
-          <p className="text-center text-xs font-light text-red-500">
-            Diese Kombination ist nicht verfügbar.
-          </p>
-        ) : null}
+        ) : (
+          treatment &&
+          treatmentVariant && (
+            <p className="text-center text-xs font-light text-red-500">
+              Diese Kombination ist nicht verfügbar.
+            </p>
+          )
+        )}
       </div>
     </div>
   );

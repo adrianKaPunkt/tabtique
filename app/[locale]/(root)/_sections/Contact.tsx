@@ -21,7 +21,7 @@ import {
   validateContactField,
 } from '@/lib/validation/contact';
 
-import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferings';
+import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferingsWithAddons';
 import { TIME_SLOTS } from '@/lib/constants/timeSlots';
 
 type ContactProps = {
@@ -46,6 +46,7 @@ const Contact = ({ offerings }: ContactProps) => {
   const clearTreatmentOfferingId = useTreatmentStore(
     (s) => s.clearTreatmentOfferingId,
   );
+  const selectedAddonCodes = useTreatmentStore((s) => s.selectedAddonCodes);
 
   // 'Helpers
   const validateField = (field: keyof ContactFormValues, raw: string) => {
@@ -96,6 +97,7 @@ const Contact = ({ offerings }: ContactProps) => {
       date: date,
       time: time as (typeof TIME_SLOTS)[number],
       treatmentOfferingId: treatmentOfferingId ?? '',
+      selectedAddonCodes: selectedAddonCodes,
     };
 
     const result = ContactSchema.safeParse(payload);

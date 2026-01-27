@@ -7,9 +7,14 @@ import { ContactSchema } from '@/lib/validation/contact';
 import { getDateParts } from '@/lib/date';
 
 import { treatmentRequests } from '@/db/schema/treatment_requests';
+import { treatmentRequestAddons } from '@/db/schema/treatment_request_addons';
+
 import { treatmentOfferings } from '@/db/schema/treatment_offerings';
 import { treatmentTypes } from '@/db/schema/treatment_types';
 import { treatmentVariants } from '@/db/schema/treatment_variants';
+
+import { treatmentOfferingAddons } from '@/db/schema/treatment_offering_addons';
+import { treatmentAddons } from '@/db/schema/treatment_addons';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -67,18 +72,26 @@ export async function POST(req: Request) {
       );
     }
 
-    const { date, time, name, email, message, phone, treatmentOfferingId } =
-      parsed.data;
+    const {
+      date,
+      time,
+      name,
+      email,
+      message,
+      phone,
+      treatmentOfferingId,
+      selectedAddonCodes = [],
+    } = parsed.data;
 
-    // Build requestedAt (we keep it simple; later you can handle timezone explicitly)
+    // requested_at is NOT NULL in your SQL
     const requestedAt = new Date(`${date}T${time}:00`);
 
-    // 1) Load offering + labels + price/duration from DB (source of truth)
-    const rows = await db
+    // 1) Load offering (source of truth)
+    const offeringRows = await db
       .select({
         offeringId: treatmentOfferings.id,
-        priceCents: treatmentOfferings.priceCents,
-        durationMin: treatmentOfferings.durationMin,
+        basePriceCents: treatmentOfferings.priceCents,
+        baseDurationMin: treatmentOfferings.durationMin,
 
         treatmentLabel: treatmentTypes.label,
         variantLabel: treatmentVariants.label,
@@ -102,7 +115,7 @@ export async function POST(req: Request) {
       )
       .limit(1);
 
-    const offering = rows[0];
+    const offering = offeringRows[0];
     if (!offering) {
       return NextResponse.json(
         { error: 'Diese Behandlung ist nicht (mehr) verfügbar.' },
@@ -110,38 +123,105 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2) Insert request with snapshots
-    await db.insert(treatmentRequests).values({
-      // If your Drizzle schema has defaults (recommended), omit id/createdAt.
-      // If it requires them, add them back like you did before:
-      // id: crypto.randomUUID(),
-      // createdAt: new Date(),
+    // 2) Load addon rules for this offering
+    const addonRuleRows = await db
+      .select({
+        addonCode: treatmentAddons.code,
+        addonLabel: treatmentAddons.label,
+        addonIsActive: treatmentAddons.isActive,
 
-      name,
-      email,
-      phone,
-      requestedAt,
-      message: message?.trim() ? message.trim() : null,
-      status: 'new',
+        isIncluded: treatmentOfferingAddons.isIncluded,
+        isOptional: treatmentOfferingAddons.isOptional,
 
-      treatmentOfferingId: offering.offeringId,
-      priceSnapshotCents: offering.priceCents,
-      durationSnapshotMin: offering.durationMin,
+        priceDeltaCents: treatmentOfferingAddons.priceDeltaCents,
+        durationDeltaMin: treatmentOfferingAddons.durationDeltaMin,
+      })
+      .from(treatmentOfferingAddons)
+      .innerJoin(
+        treatmentAddons,
+        eq(treatmentAddons.id, treatmentOfferingAddons.treatmentAddonId),
+      )
+      .where(
+        eq(treatmentOfferingAddons.treatmentOfferingId, offering.offeringId),
+      );
 
-      // userId: null (later with Clerk)
-    });
+    // Filter inactive addons out
+    const activeRules = addonRuleRows.filter((r) => r.addonIsActive !== false);
 
-    // 3) Email
+    // 3) Decide which addons apply: included always, optional only if selected
+    const included = activeRules.filter((r) => r.isIncluded);
+    const optional = activeRules.filter((r) => r.isOptional && !r.isIncluded);
+
+    // only allow optional addons that exist on this offering
+    const selectedOptional = optional.filter((r) =>
+      selectedAddonCodes.includes(r.addonCode),
+    );
+
+    const appliedAddons = [...included, ...selectedOptional];
+
+    // 4) Compute totals
+    const addonsPriceDelta = appliedAddons.reduce(
+      (sum, a) => sum + (a.priceDeltaCents ?? 0),
+      0,
+    );
+    const addonsDurationDelta = appliedAddons.reduce(
+      (sum, a) => sum + (a.durationDeltaMin ?? 0),
+      0,
+    );
+
+    const totalPriceCents = offering.basePriceCents + addonsPriceDelta;
+    const totalDurationMin = offering.baseDurationMin + addonsDurationDelta;
+
+    // 5) Insert request (totals as snapshots)
+    const inserted = await db
+      .insert(treatmentRequests)
+      .values({
+        name,
+        email,
+        phone,
+        requestedAt,
+        message: message?.trim() ? message.trim() : null,
+        status: 'new',
+
+        treatmentOfferingId: offering.offeringId,
+        priceSnapshotCents: totalPriceCents,
+        durationSnapshotMin: totalDurationMin,
+
+        // userId: null (later)
+      })
+      .returning({ id: treatmentRequests.id });
+
+    const requestId = inserted[0]?.id;
+    if (!requestId) {
+      return NextResponse.json(
+        { error: 'Konnte Anfrage nicht speichern.' },
+        { status: 500 },
+      );
+    }
+
+    // 6) Insert addon snapshots (one row per applied addon)
+    if (appliedAddons.length > 0) {
+      await db.insert(treatmentRequestAddons).values(
+        appliedAddons.map((a) => ({
+          treatmentRequestId: requestId,
+          addonCodeSnapshot: a.addonCode,
+          addonLabelSnapshot: a.addonLabel,
+          isIncludedSnapshot: Boolean(a.isIncluded),
+          priceDeltaSnapshotCents: a.priceDeltaCents ?? 0,
+          durationDeltaSnapshotMin: a.durationDeltaMin ?? 0,
+        })),
+      );
+    }
+
+    // 7) Email
     const dateParts = getDateParts(date);
     if (!dateParts) {
       return NextResponse.json({ error: 'Ungültiges Datum.' }, { status: 400 });
     }
-
     const { year, month, day, weekday, monthName } = dateParts;
 
     const to = process.env.CONTACT_TO_EMAIL;
     const from = process.env.CONTACT_FROM_EMAIL;
-
     if (!to || !from) {
       return NextResponse.json(
         { error: 'Server-Konfiguration fehlt.' },
@@ -150,7 +230,22 @@ export async function POST(req: Request) {
     }
 
     const safeMessage = message?.trim() ? message.trim() : '(keine Nachricht)';
-    const priceText = formatEURFromCents(offering.priceCents);
+
+    const addonsText =
+      appliedAddons.length === 0
+        ? '(keine Add-ons)'
+        : appliedAddons
+            .map((a) => {
+              const price = a.priceDeltaCents
+                ? ` (+${formatEURFromCents(a.priceDeltaCents)})`
+                : '';
+              const dur = a.durationDeltaMin
+                ? ` (+${a.durationDeltaMin} min)`
+                : '';
+              const includedTag = a.isIncluded ? ' (inklusive)' : '';
+              return `- ${a.addonLabel}${includedTag}${price}${dur}`;
+            })
+            .join('\n');
 
     const emailArgs: EmailArgs = {
       from,
@@ -159,9 +254,10 @@ export async function POST(req: Request) {
       text:
         `Datum: ${weekday}, ${day}. ${monthName} ${year} um ${time} Uhr\n` +
         `Behandlung: ${offering.treatmentLabel}\n` +
-        `Variante: ${offering.variantLabel}\n` +
-        `Preis: ${priceText}\n` +
-        `Dauer: ${offering.durationMin} min\n\n` +
+        `Variante: ${offering.variantLabel}\n\n` +
+        `Add-ons:\n${addonsText}\n\n` +
+        `Gesamtpreis: ${formatEURFromCents(totalPriceCents)}\n` +
+        `Gesamtdauer: ${totalDurationMin} min\n\n` +
         `Name: ${name}\n` +
         `Telefon: ${phone}\n` +
         `E-Mail: ${email}\n\n` +
