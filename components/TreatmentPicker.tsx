@@ -3,11 +3,12 @@ import AquafacialIcon from '@/public/AquafacialIcon';
 import MicroneedlingIcon from '@/public/MicroneedlingIcon';
 import SignatureIcon from '@/public/SignatureIcon';
 import UltimateIcon from '@/public/UltimateIcon';
-import useTreatmentStore from '@/store/treatment-store';
-import { Treatment, VARIANTS_BY_TREATMENT } from '@/lib/constants/treatments';
-import { useTranslations } from 'next-intl';
 import TreatmentVariantIcon from '@/components/TreatmentVariantIcon';
+import useTreatmentStore from '@/store/treatment-store';
+import { useTranslations } from 'next-intl';
 import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferings';
+
+type Treatment = 'signature' | 'microneedling' | 'aquafacial' | 'ultimate';
 
 type TreatmentPickerProps = {
   offerings: TreatmentOfferingDTO[];
@@ -23,32 +24,30 @@ const TreatmentPicker = ({
   errorTreatmentVariant,
 }: TreatmentPickerProps) => {
   const t = useTranslations('form');
-  const treatment = useTreatmentStore((state) => state.treatment);
-  const treatmentVariant = useTreatmentStore((state) => state.treatmentVariant);
-  const setTreatment = useTreatmentStore((state) => state.setTreatment);
-  const setTreatmentVariant = useTreatmentStore(
-    (state) => state.setTreatmentVariant,
+
+  const treatment = useTreatmentStore((s) => s.treatment);
+  const treatmentVariant = useTreatmentStore((s) => s.treatmentVariant);
+  const treatmentOfferingId = useTreatmentStore((s) => s.treatmentOfferingId);
+
+  const setTreatment = useTreatmentStore((s) => s.setTreatment);
+  const setTreatmentVariant = useTreatmentStore((s) => s.setTreatmentVariant);
+  const setTreatmentOfferingId = useTreatmentStore(
+    (s) => s.setTreatmentOfferingId,
   );
+
   const clearTreatmentVariant = useTreatmentStore(
-    (state) => state.clearTreatmentVariant,
+    (s) => s.clearTreatmentVariant,
+  );
+  const clearTreatmentOfferingId = useTreatmentStore(
+    (s) => s.clearTreatmentOfferingId,
   );
 
-  const handlePick = (key: Treatment) => {
-    setTreatment(key);
-    clearTreatmentVariant();
-    onSelect?.();
-  };
+  // Offerings for currently selected treatment
+  const offeringsForTreatment = treatment
+    ? offerings.filter((o) => o.treatmentCode === treatment)
+    : [];
 
-  const handleVariantPick = (variant: string) => {
-    setTreatmentVariant(variant);
-    onSelect?.();
-  };
-
-  const variantsForTreatment = (treatmentCode: string) => {
-    return offerings
-      .filter((offer) => offer.treatmentCode === treatmentCode)
-      .map((offer) => offer.variantCode);
-  };
+  const variantsForTreatment = offeringsForTreatment.map((o) => o.variantCode);
 
   const selectedOffering =
     treatment && treatmentVariant
@@ -57,6 +56,32 @@ const TreatmentPicker = ({
             o.treatmentCode === treatment && o.variantCode === treatmentVariant,
         )
       : undefined;
+
+  const handlePick = (key: Treatment) => {
+    setTreatment(key);
+
+    // reset dependent selections
+    clearTreatmentVariant();
+    clearTreatmentOfferingId();
+
+    onSelect?.();
+  };
+
+  const handleVariantPick = (variant: string) => {
+    setTreatmentVariant(variant);
+
+    // find offering id for (treatment + variant)
+    const off = offerings.find(
+      (o) => o.treatmentCode === treatment && o.variantCode === variant,
+    );
+
+    setTreatmentOfferingId(off?.offeringId ?? null);
+
+    onSelect?.();
+  };
+
+  const formatEUR = (cents: number) =>
+    (cents / 100).toFixed(2).replace('.', ',') + ' €';
 
   return (
     <div>
@@ -69,42 +94,35 @@ const TreatmentPicker = ({
               'w-10 h-10 cursor-pointer transition-[fill] duration-700',
               treatment === 'signature' ? 'fill-gray-700' : 'fill-gray-300',
             )}
-            onClick={() => {
-              handlePick('signature');
-            }}
+            onClick={() => handlePick('signature')}
           />
           <MicroneedlingIcon
             className={cn(
               'w-10 h-10 cursor-pointer transition-[fill] duration-700',
               treatment === 'microneedling' ? 'fill-gray-700' : 'fill-gray-300',
             )}
-            onClick={() => {
-              handlePick('microneedling');
-            }}
+            onClick={() => handlePick('microneedling')}
           />
           <AquafacialIcon
             className={cn(
               'w-10 h-10 cursor-pointer transition-[fill] duration-700',
               treatment === 'aquafacial' ? 'fill-gray-700' : 'fill-gray-300',
             )}
-            onClick={() => {
-              handlePick('aquafacial');
-            }}
+            onClick={() => handlePick('aquafacial')}
           />
           <UltimateIcon
             className={cn(
               'w-10 h-10 cursor-pointer transition-[fill] duration-700',
               treatment === 'ultimate' ? 'fill-gray-700' : 'fill-gray-300',
             )}
-            onClick={() => {
-              handlePick('ultimate');
-            }}
+            onClick={() => handlePick('ultimate')}
           />
         </div>
+
         {treatment && (
           <div id="treatment-variant-picker" className="w-full">
             <div className="flex gap-7 items-center justify-center">
-              {variantsForTreatment(treatment).map((variant) => (
+              {variantsForTreatment.map((variant) => (
                 <TreatmentVariantIcon
                   key={variant}
                   variant={variant}
@@ -116,30 +134,37 @@ const TreatmentPicker = ({
           </div>
         )}
       </div>
+
       <div className="mt-3">
         {errorTreatment || errorTreatmentVariant ? (
           <p className="text-center text-xs font-light text-red-500">
             {errorTreatment ? t(errorTreatment) : t(errorTreatmentVariant!)}
           </p>
-        ) : (
-          treatment &&
-          treatmentVariant && (
-            <div className="mt-5">
-              <p className="text-center text-sm font-light">
-                {t(`selected.treatment.${treatment}`) || ''} +{' '}
-                {treatmentVariant.toUpperCase()}
-              </p>
-              {selectedOffering && (
-                <p className="text-center text-xs font-light mt-1">
-                  {selectedOffering.durationMin} min ·{' '}
-                  {(selectedOffering.priceCents / 100).toFixed(2)} €
-                </p>
-              )}
-            </div>
-          )
-        )}
+        ) : selectedOffering ? (
+          <div className="text-center font-light">
+            <p className="text-sm">
+              {selectedOffering.treatmentLabel} +{' '}
+              {selectedOffering.variantLabel}
+            </p>
+            <p className="text-xs mt-1">
+              {selectedOffering.durationMin} min ·{' '}
+              {formatEUR(selectedOffering.priceCents)}
+            </p>
+
+            {/* Optional: helps debugging / confidence */}
+            {/* <p className="text-[10px] mt-1 opacity-60">
+              offeringId: {treatmentOfferingId}
+            </p> */}
+          </div>
+        ) : treatment && treatmentVariant ? (
+          // Fallback if something is inconsistent
+          <p className="text-center text-xs font-light text-red-500">
+            Diese Kombination ist nicht verfügbar.
+          </p>
+        ) : null}
       </div>
     </div>
   );
 };
+
 export default TreatmentPicker;

@@ -3,22 +3,26 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import Headline from '@/components/Headline';
-import Button from '@/components/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-import useTreatmentStore from '@/store/treatment-store';
+
+import Headline from '@/components/Headline';
+import Button from '@/components/Button';
+import Input from '@/components/Input';
+import TextArea from '@/components/TextArea';
+import DateInput from '@/components/DateInput';
+import TimePicker from '@/components/TimePicker';
 import TreatmentPicker from '@/components/TreatmentPicker';
+
+import useTreatmentStore from '@/store/treatment-store';
 import {
   ContactFormValues,
   ContactSchema,
   validateContactField,
 } from '@/lib/validation/contact';
-import Input from '@/components/Input';
-import TextArea from '@/components/TextArea';
-import DateInput from '@/components/DateInput';
-import TimeSlots from '@/components/TimeSlots';
+
 import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferings';
+import { TIME_SLOTS } from '@/lib/constants/timeSlots';
 
 type ContactProps = {
   offerings: TreatmentOfferingDTO[];
@@ -26,39 +30,24 @@ type ContactProps = {
 
 const Contact = ({ offerings }: ContactProps) => {
   const t = useTranslations('contact');
+
   const todayISO = new Date().toISOString().slice(0, 10);
-  const [date, setDate] = useState<string>('');
-  const [time, setTime] = useState<string>('');
+
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'error' | 'success'
   >('idle');
+
   type FieldErrors = Partial<Record<keyof ContactFormValues, string>>;
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const treatment = useTreatmentStore((state) => state.treatment);
-  const clearTreatment = useTreatmentStore((s) => s.clearTreatment);
-  const treatmentVariant = useTreatmentStore((s) => s.treatmentVariant);
 
-  /**
-   * 'Clear treatment field error
-   */
-  // const clearTreatmentError = () => {
-  //   setFieldErrors((prev) => {
-  //     if (!prev.treatment) return prev;
-  //     const { treatment, ...rest } = prev;
-  //     return rest;
-  //   });
-  // };
-  const clearTreatmentErrors = () => {
-    setFieldErrors((prev) => {
-      const { treatment, treatmentVariant, ...rest } = prev;
-      return rest;
-    });
-  };
-  /**
-   * 'Validate single field
-   * @param field
-   * @param raw
-   */
+  const treatmentOfferingId = useTreatmentStore((s) => s.treatmentOfferingId);
+  const clearTreatmentOfferingId = useTreatmentStore(
+    (s) => s.clearTreatmentOfferingId,
+  );
+
+  // 'Helpers
   const validateField = (field: keyof ContactFormValues, raw: string) => {
     const value = raw.trim();
     const msg = validateContactField(field, value);
@@ -66,29 +55,19 @@ const Contact = ({ offerings }: ContactProps) => {
     setFieldErrors((prev) => {
       if (!msg) {
         if (!prev[field]) return prev;
-        const { [field]: _reomoved, ...rest } = prev;
+        const { [field]: _removed, ...rest } = prev;
         return rest;
       }
       return { ...prev, [field]: msg };
     });
   };
 
-  /**
-   * 'Field blur event handler
-   * @param field
-   * @returns
-   */
   const onBlurField =
     (field: keyof ContactFormValues) =>
     (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       validateField(field, e.target.value);
     };
 
-  /**
-   * 'Field change event handler
-   * @param field
-   * @returns
-   */
   const onChangeField =
     (field: keyof ContactFormValues) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -97,37 +76,35 @@ const Contact = ({ offerings }: ContactProps) => {
     };
 
   /**
-   * 'Form submit handler -------------------------------------------
-   * @param e {React.FormEvent<HTMLFormElement>}
-   * @returns {Promise<void>}
+   * 'Submit contact form
+   * @param e {FormEvent} - form event
+   * @returns
    */
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus('loading');
-    console.log('1) start');
-
     setFieldErrors({});
 
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
 
-    const payload = {
+    const payload: ContactFormValues = {
       name: String(form.get('name') || '').trim(),
       phone: String(form.get('phone') || '').trim(),
-      message: String(form.get('message') || '').trim(),
       email: String(form.get('email') || '').trim(),
-      treatment: treatment,
-      treatmentVariant: treatmentVariant,
+      message: String(form.get('message') || '').trim(),
       date: date,
-      time: time,
+      time: time as (typeof TIME_SLOTS)[number],
+      treatmentOfferingId: treatmentOfferingId ?? '',
     };
+
     const result = ContactSchema.safeParse(payload);
 
     if (!result.success) {
       const errors: FieldErrors = {};
       for (const issue of result.error.issues) {
         const key = issue.path[0] as keyof FieldErrors;
-        if (key && !errors[key]) errors[key] = issue.message; // erste Message pro Feld
+        if (key && !errors[key]) errors[key] = issue.message;
       }
 
       setFieldErrors(errors);
@@ -142,10 +119,7 @@ const Contact = ({ offerings }: ContactProps) => {
         body: JSON.stringify(result.data),
       });
 
-      const contentType = res.headers.get('content-type') || '';
-      const data = contentType.includes('application/json')
-        ? await res.json()
-        : null;
+      const data = await res.json().catch(() => null);
 
       if (!res.ok) {
         toast.error(data?.error || t('error'));
@@ -155,17 +129,19 @@ const Contact = ({ offerings }: ContactProps) => {
 
       toast.success(t('success'));
       setStatus('success');
+
       formEl.reset();
-      clearTreatment();
+      clearTreatmentOfferingId();
       setDate('');
       setTime('');
       setFieldErrors({});
-    } catch (err) {
+    } catch {
       toast.error(t('error'));
       setStatus('error');
     }
   }
 
+  // 'Render
   return (
     <section id="contact" className="w-[90%] xl:w-300 mx-auto scroll-mt-32">
       <Headline title={t('title')} />
@@ -175,9 +151,13 @@ const Contact = ({ offerings }: ContactProps) => {
 
       <TreatmentPicker
         offerings={offerings}
-        onSelect={clearTreatmentErrors}
-        errorTreatment={fieldErrors.treatment}
-        errorTreatmentVariant={fieldErrors.treatmentVariant}
+        onSelect={() =>
+          setFieldErrors((prev) => {
+            const { treatmentOfferingId, ...rest } = prev;
+            return rest;
+          })
+        }
+        errorTreatment={fieldErrors.treatmentOfferingId}
       />
 
       <div className="mb-15 mt-10 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -188,47 +168,20 @@ const Contact = ({ offerings }: ContactProps) => {
             <div className="w-full flex gap-6">
               <DateInput
                 name="date"
-                error={fieldErrors.date}
                 value={date}
                 min={todayISO}
-                onChange={(e) => {
-                  setDate(e.currentTarget.value);
-
-                  // optional: wenn schon ein Fehler da war, live entfernen
-                  if (fieldErrors.date) {
-                    setFieldErrors((prev) => {
-                      const { date: _removed, ...rest } = prev;
-                      return rest;
-                    });
-                  }
-                }}
-                onBlur={() => {
-                  // onBlur validieren (wie bei anderen Feldern)
-                  const result = ContactSchema.shape.date.safeParse(date);
-                  setFieldErrors((prev) => {
-                    if (result.success) {
-                      const { date: _removed, ...rest } = prev;
-                      return rest;
-                    }
-                    return { ...prev, date: result.error.issues[0]?.message };
-                  });
-                }}
+                error={fieldErrors.date}
+                onChange={(e) => setDate(e.currentTarget.value)}
+                onBlur={() => validateField('date', date)}
               />
-              <TimeSlots
+              <TimePicker
+                name="time"
                 value={time}
-                onChange={(v) => {
-                  setTime(v);
-                  // optional: Fehler sofort entfernen
-                  if (fieldErrors.time) {
-                    setFieldErrors((prev) => {
-                      const { time: _removed, ...rest } = prev;
-                      return rest;
-                    });
-                  }
-                }}
                 error={fieldErrors.time}
+                onChange={(v) => setTime(v)}
               />
             </div>
+
             <Input
               name="name"
               error={fieldErrors.name}
@@ -253,14 +206,16 @@ const Contact = ({ offerings }: ContactProps) => {
               onBlur={onBlurField('message')}
               onChange={onChangeField('message')}
             />
+
             <Button
-              text={status === 'loading' ? t('submit') + '...' : t('submit')}
+              text={status === 'loading' ? `${t('submit')}…` : t('submit')}
               width={300}
               type="submit"
               disabled={status === 'loading'}
             />
           </form>
         </div>
+
         <div>
           <Link
             href="https://www.google.com/maps/search/?api=1&query=Hochstraße+43,+60313+Frankfurt+am+Main"
@@ -279,4 +234,5 @@ const Contact = ({ offerings }: ContactProps) => {
     </section>
   );
 };
+
 export default Contact;

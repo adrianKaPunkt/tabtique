@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { ContactSchema } from '@/lib/validation/contact';
-import { TREATMENT_LABELS } from '@/lib/constants/treatments';
-import { getDateParts } from '@/lib/date';
+import { and, eq } from 'drizzle-orm';
+
 import { db } from '@/db';
-import { treatmentRequests } from '@/db/schema/treatmentRequests';
+import { ContactSchema } from '@/lib/validation/contact';
+import { getDateParts } from '@/lib/date';
+
+import { treatmentRequests } from '@/db/schema/treatment_requests';
+import { treatmentOfferings } from '@/db/schema/treatment_offerings';
+import { treatmentTypes } from '@/db/schema/treatment_types';
+import { treatmentVariants } from '@/db/schema/treatment_variants';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -34,8 +39,11 @@ function rateLimit(ip: string) {
   return { ok: true };
 }
 
+function formatEURFromCents(cents: number) {
+  return (cents / 100).toFixed(2).replace('.', ',') + ' €';
+}
+
 export async function POST(req: Request) {
-  console.log('CONTACT POST: start');
   try {
     const ip =
       req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
@@ -50,7 +58,6 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json();
-    console.log('CONTACT POST: parsed body');
     const parsed = ContactSchema.safeParse(json);
 
     if (!parsed.success) {
@@ -60,35 +67,76 @@ export async function POST(req: Request) {
       );
     }
 
-    const {
-      date,
-      time,
-      name,
-      email,
-      message,
-      phone,
-      treatment,
-      treatmentVariant,
-    } = parsed.data;
+    const { date, time, name, email, message, phone, treatmentOfferingId } =
+      parsed.data;
 
-    // DATABASE INSERT
-    const requestedAt = date && time ? new Date(`${date}T${time}:00`) : null;
+    // Build requestedAt (we keep it simple; later you can handle timezone explicitly)
+    const requestedAt = new Date(`${date}T${time}:00`);
 
+    // 1) Load offering + labels + price/duration from DB (source of truth)
+    const rows = await db
+      .select({
+        offeringId: treatmentOfferings.id,
+        priceCents: treatmentOfferings.priceCents,
+        durationMin: treatmentOfferings.durationMin,
+
+        treatmentLabel: treatmentTypes.label,
+        variantLabel: treatmentVariants.label,
+      })
+      .from(treatmentOfferings)
+      .innerJoin(
+        treatmentTypes,
+        eq(treatmentOfferings.treatmentTypeId, treatmentTypes.id),
+      )
+      .innerJoin(
+        treatmentVariants,
+        eq(treatmentOfferings.treatmentVariantId, treatmentVariants.id),
+      )
+      .where(
+        and(
+          eq(treatmentOfferings.id, treatmentOfferingId),
+          eq(treatmentOfferings.isActive, true),
+          eq(treatmentTypes.isActive, true),
+          eq(treatmentVariants.isActive, true),
+        ),
+      )
+      .limit(1);
+
+    const offering = rows[0];
+    if (!offering) {
+      return NextResponse.json(
+        { error: 'Diese Behandlung ist nicht (mehr) verfügbar.' },
+        { status: 400 },
+      );
+    }
+
+    // 2) Insert request with snapshots
     await db.insert(treatmentRequests).values({
+      // If your Drizzle schema has defaults (recommended), omit id/createdAt.
+      // If it requires them, add them back like you did before:
+      // id: crypto.randomUUID(),
+      // createdAt: new Date(),
+
       name,
       email,
-      treatment,
-      treatmentVariant, // falls du’s schon im Schema hast
+      phone,
       requestedAt,
       message: message?.trim() ? message.trim() : null,
       status: 'new',
-      // userId: null (später wenn Clerk da ist)
+
+      treatmentOfferingId: offering.offeringId,
+      priceSnapshotCents: offering.priceCents,
+      durationSnapshotMin: offering.durationMin,
+
+      // userId: null (later with Clerk)
     });
 
+    // 3) Email
     const dateParts = getDateParts(date);
     if (!dateParts) {
       return NextResponse.json({ error: 'Ungültiges Datum.' }, { status: 400 });
     }
+
     const { year, month, day, weekday, monthName } = dateParts;
 
     const to = process.env.CONTACT_TO_EMAIL;
@@ -101,10 +149,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const treatmentLabel = treatment
-      ? (TREATMENT_LABELS[treatment] ?? treatment)
-      : '(keine Behandlung ausgewählt)';
     const safeMessage = message?.trim() ? message.trim() : '(keine Nachricht)';
+    const priceText = formatEURFromCents(offering.priceCents);
 
     const emailArgs: EmailArgs = {
       from,
@@ -112,17 +158,18 @@ export async function POST(req: Request) {
       subject: `Terminanfrage am ${day}.${month}.${year} um ${time} Uhr`,
       text:
         `Datum: ${weekday}, ${day}. ${monthName} ${year} um ${time} Uhr\n` +
-        `Behandlung: ${treatmentLabel}\n` +
-        `Behandlungsvariante: ${treatmentVariant}\n` +
+        `Behandlung: ${offering.treatmentLabel}\n` +
+        `Variante: ${offering.variantLabel}\n` +
+        `Preis: ${priceText}\n` +
+        `Dauer: ${offering.durationMin} min\n\n` +
         `Name: ${name}\n` +
         `Telefon: ${phone}\n` +
-        `E-Mail: ${email}\n\n\n` +
+        `E-Mail: ${email}\n\n` +
         `Nachricht:\n${safeMessage}\n`,
       replyTo: email.trim(),
     };
-    console.log('CONTACT POST: before resend');
+
     await resend.emails.send(emailArgs);
-    console.log('CONTACT POST: after resend');
 
     return NextResponse.json({ ok: true }, { status: 200 });
   } catch (err) {

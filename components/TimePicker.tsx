@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { TIME_SLOTS, type TimeSlot } from '@/lib/constants/timeSlots';
 
 type Props = {
+  name?: string;
   value: string;
   onChange: (value: TimeSlot | '') => void;
   error?: string;
@@ -13,7 +14,8 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function TimeSlots({
+export default function TimePicker({
+  name,
   value,
   onChange,
   error,
@@ -26,7 +28,7 @@ export default function TimeSlots({
   return (
     <div className={cn('w-full', containerClassName)}>
       <select
-        name="time"
+        name={name}
         value={value}
         disabled={disabled}
         aria-invalid={!!error}
