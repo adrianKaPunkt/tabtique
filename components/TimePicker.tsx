@@ -22,6 +22,7 @@ export default function TimePicker({
   className,
   containerClassName,
   disabled,
+  ...rest
 }: Props) {
   const f = useTranslations('form');
 
@@ -39,7 +40,8 @@ export default function TimePicker({
           value === '' ? 'text-neutral-400' : 'text-neutral-900',
           disabled && 'opacity-60 cursor-not-allowed',
           className,
-        )}>
+        )}
+        {...rest}>
         {/* "Placeholder" */}
         <option value="" disabled>
           {f('fields.time')}

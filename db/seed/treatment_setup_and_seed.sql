@@ -5,14 +5,14 @@
 
 begin;
 
--- =========================
+-- ====================================
 -- 0) Extensions
--- =========================
+-- ====================================
 create extension if not exists "pgcrypto";
 
--- =========================
+-- ====================================
 -- 1) Drop (in dependency order)
--- =========================
+-- ====================================
 drop table if exists treatment_requests cascade;
 drop table if exists treatment_offering_addons cascade;
 drop table if exists treatment_addons cascade;
@@ -20,9 +20,9 @@ drop table if exists treatment_offerings cascade;
 drop table if exists treatment_variants cascade;
 drop table if exists treatment_types cascade;
 
--- =========================
+-- ====================================
 -- 2) Create tables
--- =========================
+-- ====================================
 
 -- 2.1 treatment_types
 create table treatment_types (
@@ -141,9 +141,9 @@ create table treatment_request_addons (
 create index idx_treatment_request_addons_request_id
   on treatment_request_addons(treatment_request_id);
 
--- =========================
+-- ==================================== 
 -- 3) Seed core data
--- =========================
+-- ====================================  
 
 -- 3.1 treatment_types
 insert into treatment_types (code, label, is_active)
@@ -199,9 +199,9 @@ insert into treatment_addons (code, label, is_active)
 values
   ('dermaplaning', 'Dermaplaning', true);
 
--- =========================
+-- ===================================
 -- 4) Seed addon rules per offering
--- =========================
+-- ===================================
 
 -- 4.1 Aquafacial: Dermaplaning included (0 delta, not optional)
 with
