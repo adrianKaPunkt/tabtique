@@ -1,9 +1,8 @@
 export const TREATMENT_STATUS = [
   'new',
   'confirmed',
-  'rescheduled',
-  'cancelled',
   'done',
+  'cancelled',
   'noshow',
 ] as const;
 

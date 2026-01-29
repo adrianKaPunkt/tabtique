@@ -1,6 +1,6 @@
 -- treatment_setup_and_seed.sql
 -- Clean setup (DROP + CREATE + SEED) for Supabase Postgres
--- Includes: types, variants, offerings, addons, offering_addons, requests
+-- Includes: status, types, variants, offerings, addons, offering_addons, requests
 -- NOTE: This script DROPS tables. Run only on a fresh / reset DB.
 
 begin;
@@ -13,6 +13,7 @@ create extension if not exists "pgcrypto";
 -- ====================================
 -- 1) Drop (in dependency order)
 -- ====================================
+drop table if exists treatment_request_addons cascade;
 drop table if exists treatment_requests cascade;
 drop table if exists treatment_offering_addons cascade;
 drop table if exists treatment_addons cascade;
@@ -20,9 +21,21 @@ drop table if exists treatment_offerings cascade;
 drop table if exists treatment_variants cascade;
 drop table if exists treatment_types cascade;
 
+-- NEW:
+drop table if exists treatment_status cascade;
+
 -- ====================================
 -- 2) Create tables
 -- ====================================
+
+-- NEW: 2.0 treatment_status (Point of Truth)
+create table treatment_status (
+  key text primary key,          -- e.g. 'new'
+  label_de text not null,
+  label_en text not null,
+  color text not null,            -- e.g. '#22c55e'
+  sort_order integer not null
+);
 
 -- 2.1 treatment_types
 create table treatment_types (
@@ -94,7 +107,11 @@ create table treatment_requests (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
 
-  status text not null default 'new',
+  -- CHANGED: now FK to treatment_status(key)
+  status text not null default 'new'
+    references treatment_status(key)
+    on update cascade
+    on delete restrict,
 
   name text not null,
   email text not null,
@@ -141,9 +158,24 @@ create table treatment_request_addons (
 create index idx_treatment_request_addons_request_id
   on treatment_request_addons(treatment_request_id);
 
--- ==================================== 
+-- ====================================
 -- 3) Seed core data
--- ====================================  
+-- ====================================
+
+-- NEW: 3.0 seed treatment_status
+-- (Du kannst hier später beliebig erweitern – wichtig ist, dass 'new' existiert.)
+insert into treatment_status (key, sort_order, label_de, label_en, color)
+values
+  ('new', 10, 'Neu', 'New', '#3b82f6'),
+  ('confirmed', 20, 'bestätigt', 'Confirmed', '#22c55e'),
+  ('done', 30, 'erledigt', 'Done', '#6b7280'),
+  ('canceled', 40, 'abgesagt', 'Canceled', '#ef4444'),
+  ('noshow', 50, 'nicht erschienen', 'No Show', '#f59e0b')
+on conflict (key) do update
+set
+  label_de = excluded.label_de,
+  label_en = excluded.label_en,
+  color = excluded.color;
 
 -- 3.1 treatment_types
 insert into treatment_types (code, label, is_active)
@@ -156,7 +188,7 @@ values
 -- 3.2 treatment_variants
 insert into treatment_variants (code, label, is_active)
 values
-  ('bas', 'Basic',                  true), 
+  ('bas', 'Basic',                  true),
   ('exo', 'Cica Aqua EXO',          true),
   ('dna', 'Salmon DNA',             true),
   ('pdx', 'PDX Exosomen Premium',   true);

@@ -14,6 +14,16 @@ import Button from './Button';
 import DateInput from './DateInput';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { TreatmentStatusDTO } from '@/lib/server/getTreatmentStatus';
+
+interface TreatmentRequestModalProps {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  event: CalEvent | null;
+  onSaved: () => void;
+  offerings: TreatmentOfferingDTO[];
+  statuses: TreatmentStatusDTO[];
+}
 
 const TreatmentRequestModal = ({
   open,
@@ -21,13 +31,8 @@ const TreatmentRequestModal = ({
   event,
   onSaved,
   offerings,
-}: {
-  open: boolean;
-  onOpenChange: (v: boolean) => void;
-  event: CalEvent | null;
-  onSaved: () => void;
-  offerings: TreatmentOfferingDTO[];
-}) => {
+  statuses,
+}: TreatmentRequestModalProps) => {
   const [status, setStatus] = useState<TreatmentStatus>('new');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,6 +72,38 @@ const TreatmentRequestModal = ({
     if (!treatmentOfferingId) return undefined;
     return offerings.find((o) => o.offeringId === treatmentOfferingId);
   }, [offerings, treatmentOfferingId]);
+
+  const computedTotals = useMemo(() => {
+    if (!selectedOffering) return null;
+
+    const selected = new Set(addonCodes);
+
+    const addonsTotal = selectedOffering.addons
+      .filter((a) => selected.has(a.addonCode))
+      .reduce(
+        (acc, a) => {
+          acc.priceCents += a.priceDeltaCents;
+          acc.durationMin += a.durationDeltaMin;
+          return acc;
+        },
+        { priceCents: 0, durationMin: 0 },
+      );
+
+    return {
+      priceCents: selectedOffering.priceCents + addonsTotal.priceCents,
+      durationMin: selectedOffering.durationMin + addonsTotal.durationMin,
+    };
+  }, [selectedOffering, addonCodes]);
+
+  useEffect(() => {
+    if (!computedTotals) return;
+
+    // Preis ins bestehende "de-DE"-Format wie bei dir (Komma)
+    setPriceEuros(
+      (computedTotals.priceCents / 100).toFixed(2).replace('.', ','),
+    );
+    setDurationMin(String(computedTotals.durationMin));
+  }, [computedTotals]);
 
   // Early return - Modal nicht anzeigen, wenn nicht open oder kein Event - Erst die Hooks dann der Guard
   if (!open || !event) return null;
@@ -231,15 +268,19 @@ const TreatmentRequestModal = ({
         />
 
         <div className="flex justify-center my-8 items-center gap-5">
-          {TREATMENT_STATUS.map((s) => (
+          {statuses.map((s) => (
             <div
-              key={s}
-              onClick={() => setStatus(s)}
+              key={s.key}
+              onClick={() => setStatus(s.key as TreatmentStatus)}
               className={cn(
-                `${statusClasses[s]}`,
-                'h-8 w-8 rounded-full cursor-pointer',
-                status === s ? 'ring-4 ring-offset-1 ring-offset-black' : '',
-              )}></div>
+                'h-8 w-8 rounded-full cursor-pointer transition hover:opacity-80',
+                status === s.key
+                  ? 'ring-4 ring-offset-1 ring-offset-black'
+                  : '',
+              )}
+              style={{ backgroundColor: s.color }}
+              title={s.labelDe} // optional
+            />
           ))}
         </div>
 

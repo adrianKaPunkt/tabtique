@@ -16,7 +16,8 @@ import type { CalendarRequestEvent, CalEvent } from '@/lib/constants/calendar';
 import { statusClasses } from '@/lib/constants/calendar';
 import { toRbcEvents } from '@/lib/calendar/toRbcEvents';
 import TreatmentRequestModal from '@/components/TreatmentRequestModal';
-import { TreatmentOfferingOption } from '@/lib/server/getTreatmentOfferings';
+import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferingsWithAddons';
+import type { TreatmentStatusDTO } from '@/lib/server/getTreatmentStatus';
 
 const localizer = dateFnsLocalizer({
   format,
@@ -26,13 +27,17 @@ const localizer = dateFnsLocalizer({
   locales: { de },
 });
 
+interface BigCalendarClientProps {
+  events: CalendarRequestEvent[];
+  offerings: TreatmentOfferingDTO[];
+  statuses: TreatmentStatusDTO[];
+}
+
 const BigCalendarClient = ({
   events,
   offerings,
-}: {
-  events: CalendarRequestEvent[];
-  offerings: TreatmentOfferingOption[];
-}) => {
+  statuses,
+}: BigCalendarClientProps) => {
   const router = useRouter();
 
   // falls toRbcEvents bei dir schon memoisiert ist, kannst du es so lassen
@@ -72,6 +77,7 @@ const BigCalendarClient = ({
         onOpenChange={setModalOpen}
         event={selected}
         offerings={offerings}
+        statuses={statuses}
         onSaved={() => {
           // Serverdaten neu holen, ohne lokalen State/Architektur zu bauen
           router.refresh();

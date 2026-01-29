@@ -8,7 +8,6 @@ export type CalEvent = Omit<CalendarRequestEvent, 'start' | 'end'> & {
 export const statusClasses: Record<TreatmentStatus, string> = {
   new: 'bg-blue-600 hover:bg-blue-500',
   confirmed: 'bg-green-600 hover:bg-green-500',
-  rescheduled: 'bg-yellow-600 hover:bg-yellow-500',
   cancelled: 'bg-red-600 hover:bg-red-500',
   done: 'bg-neutral-400',
   noshow: 'bg-orange-600 hover:bg-orange-500',
