@@ -14,12 +14,10 @@ const CalendarEvent = ({ event }: EventProps<CalEvent>) => {
         'group w-full h-full rounded-lg px-2 py-1 text-[11px] text-white shadow-sm transition-colors flex min-w-0 flex-col justify-center',
         color,
       )}
-      title={
-        event.location ? `${event.title} - ${event.location}` : event.title
-      }>
+      title={event.title}>
       <div className="w-full font-medium">{event.title}</div>
-      {event.location ? (
-        <div className="w-full text-[10px] font-normal">{event.location}</div>
+      {event.phone ? (
+        <div className="w-full text-[10px] font-normal">{event.phone}</div>
       ) : null}
     </div>
   );
