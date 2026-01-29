@@ -11,26 +11,20 @@ export type OfferingAddonDTO = {
   addonId: string;
   addonCode: string;
   addonLabel: string;
-
   isIncluded: boolean;
   isOptional: boolean;
-
   priceDeltaCents: number;
   durationDeltaMin: number;
 };
 
 export type TreatmentOfferingDTO = {
   offeringId: string;
-
   treatmentCode: string;
   treatmentLabel: string;
-
   variantCode: string;
   variantLabel: string;
-
   priceCents: number;
   durationMin: number;
-
   addons: OfferingAddonDTO[];
 };
 

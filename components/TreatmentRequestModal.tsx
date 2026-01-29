@@ -6,10 +6,10 @@ import {
   TREATMENT_STATUS,
   type TreatmentStatus,
 } from '@/lib/constants/treatments';
-import type { TreatmentOfferingDTO } from './AdminTreatmentPicker';
-import Input from './Input';
+import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferingsWithAddons';
+import Input from '@/components/admin/Input';
 import TextArea from './TextArea';
-import { AdminTreatmentPicker } from './AdminTreatmentPicker';
+import AdminTreatmentPicker from './AdminTreatmentPicker';
 import Button from './Button';
 import DateInput from './DateInput';
 import { cn } from '@/lib/utils';
@@ -70,7 +70,6 @@ const TreatmentRequestModal = ({
 
     const priceCents = Math.round(Number(priceEuros.replace(',', '.')) * 100);
     const dur = Number(durationMin);
-    
 
     if (!dateTime) {
       setError('Datum/Uhrzeit ist ungültig.');
@@ -150,7 +149,7 @@ const TreatmentRequestModal = ({
           <div>
             <div className="text-xl font-semibold">{title}</div>
             <div className="mt-1 text-xs text-neutral-500">
-              {`${event.start.toLocaleDateString('de-DE', { dateStyle: 'long' })} ${'\u00A0\u00A0--\u00A0\u00A0'} ${event.start.toLocaleTimeString('de-DE', { timeStyle: 'short' })} - ${event.end.toLocaleTimeString('de-DE', { timeStyle: 'short' })}`}
+              {`${event.start.toLocaleDateString('de-DE', { dateStyle: 'long' })} ${'\u00A0\u00A0-\u00A0\u00A0'} ${event.start.toLocaleTimeString('de-DE', { timeStyle: 'short' })} - ${event.end.toLocaleTimeString('de-DE', { timeStyle: 'short' })}`}
             </div>
           </div>
           <button
