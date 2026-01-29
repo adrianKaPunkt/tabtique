@@ -45,7 +45,7 @@ const CalendarToolbar = <TEvent extends Event>(
           <button
             key={String(v)}
             className={cn(
-              'rounded-md border px-3 py-1 text-sm',
+              'rounded-md border px-4 py-2 text-sm',
               v === view ? 'bg-black text-white' : '',
             )}
             onClick={() => onView(v as View)}

@@ -1,12 +1,12 @@
 import { mapToCalendarEvents } from '@/lib/calendar/mapToCalendarEvents';
 import BigCalendarClient from './_components/BigCalendarClient';
 import { getTreatmentRequests } from '@/lib/server/getTreatmentRequests';
-import { getTreatmentOfferings } from '@/lib/server/getTreatmentOfferings';
+import { getTreatmentOfferingsWithAddons } from '@/lib/server/getTreatmentOfferingsWithAddons';
 
 export default async function CalendarPage() {
   const rows = await getTreatmentRequests({ limit: 200 });
   const events = mapToCalendarEvents(rows);
-  const offerings = await getTreatmentOfferings();
+  const offerings = await getTreatmentOfferingsWithAddons();
 
   return (
     <main className="p-6">

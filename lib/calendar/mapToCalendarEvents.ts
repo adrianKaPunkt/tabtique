@@ -28,7 +28,6 @@ export function mapToCalendarEvents(
     const end = new Date(start.getTime() + r.durationSnapshotMin * 60_000);
 
     const status = isTreatmentStatus(r.status) ? r.status : 'new';
-    console.log('START:', start);
 
     return {
       id: r.id,

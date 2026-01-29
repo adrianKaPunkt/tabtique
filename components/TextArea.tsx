@@ -19,7 +19,7 @@ const TextArea = ({ name, label, error, ...rest }: TextAreaProps) => {
       )}
       <textarea
         name={name}
-        placeholder={t(`fields.${name}`)}
+        placeholder={name && t(`fields.${name}`)}
         rows={4}
         className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
         {...rest}

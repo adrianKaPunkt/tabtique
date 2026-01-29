@@ -34,11 +34,13 @@ const TreatmentRequestModal = ({
   const [priceEuros, setPriceEuros] = useState<string>('');
   const [durationMin, setDurationMin] = useState<string>('');
   const [treatmentOfferingId, setTreatmentOfferingId] = useState<string>('');
+  const [addonCodes, setAddonCodes] = useState<string[]>([]);
 
   useEffect(() => {
     if (!event) return;
     setStatus(event.status);
     setTreatmentOfferingId(event.treatmentOfferingId);
+    setAddonCodes(event.addons?.map((a) => a.addonCode) ?? []);
 
     // datetime-local Format (YYYY-MM-DDTHH:mm) für de-DE/Browser
     const d = event.start;
@@ -56,6 +58,11 @@ const TreatmentRequestModal = ({
     return event.title;
   }, [event]);
 
+  const selectedOffering = useMemo(() => {
+    if (!treatmentOfferingId) return undefined;
+    return offerings.find((o) => o.offeringId === treatmentOfferingId);
+  }, [offerings, treatmentOfferingId]);
+
   if (!open || !event) return null;
 
   async function save() {
@@ -63,15 +70,19 @@ const TreatmentRequestModal = ({
 
     const priceCents = Math.round(Number(priceEuros.replace(',', '.')) * 100);
     const dur = Number(durationMin);
+    
+
+    if (!dateTime) {
+      setError('Datum/Uhrzeit ist ungültig.');
+      return;
+    }
 
     if (!Number.isFinite(priceCents) || priceCents < 0) {
       setError('Preis ist ungültig.');
-      setSaving(false);
       return;
     }
     if (!Number.isFinite(dur) || dur < 1) {
       setError('Dauer ist ungültig.');
-      setSaving(false);
       return;
     }
     setSaving(true);
@@ -84,16 +95,18 @@ const TreatmentRequestModal = ({
 
         // Addons: komplett mitschicken (auch wenn du sie noch nicht editierst)
         addons:
-          event.addons?.map((a) => ({
-            addonCode: a.addonCode,
-            isIncluded: a.isIncluded,
-            priceDeltaCents: a.priceDeltaCents,
-            durationDeltaMin: a.durationDeltaMin,
-          })) ?? [],
+          selectedOffering?.addons
+            .filter((a) => addonCodes.includes(a.addonCode))
+            .map((a) => ({
+              addonCode: a.addonCode,
+              isIncluded: a.isIncluded,
+              priceDeltaCents: a.priceDeltaCents,
+              durationDeltaMin: a.durationDeltaMin,
+            })) ?? [],
 
         // Schema-Feldnamen (Form) -> kommen aus deinen Snapshots
-        priceCents: Math.round(Number(priceEuros.replace(',', '.')) * 100),
-        durationMin: Number(durationMin),
+        priceCents: priceCents,
+        durationMin: dur,
 
         status,
 
@@ -152,12 +165,16 @@ const TreatmentRequestModal = ({
           <div className="absolute -top-2 left-2 bg-white px-2 text-[10px] text-gray-400">
             Behandlungen
           </div>
+
           <AdminTreatmentPicker
+            key={event.id}
+            resetKey={event.id}
             offerings={offerings}
-            value={{ offeringId: treatmentOfferingId }}
-            onChange={({ offeringId }) =>
-              setTreatmentOfferingId(offeringId ?? '')
-            }
+            value={{ offeringId: treatmentOfferingId || null, addonCodes }}
+            onChange={({ offeringId, addonCodes }) => {
+              setTreatmentOfferingId(offeringId ?? '');
+              setAddonCodes(addonCodes ?? []);
+            }}
           />
         </div>
         <div className="mt-3 mb-3 grid grid-cols-2 gap-3 text-sm">

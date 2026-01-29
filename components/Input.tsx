@@ -19,7 +19,7 @@ const Input = ({ name, label, error, ...rest }: InputProps) => {
       )}
       <input
         name={name}
-        placeholder={t(`fields.${name}`)}
+        placeholder={name && t(`fields.${name}`)}
         className="w-full border border-neutral-300 bg-transparent px-4 py-3 rounded-xl"
         {...rest}
       />
