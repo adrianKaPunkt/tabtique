@@ -11,7 +11,6 @@ import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferingsWit
 type AdminTreatmentPickerValue = {
   offeringId: string | null;
   addonCodes?: string[];
-  resetKey?: string;
 };
 
 type Treatment = TreatmentOfferingDTO['treatmentCode'];
@@ -20,14 +19,12 @@ interface AdminTreatmentPickerProps {
   offerings: TreatmentOfferingDTO[]; // getTreatmentOfferingsWithAddons()
   value: AdminTreatmentPickerValue;
   onChange: (next: AdminTreatmentPickerValue) => void;
-  resetKey: string; // um UI-State zu resetten wenn ein anderer Termin editiert wird
 }
 
 const AdminTreatmentPicker = ({
   offerings,
   value,
   onChange,
-  resetKey,
 }: AdminTreatmentPickerProps) => {
   //
   // sucht nach dem Offering anhand der value.offeringId
@@ -37,20 +34,15 @@ const AdminTreatmentPicker = ({
   }, [offerings, value.offeringId]);
   //
 
-  const [uiOwner, setUiOwner] = useState<string | null>(null); // welcher resetKey "besitzt" den UI-State
   const [treatmentUi, setTreatmentUi] = useState<Treatment | null>(null);
   const [variantUi, setVariantUi] = useState<string | null>(null);
   const [addonCodesUi, setAddonCodesUi] = useState<string[]>([]);
 
-  const uiIsActive = uiOwner === resetKey;
-
+  const isDerived = value.offeringId != null;
   const selectedTreatment =
-    (uiIsActive ? treatmentUi : null) ??
-    offeringFromValue?.treatmentCode ??
-    null;
-
+    (isDerived ? offeringFromValue?.treatmentCode : treatmentUi) ?? null;
   const selectedVariant =
-    (uiIsActive ? variantUi : null) ?? offeringFromValue?.variantCode ?? null;
+    (isDerived ? offeringFromValue?.variantCode : variantUi) ?? null;
 
   const variantsForTreatment = useMemo(() => {
     if (!selectedTreatment) return [];
@@ -72,7 +64,6 @@ const AdminTreatmentPicker = ({
   }, [offerings, selectedTreatment, selectedVariant]);
 
   function pickTreatment(next: Treatment) {
-    setUiOwner(resetKey);
     setTreatmentUi(next);
     setVariantUi(null);
     setAddonCodesUi([]);
@@ -87,7 +78,7 @@ const AdminTreatmentPicker = ({
   }, [selectedOffering]);
 
   const selectedAddonCodes = useMemo(() => {
-    const base = uiIsActive ? addonCodesUi : (value.addonCodes ?? []);
+    const base = isDerived ? (value.addonCodes ?? []) : addonCodesUi;
 
     // immer included erzwingen
     const merged = new Set([...base, ...includedAddonCodes]);
@@ -102,7 +93,7 @@ const AdminTreatmentPicker = ({
 
     return Array.from(merged);
   }, [
-    uiIsActive,
+    isDerived,
     addonCodesUi,
     value.addonCodes,
     includedAddonCodes,
@@ -111,15 +102,12 @@ const AdminTreatmentPicker = ({
 
   function pickVariant(nextVariant: string) {
     if (!selectedTreatment) return;
-
-    setUiOwner(resetKey);
     setVariantUi(nextVariant);
 
     const off = offerings.find(
       (o) =>
         o.treatmentCode === selectedTreatment && o.variantCode === nextVariant,
     );
-
     const nextAddonCodes = off
       ? off.addons.filter((a) => a.isIncluded).map((a) => a.addonCode)
       : [];
@@ -133,9 +121,6 @@ const AdminTreatmentPicker = ({
 
   function toggleAddon(code: string) {
     if (!selectedOffering) return;
-
-    setUiOwner(resetKey);
-
     const isIncluded = selectedOffering.addons.some(
       (a) => a.addonCode === code && a.isIncluded,
     );

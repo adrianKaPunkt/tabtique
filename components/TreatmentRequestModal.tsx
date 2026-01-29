@@ -13,6 +13,7 @@ import AdminTreatmentPicker from './AdminTreatmentPicker';
 import Button from './Button';
 import DateInput from './DateInput';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 const TreatmentRequestModal = ({
   open,
@@ -31,38 +32,43 @@ const TreatmentRequestModal = ({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dateTime, setDateTime] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const [priceEuros, setPriceEuros] = useState<string>('');
   const [durationMin, setDurationMin] = useState<string>('');
   const [treatmentOfferingId, setTreatmentOfferingId] = useState<string>('');
   const [addonCodes, setAddonCodes] = useState<string[]>([]);
 
+  // Daten aus dem Event in die lokalen States übernehmen
   useEffect(() => {
     if (!event) return;
+    setName(event.name);
+    setEmail(event.email);
+    setPhone(event.phone);
+    setMessage(event.message ?? '');
     setStatus(event.status);
     setTreatmentOfferingId(event.treatmentOfferingId);
     setAddonCodes(event.addons?.map((a) => a.addonCode) ?? []);
-
-    // datetime-local Format (YYYY-MM-DDTHH:mm) für de-DE/Browser
-    const d = event.start;
-    const pad = (n: number) => String(n).padStart(2, '0');
-    const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-    setDateTime(local);
     setPriceEuros(
       (event.priceSnapshotCents / 100).toFixed(2).replace('.', ','),
     );
     setDurationMin(String(event.durationSnapshotMin));
+    // setDateTime - datetime-local Format (YYYY-MM-DDTHH:mm) für de-DE/Browser
+    const d = event.start;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    setDateTime(local);
   }, [event]);
-
-  const title = useMemo(() => {
-    if (!event) return '';
-    return event.title;
-  }, [event]);
+  //
 
   const selectedOffering = useMemo(() => {
     if (!treatmentOfferingId) return undefined;
     return offerings.find((o) => o.offeringId === treatmentOfferingId);
   }, [offerings, treatmentOfferingId]);
 
+  // Early return - Modal nicht anzeigen, wenn nicht open oder kein Event - Erst die Hooks dann der Guard
   if (!open || !event) return null;
 
   async function save() {
@@ -109,10 +115,10 @@ const TreatmentRequestModal = ({
 
         status,
 
-        name: event.name,
-        email: event.email,
-        phone: event.phone,
-        message: event.message ?? '',
+        name: name,
+        email: email,
+        phone: phone,
+        message: message,
 
         // optional: nur mitschicken, wenn du es im Event wirklich hast
         // userId: event.userId ?? undefined,
@@ -125,14 +131,18 @@ const TreatmentRequestModal = ({
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => null);
-        throw new Error(err ? JSON.stringify(err) : 'Update fehlgeschlagen');
-      }
+        const data = await res.json().catch(() => null);
 
+        const msg = data?.issues?.[0]?.message ?? 'Ungültige Eingabe';
+
+        toast.error(msg);
+        return;
+      }
       onOpenChange(false);
       onSaved();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unbekannter Fehler');
+      toast.error(e instanceof Error ? e.message : 'Unbekannter Fehler');
     } finally {
       setSaving(false);
     }
@@ -147,7 +157,7 @@ const TreatmentRequestModal = ({
         onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="text-xl font-semibold">{title}</div>
+            <div className="text-xl font-semibold">{event.title}</div>
             <div className="mt-1 text-xs text-neutral-500">
               {`${event.start.toLocaleDateString('de-DE', { dateStyle: 'long' })} ${'\u00A0\u00A0-\u00A0\u00A0'} ${event.start.toLocaleTimeString('de-DE', { timeStyle: 'short' })} - ${event.end.toLocaleTimeString('de-DE', { timeStyle: 'short' })}`}
             </div>
@@ -167,7 +177,6 @@ const TreatmentRequestModal = ({
 
           <AdminTreatmentPicker
             key={event.id}
-            resetKey={event.id}
             offerings={offerings}
             value={{ offeringId: treatmentOfferingId || null, addonCodes }}
             onChange={({ offeringId, addonCodes }) => {
@@ -178,9 +187,21 @@ const TreatmentRequestModal = ({
         </div>
         <div className="mt-3 mb-3 grid grid-cols-2 gap-3 text-sm">
           <div className="flex flex-col gap-3">
-            <Input value={event.name} label="Name" />
-            <Input value={event.email} label="E-Mail" />
-            <Input value={event.phone} label="Telefon" />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              label="Name"
+            />
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              label="E-Mail"
+            />
+            <Input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              label="Telefon"
+            />
           </div>
           <div className="flex flex-col gap-3">
             <DateInput
@@ -203,7 +224,11 @@ const TreatmentRequestModal = ({
             />
           </div>
         </div>
-        <TextArea value={event.message ?? ''} label="Notiz" />
+        <TextArea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          label="Notiz"
+        />
 
         <div className="flex justify-center my-8 items-center gap-5">
           {TREATMENT_STATUS.map((s) => (

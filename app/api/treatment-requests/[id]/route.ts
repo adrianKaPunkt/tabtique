@@ -18,13 +18,17 @@ export async function PATCH(
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
+  console.log('[PATCH] addons from body', json?.addons);
   // 2) Validieren
   const result = AdminTreatmentSchema.safeParse(json);
   if (!result.success) {
     return NextResponse.json(
       {
         error: 'Validation failed',
-        issues: result.error.flatten(), // fieldErrors + formErrors
+        issues: result.error.issues.map((issue) => ({
+          path: issue.path,
+          message: issue.message,
+        })),
       },
       { status: 400 },
     );

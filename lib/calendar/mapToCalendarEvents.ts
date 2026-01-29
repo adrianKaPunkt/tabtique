@@ -19,7 +19,15 @@ export function mapToCalendarEvents(
 
     treatmentOfferingId: string;
     treatmentType: string;
-    variant: string; // bei dir: Label der Variante
+    variant: string;
+
+    addons?: Array<{
+      addonCode: string;
+      addonLabel: string;
+      isIncluded: boolean;
+      priceDeltaCents: number;
+      durationDeltaMin: number;
+    }>;
   }>,
 ): CalendarRequestEvent[] {
   return rows.map((r) => {
@@ -49,6 +57,8 @@ export function mapToCalendarEvents(
 
       priceSnapshotCents: r.priceSnapshotCents,
       durationSnapshotMin: r.durationSnapshotMin,
+
+      addons: r.addons ?? [],
     };
   });
 }

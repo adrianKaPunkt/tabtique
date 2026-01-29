@@ -9,15 +9,14 @@ export const AdminTreatmentSchema = z.object({
   // 1️⃣ Termin
   dateTime: z
     .string()
-    .min(1, 'error.datetime.required')
+    .min(1, 'Datum und Uhrzeit sind erforderlich')
     .refine(
       (v) => !Number.isNaN(new Date(v).getTime()),
-      'error.datetime.invalid',
+      'Datum und Uhrzeit sind ungültig',
     ),
 
   // 2️⃣ Behandlung
-  treatmentOfferingId: z.string().uuid('error.treatment.invalid'),
-
+  treatmentOfferingId: z.string().uuid('Behandlung ist ungültig'),
   // 3️⃣ Addons (komplette Liste ersetzen)
   addons: z
     .array(
@@ -31,23 +30,30 @@ export const AdminTreatmentSchema = z.object({
     .default([]),
 
   // 4️⃣ Preis & Dauer
-  priceCents: z.number().int().min(0, 'error.price.invalid'),
+  priceCents: z.number().int().min(0, 'Preis ist ungültig'),
 
-  durationMin: z.number().int().min(1, 'error.duration.invalid'),
+  durationMin: z.number().int().min(1, 'Dauer ist ungültig'),
 
   // 5️⃣ Status
   status: z.enum(TREATMENT_STATUS),
 
   // 6️⃣ Kundendaten
-  name: z.string().min(1, 'error.name.required').max(200),
+  name: z.string().min(1, 'Name ist erforderlich').max(200),
 
-  email: z.string().email('error.email.invalid').max(320),
+  email: z
+    .string()
+    .min(1, 'E-Mail ist erforderlich')
+    .email('E-Mail ist ungültig')
+    .max(320),
 
   phone: z
     .string()
-    .min(1, 'error.phone.required')
+    .min(1, 'Telefonnummer ist erforderlich')
     .max(50)
-    .refine((v) => /^[0-9+\-()\/\s]{6,50}$/.test(v), 'error.phone.invalid'),
+    .refine(
+      (v) => /^[0-9+\-()\/\s]{6,50}$/.test(v),
+      'Telefonnummer ist ungültig',
+    ),
 
   message: z.string().max(5000).optional().or(z.literal('')),
 
