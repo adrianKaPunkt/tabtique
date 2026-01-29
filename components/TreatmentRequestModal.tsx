@@ -1,12 +1,18 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import type { CalEvent } from '@/lib/constants/calendar';
+import { statusClasses, type CalEvent } from '@/lib/constants/calendar';
 import {
   TREATMENT_STATUS,
   type TreatmentStatus,
 } from '@/lib/constants/treatments';
-import { TreatmentOfferingOption } from '@/lib/server/getTreatmentOfferings';
+import type { TreatmentOfferingDTO } from './AdminTreatmentPicker';
+import Input from './Input';
+import TextArea from './TextArea';
+import { AdminTreatmentPicker } from './AdminTreatmentPicker';
+import Button from './Button';
+import DateInput from './DateInput';
+import { cn } from '@/lib/utils';
 
 const TreatmentRequestModal = ({
   open,
@@ -19,14 +25,14 @@ const TreatmentRequestModal = ({
   onOpenChange: (v: boolean) => void;
   event: CalEvent | null;
   onSaved: () => void;
-  offerings: TreatmentOfferingOption[];
+  offerings: TreatmentOfferingDTO[];
 }) => {
   const [status, setStatus] = useState<TreatmentStatus>('new');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dateTime, setDateTime] = useState<string>('');
-  const [priceEuros, setPriceEuros] = useState<string>(''); // UI in €
-  const [durationMin, setDurationMin] = useState<string>(''); // UI in Minuten
+  const [priceEuros, setPriceEuros] = useState<string>('');
+  const [durationMin, setDurationMin] = useState<string>('');
   const [treatmentOfferingId, setTreatmentOfferingId] = useState<string>('');
 
   useEffect(() => {
@@ -125,14 +131,13 @@ const TreatmentRequestModal = ({
       className="fixed inset-0 z-50 grid place-items-center bg-black/40"
       onClick={() => onOpenChange(false)}>
       <div
-        className="w-[560px] rounded-xl bg-white p-4 shadow-xl"
+        className="w-full overflow-y-scroll md:overflow-y-hidden md:w-150 rounded-xl bg-white p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="text-lg font-semibold">{title}</div>
-            <div className="text-sm text-neutral-500">
-              {event.start.toLocaleString('de-DE')} –{' '}
-              {event.end.toLocaleTimeString('de-DE')}
+            <div className="text-xl font-semibold">{title}</div>
+            <div className="mt-1 text-xs text-neutral-500">
+              {`${event.start.toLocaleDateString('de-DE', { dateStyle: 'long' })} ${'\u00A0\u00A0--\u00A0\u00A0'} ${event.start.toLocaleTimeString('de-DE', { timeStyle: 'short' })} - ${event.end.toLocaleTimeString('de-DE', { timeStyle: 'short' })}`}
             </div>
           </div>
           <button
@@ -143,88 +148,58 @@ const TreatmentRequestModal = ({
         </div>
 
         <div className="my-3 h-px bg-neutral-200" />
-
-        <div className="grid gap-1 text-sm">
-          <div>
-            <span className="font-medium">Name:</span> {event.name}
+        <div className="relative mt-8 w-full flex justify-center items-center border border-neutral-200 p-4 rounded-xl">
+          <div className="absolute -top-2 left-2 bg-white px-2 text-[10px] text-gray-400">
+            Behandlungen
           </div>
-          <div>
-            <span className="font-medium">E-Mail:</span> {event.email}
-          </div>
-          <div>
-            <span className="font-medium">Telefon:</span> {event.phone}
-          </div>
-          {event.message ? (
-            <div className="mt-2 whitespace-pre-wrap rounded-md bg-neutral-50 p-2">
-              {event.message}
-            </div>
-          ) : null}
-        </div>
-
-        <div className="my-3 h-px bg-neutral-200" />
-        <div className="mt-3 flex items-center gap-3">
-          <div className="my-3 h-px bg-neutral-200" />
-
-          <div className="flex items-center gap-3">
-            <div className="w-20 text-sm font-medium">Treatment</div>
-            <select
-              className="w-full rounded-md border border-neutral-300 px-2 py-1"
-              value={treatmentOfferingId}
-              onChange={(e) => setTreatmentOfferingId(e.target.value)}>
-              {offerings.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="w-20 text-sm font-medium">Termin</div>
-          <input
-            type="datetime-local"
-            className="rounded-md border border-neutral-300 px-2 py-1"
-            value={dateTime}
-            onChange={(e) => setDateTime(e.target.value)}
+          <AdminTreatmentPicker
+            offerings={offerings}
+            value={{ offeringId: treatmentOfferingId }}
+            onChange={({ offeringId }) =>
+              setTreatmentOfferingId(offeringId ?? '')
+            }
           />
         </div>
-        <div className="mt-3 flex items-center gap-3">
-          <div className="w-20 text-sm font-medium">Preis</div>
-          <div className="flex items-center gap-2">
-            <input
-              inputMode="decimal"
-              className="w-32 rounded-md border border-neutral-300 px-2 py-1"
+        <div className="mt-3 mb-3 grid grid-cols-2 gap-3 text-sm">
+          <div className="flex flex-col gap-3">
+            <Input value={event.name} label="Name" />
+            <Input value={event.email} label="E-Mail" />
+            <Input value={event.phone} label="Telefon" />
+          </div>
+          <div className="flex flex-col gap-3">
+            <DateInput
+              label="Termin"
+              type="datetime-local"
+              value={dateTime}
+              onChange={(e) => setDateTime(e.target.value)}
+            />
+            <Input
               value={priceEuros}
               onChange={(e) => setPriceEuros(e.target.value)}
-              placeholder="z.B. 175,00"
+              inputMode="decimal"
+              label="Preis in €"
             />
-            <span className="text-sm text-neutral-500">€</span>
-          </div>
-        </div>
-
-        <div className="mt-3 flex items-center gap-3">
-          <div className="w-20 text-sm font-medium">Dauer</div>
-          <div className="flex items-center gap-2">
-            <input
-              inputMode="numeric"
-              className="w-24 rounded-md border border-neutral-300 px-2 py-1"
+            <Input
               value={durationMin}
               onChange={(e) => setDurationMin(e.target.value)}
-              placeholder="z.B. 80"
+              inputMode="numeric"
+              label="Dauer in Minuten"
             />
-            <span className="text-sm text-neutral-500">min</span>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="w-20 text-sm font-medium">Status</div>
-          <select
-            className="rounded-md border border-neutral-300 px-2 py-1"
-            value={status}
-            onChange={(e) => setStatus(e.target.value as TreatmentStatus)}>
-            {TREATMENT_STATUS.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
+        <TextArea value={event.message ?? ''} label="Notiz" />
+
+        <div className="flex justify-center my-8 items-center gap-5">
+          {TREATMENT_STATUS.map((s) => (
+            <div
+              key={s}
+              onClick={() => setStatus(s)}
+              className={cn(
+                `${statusClasses[s]}`,
+                'h-8 w-8 rounded-full cursor-pointer',
+                status === s ? 'ring-4 ring-offset-1 ring-offset-black' : '',
+              )}></div>
+          ))}
         </div>
 
         {error ? (
@@ -238,12 +213,12 @@ const TreatmentRequestModal = ({
             disabled={saving}>
             Abbrechen
           </button>
-          <button
-            className="rounded-md bg-black px-3 py-2 text-white hover:bg-black/90 disabled:opacity-50"
+          <Button
+            text="Speichern"
             onClick={save}
-            disabled={saving}>
-            Speichern
-          </button>
+            disabled={saving}
+            width={200}
+          />
         </div>
       </div>
     </div>

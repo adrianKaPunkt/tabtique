@@ -5,13 +5,15 @@ import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
-  name: string;
+  name?: string;
+  label?: string;
   error?: string;
   containerClassName?: string;
 };
 
 export default function DateInput({
   name,
+  label,
   error,
   className,
   containerClassName,
@@ -25,13 +27,17 @@ export default function DateInput({
   return (
     <div className="w-full">
       <div className={cn('relative w-full', containerClassName)}>
-        {!hasValue && (
+        {!hasValue && name ? (
           <span
             className={cn(
               'pointer-events-none absolute inset-y-0 left-4 flex items-center text-neutral-400 text-sm',
             )}>
             {t('fields.date')}
           </span>
+        ) : (
+          <div className="text-[10px] absolute -top-2 left-3 bg-white text-gray-400 px-1">
+            {label}
+          </div>
         )}
 
         <input

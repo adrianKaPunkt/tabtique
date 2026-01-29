@@ -3,14 +3,20 @@
 import { useTranslations } from 'next-intl';
 
 interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  name: string;
+  name?: string;
+  label?: string;
   error?: string;
 }
 
-const TextArea = ({ name, error, ...rest }: TextAreaProps) => {
+const TextArea = ({ name, label, error, ...rest }: TextAreaProps) => {
   const t = useTranslations('form');
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {label && (
+        <div className="text-[10px] absolute -top-2 left-3 bg-white text-gray-400 px-1">
+          {label}
+        </div>
+      )}
       <textarea
         name={name}
         placeholder={t(`fields.${name}`)}

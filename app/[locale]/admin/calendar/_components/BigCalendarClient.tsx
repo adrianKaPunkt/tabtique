@@ -72,7 +72,7 @@ const BigCalendarClient = ({
         onOpenChange={setModalOpen}
         event={selected}
         offerings={offerings}
-        onStatusUpdated={() => {
+        onSaved={() => {
           // Serverdaten neu holen, ohne lokalen State/Architektur zu bauen
           router.refresh();
         }}
