@@ -20,10 +20,10 @@ const HeroSection = () => {
         height={400}
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="flex relative flex-col justify-between items-center h-105">
+      <div className="flex relative flex-col justify-between items-center h-105 lg:h-150">
         <div className="flex flex-col items-center">
-          <Logo className="fill-white w-25 mb-5" />
-          <TabiqueLogo className="fill-white w-75 lg:w-130" />
+          <Logo className="fill-white w-30 md:w-45 mb-5" />
+          <TabiqueLogo className="w-75 lg:w-130 fill-white" />
         </div>
         <div className="text-white w-75 lg:w-full text-xl font-light">
           <p>{t('subtitle')}</p>

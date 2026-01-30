@@ -12,8 +12,11 @@ import CalendarEvent from './CalendarEvent';
 import CalendarEventMonth from './CalenderEventMonth';
 import CalendarToolbar from './CalendarToolbar';
 
-import type { CalendarRequestEvent, CalEvent } from '@/lib/constants/calendar';
-import { statusClasses } from '@/lib/constants/calendar';
+import {
+  statusClasses,
+  type CalendarRequestEvent,
+  type CalEvent,
+} from '@/lib/constants/calendar';
 import { toRbcEvents } from '@/lib/calendar/toRbcEvents';
 import TreatmentRequestModal from '@/components/TreatmentRequestModal';
 import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferingsWithAddons';

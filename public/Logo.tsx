@@ -1,9 +1,11 @@
 interface LogoProps {
   className?: string;
   style?: React.CSSProperties;
+  innerFill?: string;
+  outlineFill?: string;
 }
 
-const Logo = ({ className, style }: LogoProps) => {
+const Logo = ({ className, style, innerFill, outlineFill }: LogoProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,6 +20,7 @@ const Logo = ({ className, style }: LogoProps) => {
       <style type="text/css"></style>
       <g>
         <path
+          fill={innerFill}
           d="M127.3,54.6c0.3,2.3,1,4.7,1,7c0.1,42.9,0.1,85.7,0.1,128.6c0,21,0,41.9,0,62.9c0,0.4,0,0.8,0,1.5c0.5-0.5,0.8-0.8,1-1.1
 		c5.2-7.1,12.6-10.7,20.8-13.1c4.5-1.3,9-2.4,13.8-3.7c-0.7-0.3-1.1-0.5-1.6-0.7c-12.6-4.1-20.2-13-24.1-25.3
 		c-3.4-11-3.3-22.2-0.2-33.2c2.5-8.7,7.2-16.3,13.8-22.6c1.6-1.5,3.1-3,4.7-4.4c-1.8-0.6-3.6-1.2-5.5-1.9c0.3,4.2-0.1,8.5-5.5,9.8
@@ -116,6 +119,7 @@ const Logo = ({ className, style }: LogoProps) => {
 		c-2.8,2.7-4,5.5-3.5,7.5C92.2,94.3,91.4,90.8,92.9,88.5z"
         />
         <path
+          fill={outlineFill}
           d="M164.6,22.3c-11.3-0.3-20.5,3.3-28.5,11.4c1.1-10.8-3.6-19.1-9.4-27.1c-5.5,8.2-10.4,14.8-9.7,27.1
 		c-7.8-8.1-17.2-11.7-28.4-11.4c1.3,1.5,2.5,2.7,3.6,4.1c6.1,7.9,8.9,16.9,7.9,26.9c-0.5,5.4-3.2,9.9-7.6,12.8
 		c-4.4,2.9-9.2,5.3-14,7.5c-10.5,4.7-21,9.4-30.4,16c-21,14.8-35.1,34.3-39.2,60c-4.2,26.5,3.2,49.8,21.5,69.5

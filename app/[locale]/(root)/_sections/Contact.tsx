@@ -213,6 +213,7 @@ const Contact = ({ offerings }: ContactProps) => {
               text={status === 'loading' ? `${t('submit')}…` : t('submit')}
               width={300}
               type="submit"
+              variant="primary"
               disabled={status === 'loading'}
             />
           </form>

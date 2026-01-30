@@ -166,7 +166,7 @@ create index idx_treatment_request_addons_request_id
 -- (Du kannst hier später beliebig erweitern – wichtig ist, dass 'new' existiert.)
 insert into treatment_status (key, sort_order, label_de, label_en, color)
 values
-  ('new', 10, 'Neu', 'New', '#3b82f6'),
+  ('requested', 10, 'angefragt', 'Requested', '#3b82f6'),
   ('confirmed', 20, 'bestätigt', 'Confirmed', '#22c55e'),
   ('done', 30, 'erledigt', 'Done', '#6b7280'),
   ('canceled', 40, 'abgesagt', 'Canceled', '#ef4444'),

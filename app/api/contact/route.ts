@@ -181,7 +181,7 @@ export async function POST(req: Request) {
         phone,
         requestedAt,
         message: message?.trim() ? message.trim() : null,
-        status: 'new',
+        status: 'requested',
 
         treatmentOfferingId: offering.offeringId,
         priceSnapshotCents: totalPriceCents,

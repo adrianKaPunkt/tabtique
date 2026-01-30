@@ -1,18 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { statusClasses, type CalEvent } from '@/lib/constants/calendar';
-import {
-  TREATMENT_STATUS,
-  type TreatmentStatus,
-} from '@/lib/constants/treatments';
+import { type CalEvent } from '@/lib/constants/calendar';
+import { type TreatmentStatus } from '@/lib/constants/treatments';
 import type { TreatmentOfferingDTO } from '@/lib/server/getTreatmentOfferingsWithAddons';
 import Input from '@/components/admin/Input';
 import TextArea from './TextArea';
 import AdminTreatmentPicker from './AdminTreatmentPicker';
 import Button from './Button';
 import DateInput from './DateInput';
-import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { TreatmentStatusDTO } from '@/lib/server/getTreatmentStatus';
 
@@ -94,16 +90,6 @@ const TreatmentRequestModal = ({
       durationMin: selectedOffering.durationMin + addonsTotal.durationMin,
     };
   }, [selectedOffering, addonCodes]);
-
-  useEffect(() => {
-    if (!computedTotals) return;
-
-    // Preis ins bestehende "de-DE"-Format wie bei dir (Komma)
-    setPriceEuros(
-      (computedTotals.priceCents / 100).toFixed(2).replace('.', ','),
-    );
-    setDurationMin(String(computedTotals.durationMin));
-  }, [computedTotals]);
 
   // Early return - Modal nicht anzeigen, wenn nicht open oder kein Event - Erst die Hooks dann der Guard
   if (!open || !event) return null;
@@ -216,9 +202,34 @@ const TreatmentRequestModal = ({
             key={event.id}
             offerings={offerings}
             value={{ offeringId: treatmentOfferingId || null, addonCodes }}
-            onChange={({ offeringId, addonCodes }) => {
-              setTreatmentOfferingId(offeringId ?? '');
-              setAddonCodes(addonCodes ?? []);
+            onChange={({ offeringId, addonCodes: nextAddonCodes }) => {
+              const nextOfferingId = offeringId ?? '';
+              const nextAddons = nextAddonCodes ?? [];
+
+              setTreatmentOfferingId(nextOfferingId);
+              setAddonCodes(nextAddons);
+
+              // nur wenn ein Offering gewählt ist: Preis/Dauer automatisch setzen
+              const off = offerings.find(
+                (o) => o.offeringId === nextOfferingId,
+              );
+              if (!off) return;
+
+              const addonSet = new Set(nextAddons);
+
+              const addonPrice = off.addons
+                .filter((a) => addonSet.has(a.addonCode))
+                .reduce((sum, a) => sum + a.priceDeltaCents, 0);
+
+              const addonDur = off.addons
+                .filter((a) => addonSet.has(a.addonCode))
+                .reduce((sum, a) => sum + a.durationDeltaMin, 0);
+
+              const priceCents = off.priceCents + addonPrice;
+              const durationMin = off.durationMin + addonDur;
+
+              setPriceEuros((priceCents / 100).toFixed(2).replace('.', ','));
+              setDurationMin(String(durationMin));
             }}
           />
         </div>
@@ -267,39 +278,56 @@ const TreatmentRequestModal = ({
           label="Notiz"
         />
 
-        <div className="flex justify-center my-8 items-center gap-5">
-          {statuses.map((s) => (
-            <div
-              key={s.key}
-              onClick={() => setStatus(s.key as TreatmentStatus)}
-              className={cn(
-                'h-8 w-8 rounded-full cursor-pointer transition hover:opacity-80',
-                status === s.key
-                  ? 'ring-4 ring-offset-1 ring-offset-black'
-                  : '',
-              )}
-              style={{ backgroundColor: s.color }}
-              title={s.labelDe} // optional
-            />
-          ))}
+        <div className="mt-3">
+          <div className="relative border border-neutral-300 p-5 rounded-xl">
+            <p className="absolute -top-2 left-2 bg-white px-2 text-[10px] text-gray-400">
+              Terminstatus
+            </p>
+            <div className="flex justify-center items-center gap-7">
+              {statuses.map((s) => (
+                <div
+                  key={s.key}
+                  onClick={() => setStatus(s.key as TreatmentStatus)}
+                  className="h-10 w-10 rounded-full cursor-pointer transition duration-700 hover:opacity-80"
+                  style={{
+                    backgroundColor: status === s.key ? s.color : undefined,
+                    border: `1px solid ${s.color}`,
+                  }}></div>
+              ))}
+            </div>
+            <div>
+              {(() => {
+                const active = statuses.find((s) => s.key === status);
+                if (!active) return null;
+
+                return (
+                  <div className="text-xs text-center mt-5">
+                    {active.labelDe}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
         </div>
 
         {error ? (
           <div className="mt-3 text-sm text-red-600">{error}</div>
         ) : null}
 
-        <div className="mt-4 flex justify-end gap-2">
-          <button
-            className="rounded-md px-3 py-2 hover:bg-neutral-100 disabled:opacity-50"
+        <div className="my-6 flex justify-center gap-6">
+          <Button
+            text="Abbrechen"
             onClick={() => onOpenChange(false)}
-            disabled={saving}>
-            Abbrechen
-          </button>
+            disabled={saving}
+            width={160}
+            variant="secondary"
+          />
           <Button
             text="Speichern"
             onClick={save}
             disabled={saving}
-            width={200}
+            width={160}
+            variant="primary"
           />
         </div>
       </div>
